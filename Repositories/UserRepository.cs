@@ -14,7 +14,7 @@ namespace HealthApp.API.Repositories
 
         public async Task<User?> GetByUsernameAsync(string username)
             => await _context.Users
-                .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
+                .FirstOrDefaultAsync(u => u.Name.ToLower() == username.ToLower());
 
         public async Task<User?> GetByIdAsync(int id)
             => await _context.Users.FindAsync(id);

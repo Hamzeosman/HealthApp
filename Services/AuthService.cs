@@ -24,9 +24,9 @@ namespace HealthApp.API.Services
             var existingUser = await _userRepository.GetByUsernameAsync(dto.Username);
             if (existingUser != null) return null;
 
-            var user = new User
+           var user = new User
             {
-                Username = dto.Username,
+                Name = dto.Username,
                 Email = dto.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
             };
@@ -55,7 +55,7 @@ namespace HealthApp.API.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Name)
             };
 
             var token = new JwtSecurityToken(

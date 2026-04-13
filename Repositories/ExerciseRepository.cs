@@ -17,7 +17,7 @@ namespace HealthApp.API.Repositories
 
         public async Task<IEnumerable<Exercise>> GetByMuscleGroupAsync(string muscleGroup)
             => await _context.Exercises
-                .Where(e => e.MuscleGroup.ToLower() == muscleGroup.ToLower())
+                .Where(e => e.MuscleGroup != null && e.MuscleGroup.Name.ToLower() == muscleGroup.ToLower())
                 .ToListAsync();
 
         public async Task<Exercise?> GetByIdAsync(int id)
