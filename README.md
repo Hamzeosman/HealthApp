@@ -64,6 +64,19 @@ HealthApp.API/
 ├── Services/
 ├── Repositories/
 ├── Models/
+│   ├── User.cs
+│   ├── Exercise.cs
+│   ├── BodyPart.cs
+│   ├── MuscleGroup.cs
+│   ├── Equipment.cs
+│   ├── WorkoutProgram.cs
+│   ├── WorkoutTemplate.cs
+│   ├── TemplateExercise.cs
+│   ├── WorkoutSession.cs
+│   ├── WorkoutExercise.cs
+│   ├── UserProgress.cs
+│   ├── PersonalRecord.cs
+│   └── Recommendation.cs
 ├── DTOs/
 └── Migrations/
 
