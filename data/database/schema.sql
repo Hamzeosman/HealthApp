@@ -1,6 +1,4 @@
--- =====================
--- ANVÄNDARE
--- =====================
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
@@ -14,35 +12,23 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- =====================
--- KROPPSDELAR
--- =====================
 CREATE TABLE body_parts (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
     description TEXT
 );
 
--- =====================
--- MUSKELGRUPPER (mer specifik än kroppsdelar)
--- =====================
 CREATE TABLE muscle_groups (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50),           -- t.ex. "Övre bröst", "Hamstrings"
+    name VARCHAR(50),           
     body_part_id INT REFERENCES body_parts(id)
 );
 
--- =====================
--- UTRUSTNING
--- =====================
 CREATE TABLE equipment (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50)            -- skivstång, hantlar, kabelmaskin, kroppsvikt
+    name VARCHAR(50)            
 );
 
--- =====================
--- ÖVNINGAR
--- =====================
 CREATE TABLE exercises (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
@@ -52,17 +38,14 @@ CREATE TABLE exercises (
     difficulty VARCHAR(20) CHECK (difficulty IN ('nybörjare', 'medel', 'avancerad')),
     exercise_type VARCHAR(30) CHECK (exercise_type IN ('styrka', 'kondition', 'stretching', 'balans')),
     description TEXT,
-    instructions TEXT,          -- steg-för-steg instruktioner
-    tips TEXT,                  -- vanliga misstag att undvika
+    instructions TEXT,          
+    tips TEXT,                  
     calories_per_minute DECIMAL(4,2)
 );
 
--- =====================
--- TRÄNINGSPROGRAM
--- =====================
 CREATE TABLE workout_programs (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100),          -- t.ex. "Push Pull Legs", "Helkropp 3 dagar"
+    name VARCHAR(100),          
     description TEXT,
     difficulty VARCHAR(20),
     duration_weeks INT,
@@ -70,19 +53,13 @@ CREATE TABLE workout_programs (
     goal VARCHAR(50)
 );
 
--- =====================
--- TRÄNINGSPASS (mall)
--- =====================
 CREATE TABLE workout_templates (
     id SERIAL PRIMARY KEY,
     program_id INT REFERENCES workout_programs(id),
-    name VARCHAR(100),          -- t.ex. "Push dag", "Ben dag"
+    name VARCHAR(100),          
     day_of_week VARCHAR(20)
 );
 
--- =====================
--- ÖVNINGAR I MALL
--- =====================
 CREATE TABLE template_exercises (
     id SERIAL PRIMARY KEY,
     template_id INT REFERENCES workout_templates(id),
@@ -90,12 +67,9 @@ CREATE TABLE template_exercises (
     sets INT,
     reps INT,
     rest_seconds INT,
-    order_index INT             -- ordning i passet
+    order_index INT             
 );
 
--- =====================
--- ANVÄNDARES TRÄNINGSPASS (faktiska pass)
--- =====================
 CREATE TABLE workout_sessions (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
@@ -110,9 +84,6 @@ CREATE TABLE workout_sessions (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- =====================
--- ÖVNINGAR I FAKTISKT PASS
--- =====================
 CREATE TABLE workout_exercises (
     id SERIAL PRIMARY KEY,
     session_id INT REFERENCES workout_sessions(id),
@@ -120,15 +91,12 @@ CREATE TABLE workout_exercises (
     sets INT,
     reps INT,
     weight_kg DECIMAL(5,2),
-    duration_seconds INT,       -- för tidsbaserade övningar som plankan
+    duration_seconds INT,       
     rest_seconds INT,
-    rpe INT CHECK (rpe BETWEEN 1 AND 10),  -- upplevd ansträngning 1-10
+    rpe INT CHECK (rpe BETWEEN 1 AND 10),  
     notes TEXT
 );
 
--- =====================
--- ANVÄNDARENS FRAMSTEG (vikt & mått)
--- =====================
 CREATE TABLE user_progress (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
@@ -142,9 +110,6 @@ CREATE TABLE user_progress (
     thigh_cm DECIMAL(5,2)
 );
 
--- =====================
--- PERSONLIGA REKORD
--- =====================
 CREATE TABLE personal_records (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
@@ -155,22 +120,17 @@ CREATE TABLE personal_records (
     notes TEXT
 );
 
--- =====================
--- REKOMMENDATIONER (din pipeline fyller denna!)
--- =====================
+
 CREATE TABLE recommendations (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
     exercise_id INT REFERENCES exercises(id),
-    reason TEXT,                -- "Du har inte tränat ben på 5 dagar"
-    score DECIMAL(4,2),        -- hur relevant rekommendationen är
+    reason TEXT,                
+    score DECIMAL(4,2),        
     created_at TIMESTAMP DEFAULT NOW(),
     is_seen BOOLEAN DEFAULT FALSE
 );
 
--- =====================
--- SEED: KROPPSDELAR
--- =====================
 INSERT INTO body_parts (name, description) VALUES
     ('Bröst', 'Främre överkropp'),
     ('Rygg', 'Bakre överkropp'),
@@ -180,9 +140,7 @@ INSERT INTO body_parts (name, description) VALUES
     ('Mage', 'Core och bålmuskulatur'),
     ('Kondition', 'Cardio och uthållighet');
 
--- =====================
--- SEED: UTRUSTNING
--- =====================
+
 INSERT INTO equipment (name) VALUES
     ('Kroppsvikt'),
     ('Hantlar'),
@@ -191,9 +149,6 @@ INSERT INTO equipment (name) VALUES
     ('Resistansband'),
     ('Kettlebell');
 
--- =====================
--- SEED: ÖVNINGAR
--- =====================
 INSERT INTO exercises (name, body_part_id, equipment_id, difficulty, exercise_type, description, tips, calories_per_minute) VALUES
     ('Bänkpress',       1, 3, 'medel',     'styrka',   'Ligg på bänk och pressa stången uppåt', 'Håll skulderbladen ihop', 8.0),
     ('Hantelflyes',     1, 2, 'nybörjare', 'styrka',   'Öppna armarna med hantlar liggande', 'Håll lätt böjda armar', 6.0),
