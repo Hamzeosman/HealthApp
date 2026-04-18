@@ -80,6 +80,11 @@ HealthApp.API/
 ├── DTOs/
 └── Migrations/
 
+### Hur man testar 
+Kör: cd data && uv run pipelines/seed_test_data.py
+Kör: uv run pipelines/recommendation_pipeline.py
+Kör: uv run pipelines/analysis.py
+
 ## Skapad av
 - Hamze – Systemutvecklare (Backend API)
 - AbdulRahman – Dataingenjör (Databas & Pipeline)
