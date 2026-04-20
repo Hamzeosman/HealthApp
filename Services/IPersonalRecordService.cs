@@ -1,0 +1,12 @@
+using HealthApp.API.Models;
+
+namespace HealthApp.API.Services
+{
+    public interface IPersonalRecordService
+    {
+        Task<IEnumerable<PersonalRecord>> GetByUserIdAsync(int userId);
+        Task<IEnumerable<PersonalRecord>> GetByExerciseIdAsync(int exerciseId);
+        Task<PersonalRecord?> GetByIdAsync(int id);
+        Task AddAsync(PersonalRecord record);
+    }
+}

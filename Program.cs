@@ -23,6 +23,7 @@ builder.Services.AddScoped<IBodyPartRepository, BodyPartRepository>();
 builder.Services.AddScoped<IMuscleGroupRepository, MuscleGroupRepository>();
 builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
 builder.Services.AddScoped<IUserProgressRepository, UserProgressRepository>();
+builder.Services.AddScoped<IPersonalRecordRepository, PersonalRecordRepository>();
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
@@ -31,6 +32,7 @@ builder.Services.AddScoped<IBodyPartService, BodyPartService>();
 builder.Services.AddScoped<IMuscleGroupService, MuscleGroupService>();
 builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 builder.Services.AddScoped<IUserProgressService, UserProgressService>();
+builder.Services.AddScoped<IPersonalRecordService, PersonalRecordService>();
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
