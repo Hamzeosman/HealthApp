@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using HealthApp.API.Models;
 using HealthApp.API.Services;
 
 namespace HealthApp.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ExerciseController : ControllerBase

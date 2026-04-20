@@ -33,9 +33,6 @@ C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Microsoft.OpenApi.dl
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Microsoft.VisualStudio.SolutionPersistence.dll
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Mono.TextTemplating.dll
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Newtonsoft.Json.dll
-C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\System.CodeDom.dll
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\System.Composition.AttributedModel.dll
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\System.Composition.Convention.dll
@@ -133,3 +130,4 @@ C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Microsoft.IdentityMo
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\hamze\source\repos\HealthApp.API\bin\Debug\net10.0\Scalar.AspNetCore.dll
