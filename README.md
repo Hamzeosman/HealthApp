@@ -34,6 +34,9 @@ PostgreSQL-databas som hanteras av dataingenjören via en Python-pipeline.
 
 5. Starta API:t
    dotnet run
+   
+6. Öppna Scalar UI i webbläsaren
+   http://localhost:5137/scalar/v1
 
 ## Endpoints
 
