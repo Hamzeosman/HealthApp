@@ -1,11 +1,11 @@
-using HealthApp.API.Models;
+using HealthApp.API.DTOs;
 
 namespace HealthApp.API.Services
 {
     public interface IWorkoutSessionService
     {
-        Task<IEnumerable<WorkoutSession>> GetByUserIdAsync(int userId);
-        Task<WorkoutSession?> GetByIdAsync(int id);
-        Task AddWorkoutSessionAsync(WorkoutSession session);
+        Task<IEnumerable<WorkoutSessionDto>> GetByUserIdAsync(int userId);
+        Task<WorkoutSessionDto?> GetByIdAsync(int id);
+        Task<WorkoutSessionDto> AddWorkoutSessionAsync(CreateWorkoutSessionDto dto);
     }
 }

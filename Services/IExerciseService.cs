@@ -1,12 +1,12 @@
-using HealthApp.API.Models;
+using HealthApp.API.DTOs;
 
 namespace HealthApp.API.Services
 {
     public interface IExerciseService
     {
-        Task<IEnumerable<Exercise>> GetAllExercisesAsync();
-        Task<IEnumerable<Exercise>> GetByMuscleGroupAsync(string muscleGroup);
-        Task<Exercise?> GetByIdAsync(int id);
-        Task AddExerciseAsync(Exercise exercise);
+        Task<IEnumerable<ExerciseDto>> GetAllExercisesAsync();
+        Task<IEnumerable<ExerciseDto>> GetByMuscleGroupAsync(string muscleGroup);
+        Task<ExerciseDto?> GetByIdAsync(int id);
+        Task<ExerciseDto> AddExerciseAsync(CreateExerciseDto dto);
     }
 }
