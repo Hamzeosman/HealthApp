@@ -75,3 +75,37 @@ Militärpress     Axlar        8.0             1
 ==================================================
 Analys klar!
 Sat Apr 25 19:01:44 CEST 2026 - ✅ Pipeline klar!
+2026-04-25 21:01:14,751 [INFO] Anslutning till databas lyckades!
+2026-04-25 21:01:14,751 [INFO] Startar personal records pipeline...
+2026-04-25 21:01:14,771 [INFO] Hittade 1 användare
+2026-04-25 21:01:14,771 [INFO] Kollar personbästa för Test User (ID: 1)
+2026-04-25 21:01:14,776 [INFO] 🏆 [Test User] Första personbästa! Marklyft: 120.00kg x 5 reps
+2026-04-25 21:01:14,777 [INFO] 🏆 [Test User] Första personbästa! Latsdrag: 60.00kg x 10 reps
+2026-04-25 21:01:14,777 [INFO] 🏆 [Test User] Första personbästa! Militärpress: 50.00kg x 10 reps
+2026-04-25 21:01:14,778 [INFO] 🏆 [Test User] Första personbästa! Tricepspress: 25.00kg x 12 reps
+2026-04-25 21:01:14,778 [INFO] Test User satte 4 nya personbästa!
+2026-04-25 21:01:14,778 [INFO] Personal records pipeline klar!
+2026-04-25 21:01:42,479 [INFO] Anslutning till databas lyckades!
+2026-04-25 21:01:42,479 [INFO] Startar personal records pipeline...
+2026-04-25 21:01:42,494 [INFO] Hittade 1 användare
+2026-04-25 21:01:42,494 [INFO] Kollar personbästa för Test User (ID: 1)
+2026-04-25 21:01:42,503 [INFO] [Test User] Marklyft: 120.00kg — inget nytt rekord (bästa: 120.00kg)
+2026-04-25 21:01:42,503 [INFO] [Test User] Latsdrag: 60.00kg — inget nytt rekord (bästa: 60.00kg)
+2026-04-25 21:01:42,504 [INFO] [Test User] Militärpress: 50.00kg — inget nytt rekord (bästa: 50.00kg)
+2026-04-25 21:01:42,504 [INFO] [Test User] Tricepspress: 25.00kg — inget nytt rekord (bästa: 25.00kg)
+2026-04-25 21:01:42,504 [INFO] Test User satte inga nya personbästa denna gång.
+2026-04-25 21:01:42,504 [INFO] Personal records pipeline klar!
+2026-04-25 21:03:14,558 [INFO] Anslutning till databas lyckades!
+2026-04-25 21:03:14,561 [INFO] Startar personal records pipeline...
+2026-04-25 21:03:14,576 [INFO] Hittade 1 användare
+2026-04-25 21:03:14,577 [INFO] Kollar personbästa för Test User (ID: 1)
+2026-04-25 21:03:14,579 [INFO] [Test User] Marklyft: 120.00kg — inget nytt rekord (bästa: 120.00kg)
+2026-04-25 21:03:14,580 [INFO] [Test User] Latsdrag: 60.00kg — inget nytt rekord (bästa: 60.00kg)
+2026-04-25 21:03:14,580 [INFO] [Test User] Militärpress: 50.00kg — inget nytt rekord (bästa: 50.00kg)
+2026-04-25 21:03:14,580 [INFO] [Test User] Tricepspress: 25.00kg — inget nytt rekord (bästa: 25.00kg)
+2026-04-25 21:03:14,581 [INFO] [Test User] Marklyft: 120.00kg — inget nytt rekord (bästa: 120.00kg)
+2026-04-25 21:03:14,581 [INFO] [Test User] Latsdrag: 60.00kg — inget nytt rekord (bästa: 60.00kg)
+2026-04-25 21:03:14,581 [INFO] [Test User] Militärpress: 50.00kg — inget nytt rekord (bästa: 50.00kg)
+2026-04-25 21:03:14,581 [INFO] [Test User] Tricepspress: 25.00kg — inget nytt rekord (bästa: 25.00kg)
+2026-04-25 21:03:14,581 [INFO] Test User satte inga nya personbästa denna gång.
+2026-04-25 21:03:14,581 [INFO] Personal records pipeline klar!
