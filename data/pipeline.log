@@ -109,3 +109,10 @@ Sat Apr 25 19:01:44 CEST 2026 - ✅ Pipeline klar!
 2026-04-25 21:03:14,581 [INFO] [Test User] Tricepspress: 25.00kg — inget nytt rekord (bästa: 25.00kg)
 2026-04-25 21:03:14,581 [INFO] Test User satte inga nya personbästa denna gång.
 2026-04-25 21:03:14,581 [INFO] Personal records pipeline klar!
+2026-04-25 21:08:34,973 [INFO] Anslutning till databas lyckades!
+2026-04-25 21:08:34,973 [INFO] Startar personal records pipeline...
+2026-04-25 21:08:34,988 [INFO] Hittade 1 användare
+2026-04-25 21:08:34,988 [INFO] Kollar personbästa för Test User (ID: 1)
+2026-04-25 21:08:34,991 [INFO] [Test User] NYTT REKORD! Marklyft: 150.00kg (tidigare: 120.00kg)
+2026-04-25 21:08:34,992 [INFO] Test User satte 1 nya personbästa!
+2026-04-25 21:08:34,992 [INFO] Personal records pipeline klar!
