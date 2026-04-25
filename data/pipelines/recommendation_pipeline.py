@@ -1,29 +1,34 @@
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 import pandas as pd
+import logging
 import os
+
+# Logging setup
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("pipeline.log"),
+        logging.StreamHandler()
+    ]
+)
+log = logging.getLogger(__name__)
 
 load_dotenv()
 
-engine = create_engine(os.getenv("DATABASE_URL"))
+try:
+    engine = create_engine(os.getenv("DATABASE_URL"))
+    log.info("Anslutning till databas lyckades!")
+except Exception as e:
+    log.error(f"Kunde inte ansluta till databasen: {e}")
+    exit(1)
 
-def get_user_workout_history(user_id: int) -> pd.DataFrame:
-    """Hämtar användarens träningshistorik."""
-    query = text("""
-        SELECT 
-            ws.date,
-            bp.name AS body_part,
-            e.name AS exercise,
-            e.difficulty
-        FROM workout_sessions ws
-        JOIN workout_exercises we ON ws.id = we.session_id
-        JOIN exercises e ON we.exercise_id = e.id
-        JOIN body_parts bp ON e.body_part_id = bp.id
-        WHERE ws.user_id = :user_id
-        ORDER BY ws.date DESC
-    """)
+def get_all_users() -> list:
+    """Hämtar alla användare från databasen."""
     with engine.connect() as conn:
-        return pd.read_sql(query, conn, params={"user_id": user_id})
+        result = conn.execute(text("SELECT id, name FROM users"))
+        return result.fetchall()
 
 def get_untrained_body_parts(user_id: int) -> list:
     """Hittar kroppsdelar som inte tränats på 7+ dagar."""
@@ -31,7 +36,11 @@ def get_untrained_body_parts(user_id: int) -> list:
         SELECT 
             bp.id,
             bp.name,
-            MAX(ws.date) AS last_trained
+            MAX(ws.date) AS last_trained,
+            CASE 
+                WHEN MAX(ws.date) IS NULL THEN 1.0
+                ELSE LEAST(1.0, EXTRACT(DAY FROM NOW() - MAX(ws.date)) / 7.0)
+            END AS score
         FROM body_parts bp
         LEFT JOIN exercises e ON e.body_part_id = bp.id
         LEFT JOIN workout_exercises we ON we.exercise_id = e.id
@@ -40,78 +49,80 @@ def get_untrained_body_parts(user_id: int) -> list:
         GROUP BY bp.id, bp.name
         HAVING MAX(ws.date) IS NULL 
             OR MAX(ws.date) < CURRENT_DATE - INTERVAL '7 days'
+        ORDER BY score DESC
     """)
     with engine.connect() as conn:
         result = conn.execute(query, {"user_id": user_id})
         return result.fetchall()
 
-def generate_recommendations(user_id: int):
+def generate_recommendations(user_id: int, user_name: str):
     """Genererar övningsrekommendationer och sparar i databasen."""
-    untrained = get_untrained_body_parts(user_id)
+    try:
+        untrained = get_untrained_body_parts(user_id)
 
-    if not untrained:
-        print(" Användaren har tränat alla kroppsdelar nyligen!")
-        return
+        if not untrained:
+            log.info(f"{user_name} har tränat alla kroppsdelar nyligen!")
+            return
 
-    with engine.connect() as conn:
-        
-        conn.execute(text("""
-            DELETE FROM recommendations WHERE user_id = :user_id
-        """), {"user_id": user_id})
-
-        for body_part in untrained:
-            body_part_id = body_part[0]
-            body_part_name = body_part[1]
-            last_trained = body_part[2]
-
+        with engine.connect() as conn:
             
-            exercise = conn.execute(text("""
-                SELECT id, name FROM exercises
-                WHERE body_part_id = :body_part_id
-                ORDER BY RANDOM()
-                LIMIT 1
-            """), {"body_part_id": body_part_id}).fetchone()
+            conn.execute(text(
+                "DELETE FROM recommendations WHERE user_id = :user_id"
+            ), {"user_id": user_id})
 
-            if exercise:
-                reason = (
-                    f"Du har inte tränat {body_part_name} sedan {last_trained}"
-                    if last_trained
-                    else f"Du har aldrig tränat {body_part_name}!"
-                )
+            for body_part in untrained:
+                body_part_id = body_part[0]
+                body_part_name = body_part[1]
+                last_trained = body_part[2]
+                score = float(body_part[3])
 
-                conn.execute(text("""
-                    INSERT INTO recommendations (user_id, exercise_id, reason, score)
-                    VALUES (:user_id, :exercise_id, :reason, :score)
-                """), {
-                    "user_id": user_id,
-                    "exercise_id": exercise[0],
-                    "reason": reason,
-                    "score": 1.0
-                })
+                exercise = conn.execute(text("""
+                    SELECT id, name FROM exercises
+                    WHERE body_part_id = :body_part_id
+                    ORDER BY RANDOM()
+                    LIMIT 1
+                """), {"body_part_id": body_part_id}).fetchone()
 
-                print(f" Rekommendation: {exercise[1]} — {reason}")
+                if exercise:
+                    reason = (
+                        f"Du har inte tränat {body_part_name} sedan {last_trained}"
+                        if last_trained
+                        else f"Du har aldrig tränat {body_part_name}!"
+                    )
 
-        conn.commit()
-        print("\nRekommendationer sparade i databasen!")
+                    conn.execute(text("""
+                        INSERT INTO recommendations (user_id, exercise_id, reason, score)
+                        VALUES (:user_id, :exercise_id, :reason, :score)
+                    """), {
+                        "user_id": user_id,
+                        "exercise_id": exercise[0],
+                        "reason": reason,
+                        "score": score
+                    })
+
+                    log.info(f"[{user_name}] {exercise[1]} — {reason} (score: {score:.2f})")
+
+            conn.commit()
+            log.info(f"Rekommendationer sparade för {user_name}!")
+
+    except Exception as e:
+        log.error(f"Fel vid generering av rekommendationer för {user_name}: {e}")
 
 if __name__ == "__main__":
+    log.info("Startar recommendation pipeline...")
     
-    print("Lägger till testanvändare...")
-    with engine.connect() as conn:
-        existing = conn.execute(text(
-            "SELECT id FROM users WHERE email = 'test@healthapp.com'"
-        )).fetchone()
+    users = get_all_users()
+    
+    if not users:
+        log.warning("Inga användare hittades i databasen!")
+        exit(0)
 
-        if not existing:
-            conn.execute(text("""
-                INSERT INTO users (name, email, fitness_level, goal)
-                VALUES ('Test User', 'test@healthapp.com', 'medel', 'bygga_muskler')
-            """))
-            conn.commit()
+    log.info(f"Hittade {len(users)} användare")
 
-        user = conn.execute(text(
-            "SELECT id FROM users WHERE email = 'test@healthapp.com'"
-        )).fetchone()
+    for user in users:
+        user_id = user[0]
+        user_name = user[1]
+        log.info(f"Kör pipeline för {user_name} (ID: {user_id})")
+        generate_recommendations(user_id, user_name)
 
-    print(f"Kör pipeline för användare ID: {user[0]}")
-    generate_recommendations(user[0])
+    log.info("Pipeline klar!")
