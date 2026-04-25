@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using HealthApp.API.Models;
+using HealthApp.API.DTOs;
 using HealthApp.API.Services;
 
 namespace HealthApp.API.Controllers
@@ -33,9 +33,9 @@ namespace HealthApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(WorkoutSession session)
+        public async Task<IActionResult> Add(CreateWorkoutSessionDto dto)
         {
-            await _service.AddWorkoutSessionAsync(session);
+            var session = await _service.AddWorkoutSessionAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = session.Id }, session);
         }
     }
