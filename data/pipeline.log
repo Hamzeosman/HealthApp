@@ -1,0 +1,77 @@
+2026-04-25 18:58:59,692 [INFO] Anslutning till databas lyckades!
+2026-04-25 18:58:59,692 [INFO] Startar recommendation pipeline...
+2026-04-25 18:58:59,737 [INFO] Hittade 1 användare
+2026-04-25 18:58:59,737 [INFO] Kör pipeline för Test User (ID: 1)
+2026-04-25 18:58:59,751 [INFO] [Test User] Tricepspress — Du har inte tränat Armar sedan 2026-04-10 (score: 1.00)
+2026-04-25 18:58:59,751 [INFO] [Test User] Militärpress — Du har inte tränat Axlar sedan 2026-04-10 (score: 1.00)
+2026-04-25 18:58:59,751 [INFO] [Test User] Plankan — Du har aldrig tränat Mage! (score: 1.00)
+2026-04-25 18:58:59,752 [INFO] [Test User] Latsdrag — Du har inte tränat Rygg sedan 2026-04-10 (score: 1.00)
+2026-04-25 18:58:59,752 [INFO] [Test User] Burpees — Du har aldrig tränat Kondition! (score: 1.00)
+2026-04-25 18:58:59,753 [INFO] [Test User] Bänkpress — Du har inte tränat Bröst sedan 2026-04-01 (score: 1.00)
+2026-04-25 18:58:59,753 [INFO] [Test User] Utfall — Du har inte tränat Ben sedan 2026-04-05 (score: 1.00)
+2026-04-25 18:58:59,754 [INFO] Rekommendationer sparade för Test User!
+2026-04-25 18:58:59,754 [INFO] Pipeline klar!
+Sat Apr 25 19:01:43 CEST 2026 - 🚀 Startar pipeline...
+2026-04-25 19:01:43,627 [INFO] Anslutning till databas lyckades!
+2026-04-25 19:01:43,627 [INFO] Anslutning till databas lyckades!
+2026-04-25 19:01:43,627 [INFO] Startar recommendation pipeline...
+2026-04-25 19:01:43,627 [INFO] Startar recommendation pipeline...
+2026-04-25 19:01:43,653 [INFO] Hittade 1 användare
+2026-04-25 19:01:43,653 [INFO] Hittade 1 användare
+2026-04-25 19:01:43,653 [INFO] Kör pipeline för Test User (ID: 1)
+2026-04-25 19:01:43,653 [INFO] Kör pipeline för Test User (ID: 1)
+2026-04-25 19:01:43,658 [INFO] [Test User] Tricepspress — Du har inte tränat Armar sedan 2026-04-10 (score: 1.00)
+2026-04-25 19:01:43,658 [INFO] [Test User] Tricepspress — Du har inte tränat Armar sedan 2026-04-10 (score: 1.00)
+2026-04-25 19:01:43,659 [INFO] [Test User] Militärpress — Du har inte tränat Axlar sedan 2026-04-10 (score: 1.00)
+2026-04-25 19:01:43,659 [INFO] [Test User] Militärpress — Du har inte tränat Axlar sedan 2026-04-10 (score: 1.00)
+2026-04-25 19:01:43,659 [INFO] [Test User] Plankan — Du har aldrig tränat Mage! (score: 1.00)
+2026-04-25 19:01:43,659 [INFO] [Test User] Plankan — Du har aldrig tränat Mage! (score: 1.00)
+2026-04-25 19:01:43,660 [INFO] [Test User] Marklyft — Du har inte tränat Rygg sedan 2026-04-10 (score: 1.00)
+2026-04-25 19:01:43,660 [INFO] [Test User] Marklyft — Du har inte tränat Rygg sedan 2026-04-10 (score: 1.00)
+2026-04-25 19:01:43,660 [INFO] [Test User] Löpning — Du har aldrig tränat Kondition! (score: 1.00)
+2026-04-25 19:01:43,660 [INFO] [Test User] Löpning — Du har aldrig tränat Kondition! (score: 1.00)
+2026-04-25 19:01:43,660 [INFO] [Test User] Bänkpress — Du har inte tränat Bröst sedan 2026-04-01 (score: 1.00)
+2026-04-25 19:01:43,660 [INFO] [Test User] Bänkpress — Du har inte tränat Bröst sedan 2026-04-01 (score: 1.00)
+2026-04-25 19:01:43,661 [INFO] [Test User] Utfall — Du har inte tränat Ben sedan 2026-04-05 (score: 1.00)
+2026-04-25 19:01:43,661 [INFO] [Test User] Utfall — Du har inte tränat Ben sedan 2026-04-05 (score: 1.00)
+2026-04-25 19:01:43,661 [INFO] Rekommendationer sparade för Test User!
+2026-04-25 19:01:43,661 [INFO] Rekommendationer sparade för Test User!
+2026-04-25 19:01:43,661 [INFO] Pipeline klar!
+2026-04-25 19:01:43,661 [INFO] Pipeline klar!
+Hämtar data från PostgreSQL...
+Hämtade 3 träningspass och 9 övningar
+
+==================================================
+TRÄNINGSANALYS
+==================================================
+
+ Mest tränade kroppsdelar:
+body_part  antal_gånger
+    Bröst             2
+    Armar             2
+      Ben             2
+     Rygg             2
+    Axlar             1
+
+ Övningar per svårighetsgrad:
+difficulty  antal  snitt_ansträngning
+ nybörjare      4                 6.3
+     medel      4                 8.0
+ avancerad      1                 9.0
+
+ Träningspass per vecka:
+  vecka  antal_pass  total_minuter
+2026-14           1           75.0
+2026-13           2          105.0
+
+ Topp övningar efter ansträngning:
+    exercise body_part  snitt_rpe  antal_gånger
+    Marklyft      Rygg        9.0             1
+      Knäböj       Ben        9.0             1
+Militärpress     Axlar        8.0             1
+   Bänkpress     Bröst        8.0             1
+  Bicepscurl     Armar        7.0             1
+
+==================================================
+Analys klar!
+Sat Apr 25 19:01:44 CEST 2026 - ✅ Pipeline klar!
