@@ -27,13 +27,13 @@ namespace HealthApp.API.Services
 
         public async Task<WorkoutSessionDto> AddWorkoutSessionAsync(CreateWorkoutSessionDto dto)
         {
-            var session = new WorkoutSession
-            {
+           var session = new WorkoutSession
+{
                 UserId = dto.UserId,
                 TemplateId = dto.TemplateId,
-                Date = dto.Date,
-                StartTime = dto.StartTime,
-                EndTime = dto.EndTime,
+                Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc),
+                StartTime = dto.StartTime.HasValue ? DateTime.SpecifyKind(dto.StartTime.Value, DateTimeKind.Utc) : null,
+                EndTime = dto.EndTime.HasValue ? DateTime.SpecifyKind(dto.EndTime.Value, DateTimeKind.Utc) : null,
                 DurationMinutes = dto.DurationMinutes,
                 TotalCalories = dto.TotalCalories,
                 Mood = dto.Mood,
