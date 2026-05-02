@@ -116,3 +116,84 @@ Sat Apr 25 19:01:44 CEST 2026 - ✅ Pipeline klar!
 2026-04-25 21:08:34,991 [INFO] [Test User] NYTT REKORD! Marklyft: 150.00kg (tidigare: 120.00kg)
 2026-04-25 21:08:34,992 [INFO] Test User satte 1 nya personbästa!
 2026-04-25 21:08:34,992 [INFO] Personal records pipeline klar!
+2026-05-02 20:34:45,178 [INFO] ✅ Anslutning till databas lyckades!
+2026-05-02 20:34:45,178 [INFO] 🚀 Startar progressionspipeline...
+2026-05-02 20:34:45,216 [INFO] 
+==================================================
+2026-05-02 20:34:45,216 [INFO] 📈 PROGRESSIONSANALYS FÖR TEST USER
+2026-05-02 20:34:45,216 [INFO] ==================================================
+2026-05-02 20:34:45,225 [INFO] 
+💪 Volymökning per övning:
+2026-05-02 20:34:45,225 [INFO]   📈 Marklyft: 113.3% ökning | Bästa vikt: 150.0kg
+2026-05-02 20:34:45,226 [INFO] 
+⚠️ Kroppsdelar som behöver mer fokus:
+2026-05-02 20:34:45,226 [INFO]   🎯 Armar: 1440.0kg snittvolym
+2026-05-02 20:34:45,226 [INFO]   🎯 Ben: 3200.0kg snittvolym
+2026-05-02 20:34:45,226 [INFO]   🎯 Rygg: 3550.0kg snittvolym
+2026-05-02 20:34:45,227 [INFO] 
+😴 Återhämtningsanalys:
+2026-05-02 20:34:45,227 [INFO]   💤 Snitt sömn: 7.2 timmar
+2026-05-02 20:34:45,227 [INFO]   ⚡ Snitt energi: 7.3/10
+2026-05-02 20:34:45,227 [INFO]   😰 Snitt stress: 4.0/10
+2026-05-02 20:34:45,229 [INFO] 
+📊 Senaste veckornas träning:
+2026-05-02 20:34:45,230 [INFO]   📅 Vecka 2026-16: 2250kg volym | RPE: 10.0 | 1.0 set
+2026-05-02 20:34:45,230 [INFO]   📅 Vecka 2026-14: 14200kg volym | RPE: 7.5 | 8.0 set
+2026-05-02 20:34:45,230 [INFO]   📅 Vecka 2026-13: 15320kg volym | RPE: 7.2 | 10.0 set
+2026-05-02 20:34:45,235 [INFO] 
+✅ Intensitetslogg sparad!
+2026-05-02 20:34:45,236 [INFO] ✅ Progressionspipeline klar!
+2026-05-02 20:35:39,107 [INFO] Anslutning till databas lyckades!
+2026-05-02 20:35:39,107 [INFO] Startar progressionspipeline...
+2026-05-02 20:35:39,139 [INFO] 
+==================================================
+2026-05-02 20:35:39,139 [INFO] PROGRESSIONSANALYS FÖR TEST USER
+2026-05-02 20:35:39,139 [INFO] ==================================================
+2026-05-02 20:35:39,141 [INFO] 
+Volymökning per övning:
+2026-05-02 20:35:39,141 [INFO]   📈 Marklyft: 113.3% ökning | Bästa vikt: 150.0kg
+2026-05-02 20:35:39,142 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-02 20:35:39,142 [INFO]   Armar: 1440.0kg snittvolym
+2026-05-02 20:35:39,142 [INFO]   Ben: 3200.0kg snittvolym
+2026-05-02 20:35:39,142 [INFO]   Rygg: 3550.0kg snittvolym
+2026-05-02 20:35:39,142 [INFO] 
+Återhämtningsanalys:
+2026-05-02 20:35:39,142 [INFO]   Snitt sömn: 7.2 timmar
+2026-05-02 20:35:39,142 [INFO]   Snitt energi: 7.3/10
+2026-05-02 20:35:39,142 [INFO]   Snitt stress: 4.0/10
+2026-05-02 20:35:39,144 [INFO] 
+Senaste veckornas träning:
+2026-05-02 20:35:39,144 [INFO]   Vecka 2026-16: 2250kg volym | RPE: 10.0 | 1.0 set
+2026-05-02 20:35:39,144 [INFO]   Vecka 2026-14: 14200kg volym | RPE: 7.5 | 8.0 set
+2026-05-02 20:35:39,144 [INFO]   Vecka 2026-13: 15320kg volym | RPE: 7.2 | 10.0 set
+2026-05-02 20:35:39,145 [INFO] 
+Intensitetslogg sparad!
+2026-05-02 20:35:39,145 [INFO] Progressionspipeline klar!
+2026-05-02 20:36:32,095 [INFO] Anslutning till databas lyckades!
+2026-05-02 20:36:32,095 [INFO] Startar progressionspipeline...
+2026-05-02 20:36:32,140 [INFO] 
+==================================================
+2026-05-02 20:36:32,140 [INFO] PROGRESSIONSANALYS FÖR TEST USER
+2026-05-02 20:36:32,140 [INFO] ==================================================
+2026-05-02 20:36:32,149 [INFO] 
+Volymökning per övning:
+2026-05-02 20:36:32,149 [INFO]    Marklyft: 113.3% ökning | Bästa vikt: 150.0kg
+2026-05-02 20:36:32,151 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-02 20:36:32,151 [INFO]   Armar: 1440.0kg snittvolym
+2026-05-02 20:36:32,151 [INFO]   Ben: 3200.0kg snittvolym
+2026-05-02 20:36:32,151 [INFO]   Rygg: 3550.0kg snittvolym
+2026-05-02 20:36:32,151 [INFO] 
+Återhämtningsanalys:
+2026-05-02 20:36:32,151 [INFO]   Snitt sömn: 7.2 timmar
+2026-05-02 20:36:32,151 [INFO]   Snitt energi: 7.3/10
+2026-05-02 20:36:32,151 [INFO]   Snitt stress: 4.0/10
+2026-05-02 20:36:32,154 [INFO] 
+Senaste veckornas träning:
+2026-05-02 20:36:32,154 [INFO]   Vecka 2026-16: 2250kg volym | RPE: 10.0 | 1.0 set
+2026-05-02 20:36:32,154 [INFO]   Vecka 2026-14: 14200kg volym | RPE: 7.5 | 8.0 set
+2026-05-02 20:36:32,154 [INFO]   Vecka 2026-13: 15320kg volym | RPE: 7.2 | 10.0 set
+2026-05-02 20:36:32,155 [INFO] 
+Intensitetslogg sparad!
+2026-05-02 20:36:32,156 [INFO] Progressionspipeline klar!
