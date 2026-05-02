@@ -162,3 +162,77 @@ INSERT INTO exercises (name, body_part_id, equipment_id, difficulty, exercise_ty
     ('Plankan',         6, 1, 'nybörjare', 'balans',   'Håll kroppen rak', 'Andas jämnt, spänn magen', 4.0),
     ('Löpning',         7, 1, 'nybörjare', 'kondition','Löp i jämnt tempo', 'Landa på midfoten', 11.0),
     ('Burpees',         7, 1, 'medel',     'kondition','Kombination av squat, planka och hopp', 'Håll jämnt tempo', 12.0);
+
+-- =====================
+-- ANVÄNDARPROFIL (utökad)
+-- =====================
+ALTER TABLE users ADD COLUMN IF NOT EXISTS age INT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS weight_kg DECIMAL(5,2);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS height_cm DECIMAL(5,2);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS fitness_goal VARCHAR(50) 
+    CHECK (fitness_goal IN ('bygga_muskler', 'gå_ner_i_vikt', 'öka_kondition', 'hålla_sig_i_form'));
+ALTER TABLE users ADD COLUMN IF NOT EXISTS experience_level VARCHAR(20)
+    CHECK (experience_level IN ('nybörjare', 'medel', 'avancerad'));
+
+-- =====================
+-- SÖMNDATA & ÅTERHÄMTNING
+-- =====================
+CREATE TABLE IF NOT EXISTS recovery_logs (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    date DATE,
+    sleep_hours DECIMAL(4,1),
+    sleep_quality INT CHECK (sleep_quality BETWEEN 1 AND 10),
+    stress_level INT CHECK (stress_level BETWEEN 1 AND 10),
+    energy_level INT CHECK (energy_level BETWEEN 1 AND 10),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- KROPPSMÅTT ÖVER TID
+-- =====================
+CREATE TABLE IF NOT EXISTS body_measurements (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    date DATE,
+    weight_kg DECIMAL(5,2),
+    body_fat_percentage DECIMAL(4,2),
+    muscle_mass_kg DECIMAL(5,2),
+    chest_cm DECIMAL(5,2),
+    waist_cm DECIMAL(5,2),
+    hips_cm DECIMAL(5,2),
+    bicep_cm DECIMAL(5,2),
+    thigh_cm DECIMAL(5,2),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- TRÄNINGSINTENSITET ÖVER TID
+-- =====================
+CREATE TABLE IF NOT EXISTS workout_intensity_log (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    week_number INT,
+    year INT,
+    total_sessions INT,
+    total_volume_kg DECIMAL(10,2),
+    avg_rpe DECIMAL(4,2),
+    total_minutes INT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- SEED: TESTDATA FÖR ÅTERHÄMTNING
+-- =====================
+INSERT INTO recovery_logs (user_id, date, sleep_hours, sleep_quality, stress_level, energy_level) VALUES
+    (1, '2026-04-01', 7.5, 8, 3, 8),
+    (1, '2026-04-05', 6.0, 5, 7, 5),
+    (1, '2026-04-10', 8.0, 9, 2, 9);
+
+-- =====================
+-- SEED: TESTDATA FÖR KROPPSMÅTT
+-- =====================
+INSERT INTO body_measurements (user_id, date, weight_kg, body_fat_percentage, chest_cm, waist_cm, bicep_cm) VALUES
+    (1, '2026-04-01', 80.0, 18.0, 100.0, 85.0, 38.0),
+    (1, '2026-04-15', 79.5, 17.5, 101.0, 84.0, 38.5);
