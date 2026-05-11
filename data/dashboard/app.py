@@ -45,19 +45,25 @@ def load_data():
         foods = pd.read_sql(text("SELECT * FROM foods"), conn)
         nutrition_goals = pd.read_sql(text("SELECT * FROM nutrition_goals"), conn)
         challenges = pd.read_sql(text("SELECT * FROM challenges"), conn)
-        leaderboard = pd.read_sql(text("""
-            SELECT l.*, u.name FROM leaderboard l
-            JOIN users u ON l.user_id = u.id
-            ORDER BY points DESC
-        """), conn)
+        leaderboard = pd.read_sql(text("SELECT l.*, u.name FROM leaderboard l JOIN users u ON l.user_id = u.id ORDER BY points DESC"), conn)
         ai_insights = pd.read_sql(text("SELECT * FROM ai_insights ORDER BY created_at DESC"), conn)
+        streaks = pd.read_sql(text("SELECT us.*, u.name FROM user_streaks us JOIN users u ON us.user_id = u.id"), conn)
+        achievements = pd.read_sql(text("""
+            SELECT ua.*, a.name AS achievement_name, a.description, a.requirement_type
+            FROM user_achievements ua
+            JOIN achievements a ON ua.achievement_id = a.id
+        """), conn)
+        notifications = pd.read_sql(text("SELECT * FROM notifications ORDER BY created_at DESC"), conn)
+        health_calc = pd.read_sql(text("SELECT * FROM health_calculations ORDER BY date DESC"), conn)
     return (sessions, exercises, records, recovery, recommendations,
             biometrics, running, goals, plans, measurements, users,
-            foods, nutrition_goals, challenges, leaderboard, ai_insights)
+            foods, nutrition_goals, challenges, leaderboard, ai_insights,
+            streaks, achievements, notifications, health_calc)
 
 (sessions, exercises, records, recovery, recommendations,
  biometrics, running, goals, plans, measurements, users,
- foods, nutrition_goals, challenges, leaderboard, ai_insights) = load_data()
+ foods, nutrition_goals, challenges, leaderboard, ai_insights,
+ streaks, achievements, notifications, health_calc) = load_data()
 
 # ================================
 # SIDEBAR
@@ -81,6 +87,28 @@ with st.sidebar:
         measurements = measurements[measurements['user_id'] == user_id]
         nutrition_goals = nutrition_goals[nutrition_goals['user_id'] == user_id]
         ai_insights = ai_insights[ai_insights['user_id'] == user_id]
+        streaks = streaks[streaks['user_id'] == user_id]
+        achievements = achievements[achievements['user_id'] == user_id]
+        notifications = notifications[notifications['user_id'] == user_id]
+        health_calc = health_calc[health_calc['user_id'] == user_id]
+
+    st.markdown("---")
+
+    # Streak i sidebar
+    if not streaks.empty:
+        s = streaks.iloc[0]
+        st.metric("Current streak", f"{s['current_streak']} days")
+        st.metric("Best streak", f"{s['longest_streak']} days")
+        st.metric("Total sessions", s['total_workouts'])
+
+    st.markdown("---")
+
+    # Notifikationer i sidebar
+    unread = notifications[notifications['is_read'] == False] if not notifications.empty else pd.DataFrame()
+    if not unread.empty:
+        st.markdown(f"**{len(unread)} unread notifications**")
+        for _, n in unread.head(3).iterrows():
+            st.warning(f"{n['title']}")
 
     st.markdown("---")
     page = st.radio("Navigation", [
@@ -92,10 +120,11 @@ with st.sidebar:
         "Nutrition",
         "Goals & Plans",
         "Social & Challenges",
+        "Achievements",
+        "Health Calculator",
         "AI Insights",
         "Recommendations"
     ])
-
     st.markdown("---")
     st.caption("Data Engineer: Abdulrahman Fahmi")
 
@@ -126,9 +155,7 @@ if page == "Overview":
         st.metric("Total Steps", f"{total_steps:,}")
 
     st.markdown("---")
-
-    # Smart status card
-    st.subheader("Your health status today")
+    st.subheader("Health status today")
     col1, col2, col3 = st.columns(3)
 
     with col1:
@@ -140,7 +167,6 @@ if page == "Overview":
                 st.warning(f"Sleep: {avg_sleep:.1f}h — Could be better")
             else:
                 st.error(f"Sleep: {avg_sleep:.1f}h — Too little!")
-
     with col2:
         if not recovery.empty:
             avg_stress = recovery['stress_level'].mean()
@@ -150,7 +176,6 @@ if page == "Overview":
                 st.warning(f"Stress: {avg_stress:.1f}/10 — Moderate")
             else:
                 st.error(f"Stress: {avg_stress:.1f}/10 — High!")
-
     with col3:
         if not exercises.empty:
             avg_rpe = exercises['rpe'].mean()
@@ -173,7 +198,6 @@ if page == "Overview":
                 labels={'count': 'Exercises', 'body_part': 'Muscle group'})
             fig.update_layout(showlegend=False, coloraxis_showscale=False, height=280)
             st.plotly_chart(fig, use_container_width=True)
-
     with col2:
         st.subheader("Weekly volume trend")
         if not exercises.empty:
@@ -206,7 +230,6 @@ elif page == "Training":
         st.metric("Avg RPE", f"{avg_rpe:.1f}/10")
 
     st.markdown("---")
-
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Volume per week")
@@ -219,7 +242,6 @@ elif page == "Training":
                 labels={'week': 'Week', 'volume': 'Volume (kg)'})
             fig.update_layout(height=300)
             st.plotly_chart(fig, use_container_width=True)
-
     with col2:
         st.subheader("Top exercises by RPE")
         if not exercises.empty:
@@ -267,7 +289,6 @@ elif page == "Running":
                 title='Distance per run')
             fig.update_layout(height=300)
             st.plotly_chart(fig, use_container_width=True)
-
         with col2:
             fig = px.line(running, x='date', y='avg_pace_min_per_km',
                 markers=True, color_discrete_sequence=['#D85A30'],
@@ -276,7 +297,7 @@ elif page == "Running":
             fig.update_layout(height=300)
             st.plotly_chart(fig, use_container_width=True)
 
-        st.subheader("Running sessions detail")
+        st.subheader("Session details")
         st.dataframe(running[['date', 'distance_km', 'duration_minutes',
             'avg_pace_min_per_km', 'avg_heart_rate', 'calories_burned', 'route_type']],
             use_container_width=True)
@@ -305,27 +326,22 @@ elif page == "Biometrics":
         col1, col2, col3 = st.columns(3)
         with col1:
             fig = px.bar(biometrics, x='date', y='steps',
-                color_discrete_sequence=['#378ADD'],
-                title='Daily steps',
+                color_discrete_sequence=['#378ADD'], title='Daily steps',
                 labels={'steps': 'Steps', 'date': 'Date'})
             fig.add_hline(y=10000, line_dash="dash", line_color="green",
-                annotation_text="Goal: 10,000 steps")
+                annotation_text="Goal: 10,000")
             fig.update_layout(height=280)
             st.plotly_chart(fig, use_container_width=True)
-
         with col2:
             fig = px.line(biometrics, x='date',
                 y=['heart_rate_resting', 'heart_rate_avg'],
-                title='Heart rate trends',
-                labels={'value': 'BPM', 'date': 'Date'},
+                title='Heart rate', labels={'value': 'BPM', 'date': 'Date'},
                 color_discrete_sequence=['#5DCAA5', '#D85A30'])
             fig.update_layout(height=280)
             st.plotly_chart(fig, use_container_width=True)
-
         with col3:
             fig = px.bar(biometrics, x='date', y='calories_burned',
-                color_discrete_sequence=['#EF9F27'],
-                title='Calories burned',
+                color_discrete_sequence=['#EF9F27'], title='Calories burned',
                 labels={'calories_burned': 'Calories', 'date': 'Date'})
             fig.update_layout(height=280)
             st.plotly_chart(fig, use_container_width=True)
@@ -344,7 +360,7 @@ elif page == "Recovery":
         with col1:
             st.metric("Avg sleep", f"{recovery['sleep_hours'].mean():.1f}h")
         with col2:
-            st.metric("Avg sleep quality", f"{recovery['sleep_quality'].mean():.1f}/10")
+            st.metric("Sleep quality", f"{recovery['sleep_quality'].mean():.1f}/10")
         with col3:
             st.metric("Avg energy", f"{recovery['energy_level'].mean():.1f}/10")
         with col4:
@@ -370,13 +386,13 @@ elif page == "Recovery":
         if avg_sleep >= 7 and avg_energy >= 7 and avg_stress <= 4:
             st.success("OPTIMAL — Your body is fully recovered and ready to perform!")
         elif avg_sleep < 6:
-            st.error("WARNING — Too little sleep! You need 7-9 hours for optimal recovery and muscle growth.")
+            st.error("WARNING — Too little sleep! Aim for 7-9 hours.")
         elif avg_stress > 7:
-            st.warning("WARNING — High stress! Consider a deload week or active recovery.")
+            st.warning("WARNING — High stress! Consider a deload week.")
         elif avg_energy < 5:
-            st.warning("WARNING — Low energy! Prioritize sleep, nutrition and rest.")
+            st.warning("WARNING — Low energy! Prioritize rest and nutrition.")
         else:
-            st.info("GOOD — Keep up the consistency!")
+            st.info("GOOD — Keep up the great work!")
     else:
         st.info("No recovery data logged yet.")
 
@@ -389,7 +405,7 @@ elif page == "Nutrition":
 
     if not nutrition_goals.empty:
         ng = nutrition_goals.iloc[0]
-        st.subheader("Your daily nutrition targets")
+        st.subheader("Daily nutrition targets")
         col1, col2, col3, col4, col5 = st.columns(5)
         with col1:
             st.metric("Calories", f"{ng['calories_target']} kcal")
@@ -407,22 +423,17 @@ elif page == "Nutrition":
     if not foods.empty:
         category_filter = st.selectbox("Filter by category",
             ["All"] + foods['category'].unique().tolist())
-
-        filtered_foods = foods if category_filter == "All" else \
-            foods[foods['category'] == category_filter]
+        filtered = foods if category_filter == "All" else foods[foods['category'] == category_filter]
 
         col1, col2 = st.columns(2)
         with col1:
-            st.dataframe(filtered_foods[['name', 'category', 'calories_per_100g',
+            st.dataframe(filtered[['name', 'category', 'calories_per_100g',
                 'protein_per_100g', 'carbs_per_100g', 'fat_per_100g']].rename(columns={
-                'calories_per_100g': 'Cal/100g',
-                'protein_per_100g': 'Protein',
-                'carbs_per_100g': 'Carbs',
-                'fat_per_100g': 'Fat'
+                'calories_per_100g': 'Cal/100g', 'protein_per_100g': 'Protein',
+                'carbs_per_100g': 'Carbs', 'fat_per_100g': 'Fat'
             }), use_container_width=True, height=400)
-
         with col2:
-            fig = px.bar(filtered_foods, x='name', y='protein_per_100g',
+            fig = px.bar(filtered, x='name', y='protein_per_100g',
                 color='category', title='Protein per 100g',
                 labels={'protein_per_100g': 'Protein (g)', 'name': 'Food'})
             fig.update_layout(height=400, xaxis_tickangle=-45)
@@ -439,17 +450,13 @@ elif page == "Goals & Plans":
     if not goals.empty:
         for _, row in goals.iterrows():
             if row['goal_type'] in ['target_weight', 'target_body_fat']:
-                if row['current_value'] > row['target_value']:
-                    progress = max(0, min(100, (1 - (row['current_value'] - row['target_value']) / row['current_value']) * 100))
-                else:
-                    progress = 100
+                progress = max(0, min(100, (1 - (row['current_value'] - row['target_value']) / max(row['current_value'], 0.01)) * 100)) if row['current_value'] > row['target_value'] else 100
             else:
                 progress = min(100, (row['current_value'] / row['target_value']) * 100) if row['target_value'] > 0 else 0
 
             col1, col2, col3 = st.columns([3, 1, 1])
             with col1:
-                label = row['goal_type'].replace('_', ' ').title()
-                st.write(f"**{label}** — {row['current_value']} / {row['target_value']} {row['unit']}")
+                st.write(f"**{row['goal_type'].replace('_', ' ').title()}** — {row['current_value']} / {row['target_value']} {row['unit']}")
                 st.progress(int(progress))
             with col2:
                 st.metric("Progress", f"{progress:.0f}%")
@@ -459,15 +466,10 @@ elif page == "Goals & Plans":
 
     st.markdown("---")
     st.subheader("Available training plans")
-
     goal_colors = {
-        'bygga_muskler': '#378ADD',
-        'gå_ner_i_vikt': '#D85A30',
-        'gå_upp_i_vikt': '#1D9E75',
-        'löpning': '#EF9F27',
-        'hålla_sig_i_form': '#7F77DD'
+        'bygga_muskler': '#378ADD', 'gå_ner_i_vikt': '#D85A30',
+        'gå_upp_i_vikt': '#1D9E75', 'löpning': '#EF9F27', 'hålla_sig_i_form': '#7F77DD'
     }
-
     cols = st.columns(3)
     for i, (_, plan) in enumerate(plans.iterrows()):
         with cols[i % 3]:
@@ -494,15 +496,13 @@ elif page == "Social & Challenges":
     st.markdown("---")
 
     col1, col2 = st.columns(2)
-
     with col1:
         st.subheader("Active challenges")
         if not challenges.empty:
             for _, c in challenges.iterrows():
                 days_left = (pd.to_datetime(c['end_date']) - pd.Timestamp.now()).days
                 st.markdown(f"""
-                <div style="border: 1px solid #ddd; border-radius: 8px;
-                    padding: 12px; margin-bottom: 12px;">
+                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
                     <strong>{c['name']}</strong><br>
                     <span style="color: #555; font-size: 13px;">
                     {c['description']}<br>
@@ -515,11 +515,162 @@ elif page == "Social & Challenges":
     with col2:
         st.subheader("Leaderboard this week")
         if not leaderboard.empty:
-            lb = leaderboard[['name', 'total_sessions', 'total_volume_kg', 'total_steps', 'points']]
+            lb = leaderboard[['name', 'total_sessions', 'total_volume_kg', 'total_steps', 'points']].copy()
             lb = lb.sort_values('points', ascending=False).reset_index(drop=True)
             lb.index += 1
             lb.columns = ['User', 'Sessions', 'Volume (kg)', 'Steps', 'Points']
             st.dataframe(lb, use_container_width=True)
+
+# ================================
+# ACHIEVEMENTS
+# ================================
+elif page == "Achievements":
+    st.title("Achievements")
+    st.markdown("Badges and milestones you have unlocked.")
+    st.markdown("---")
+
+    if not streaks.empty:
+        s = streaks.iloc[0]
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Current streak", f"{s['current_streak']} days")
+        with col2:
+            st.metric("Best streak", f"{s['longest_streak']} days")
+        with col3:
+            st.metric("Total workouts", s['total_workouts'])
+
+    st.markdown("---")
+    if not achievements.empty:
+        st.subheader(f"{len(achievements)} achievements unlocked!")
+        cols = st.columns(3)
+        for i, (_, ach) in enumerate(achievements.iterrows()):
+            with cols[i % 3]:
+                st.markdown(f"""
+                <div style="border: 1px solid #378ADD; border-radius: 8px;
+                    padding: 12px; margin-bottom: 12px; background: #f0f7ff;">
+                    <strong>{ach['achievement_name']}</strong><br>
+                    <span style="color: #555; font-size: 13px;">{ach['description']}</span>
+                </div>
+                """, unsafe_allow_html=True)
+    else:
+        st.info("No achievements unlocked yet. Start training to earn badges!")
+
+# ================================
+# HEALTH CALCULATOR
+# ================================
+elif page == "Health Calculator":
+    st.title("Health Calculator")
+    st.markdown("Calculate your BMI, BMR, TDEE and macro targets.")
+    st.markdown("---")
+
+    if not health_calc.empty:
+        hc = health_calc.iloc[0]
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            bmi_color = "success" if 18.5 <= hc['bmi'] <= 24.9 else "warning" if hc['bmi'] < 18.5 or hc['bmi'] <= 29.9 else "error"
+            st.metric("BMI", f"{hc['bmi']:.1f}")
+            if bmi_color == "success":
+                st.success(f"Category: {hc['bmi_category']}")
+            elif bmi_color == "warning":
+                st.warning(f"Category: {hc['bmi_category']}")
+            else:
+                st.error(f"Category: {hc['bmi_category']}")
+        with col2:
+            st.metric("BMR", f"{hc['bmr']:,.0f} kcal")
+            st.caption("Calories at complete rest")
+        with col3:
+            st.metric("TDEE", f"{hc['tdee']:,.0f} kcal")
+            st.caption(f"Activity: {hc['activity_level'].replace('_', ' ')}")
+        with col4:
+            st.metric("Daily calories", f"{hc['calories_target']:,} kcal")
+            st.caption("Based on your goal")
+
+        st.markdown("---")
+        st.subheader("Daily macro targets")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            fig = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=float(hc['protein_target_g']),
+                title={'text': "Protein (g)"},
+                gauge={'axis': {'range': [0, 300]}, 'bar': {'color': '#378ADD'}}
+            ))
+            fig.update_layout(height=250)
+            st.plotly_chart(fig, use_container_width=True)
+        with col2:
+            fig = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=float(hc['carbs_target_g']),
+                title={'text': "Carbs (g)"},
+                gauge={'axis': {'range': [0, 500]}, 'bar': {'color': '#EF9F27'}}
+            ))
+            fig.update_layout(height=250)
+            st.plotly_chart(fig, use_container_width=True)
+        with col3:
+            fig = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=float(hc['fat_target_g']),
+                title={'text': "Fat (g)"},
+                gauge={'axis': {'range': [0, 200]}, 'bar': {'color': '#D85A30'}}
+            ))
+            fig.update_layout(height=250)
+            st.plotly_chart(fig, use_container_width=True)
+
+        st.markdown("---")
+        st.subheader("Calculate your own")
+        col1, col2 = st.columns(2)
+        with col1:
+            weight = st.number_input("Weight (kg)", value=80.0, step=0.5)
+            height = st.number_input("Height (cm)", value=180.0, step=0.5)
+            age = st.number_input("Age", value=25, step=1)
+        with col2:
+            gender = st.selectbox("Gender", ["male", "female"])
+            activity = st.selectbox("Activity level", [
+                "sedentary", "lightly_active", "moderately_active",
+                "very_active", "super_active"
+            ])
+            goal = st.selectbox("Goal", [
+                "lose_weight", "maintain", "gain_weight", "build_muscle"
+            ])
+
+        if st.button("Calculate"):
+            bmi = weight / ((height / 100) ** 2)
+            if gender == "male":
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5
+            else:
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161
+
+            multipliers = {
+                "sedentary": 1.2, "lightly_active": 1.375,
+                "moderately_active": 1.55, "very_active": 1.725, "super_active": 1.9
+            }
+            tdee = bmr * multipliers[activity]
+
+            if goal == "lose_weight":
+                calories = tdee - 500
+            elif goal == "gain_weight" or goal == "build_muscle":
+                calories = tdee + 300
+            else:
+                calories = tdee
+
+            protein = weight * 2.0
+            fat = calories * 0.25 / 9
+            carbs = (calories - protein * 4 - fat * 9) / 4
+
+            st.markdown("---")
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("BMI", f"{bmi:.1f}")
+            with col2:
+                st.metric("BMR", f"{bmr:,.0f} kcal")
+            with col3:
+                st.metric("TDEE", f"{tdee:,.0f} kcal")
+            with col4:
+                st.metric("Daily calories", f"{calories:,.0f} kcal")
+
+            st.success(f"Protein: {protein:.0f}g | Carbs: {carbs:.0f}g | Fat: {fat:.0f}g")
+    else:
+        st.info("No health calculation data found.")
 
 # ================================
 # AI INSIGHTS
@@ -531,25 +682,14 @@ elif page == "AI Insights":
 
     if not ai_insights.empty:
         for _, insight in ai_insights.iterrows():
-            icon_map = {
-                'training_tip': 'info',
-                'recovery_advice': 'success',
-                'nutrition_tip': 'warning',
-                'progress_summary': 'success',
-                'weekly_analysis': 'info'
-            }
-            insight_type = insight['insight_type']
-            title = insight['title']
-            content = insight['content']
-
-            if insight_type in ['recovery_advice', 'progress_summary']:
-                st.success(f"**{title}**\n\n{content}")
-            elif insight_type in ['training_tip', 'weekly_analysis']:
-                st.info(f"**{title}**\n\n{content}")
+            if insight['insight_type'] in ['recovery_advice', 'progress_summary']:
+                st.success(f"**{insight['title']}**\n\n{insight['content']}")
+            elif insight['insight_type'] in ['training_tip', 'weekly_analysis']:
+                st.info(f"**{insight['title']}**\n\n{insight['content']}")
             else:
-                st.warning(f"**{title}**\n\n{content}")
+                st.warning(f"**{insight['title']}**\n\n{insight['content']}")
     else:
-        st.info("No AI insights available yet. Run the pipelines to generate insights!")
+        st.info("No AI insights yet. Run the pipelines to generate insights!")
 
 # ================================
 # RECOMMENDATIONS
