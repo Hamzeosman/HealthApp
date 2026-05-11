@@ -691,3 +691,143 @@ INSERT INTO ai_insights (user_id, insight_type, title, content) VALUES
      'Your average sleep is 7.2 hours and stress levels are low. Perfect conditions for a harder training week.'),
     (1, 'progress_summary', 'New personal record!',
      'You hit a new deadlift PR of 150kg this week — a 25% increase from your previous best. Outstanding progress!');
+-- =====================
+-- STREAK SYSTEM
+-- =====================
+CREATE TABLE IF NOT EXISTS user_streaks (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    current_streak INT DEFAULT 0,
+    longest_streak INT DEFAULT 0,
+    last_workout_date DATE,
+    total_workouts INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS streak_rewards (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    reward_type VARCHAR(50) CHECK (reward_type IN (
+        'bronze', 'silver', 'gold', 'platinum', 'diamond'
+    )),
+    streak_days INT,
+    achieved_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- NOTIFIKATIONER
+-- =====================
+CREATE TABLE IF NOT EXISTS notifications (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    title VARCHAR(200),
+    message TEXT,
+    notification_type VARCHAR(50) CHECK (notification_type IN (
+        'workout_reminder', 'recovery_alert', 'streak_milestone',
+        'personal_record', 'goal_achieved', 'weekly_report',
+        'challenge_update', 'ai_insight'
+    )),
+    is_read BOOLEAN DEFAULT FALSE,
+    scheduled_at TIMESTAMP,
+    sent_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- BMI & HÄLSOKALKYLATOR
+-- =====================
+CREATE TABLE IF NOT EXISTS health_calculations (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    date DATE,
+    weight_kg DECIMAL(5,2),
+    height_cm DECIMAL(5,2),
+    age INT,
+    gender VARCHAR(10) CHECK (gender IN ('male', 'female', 'other')),
+    bmi DECIMAL(5,2),
+    bmi_category VARCHAR(30),
+    bmr DECIMAL(8,2),
+    tdee DECIMAL(8,2),
+    activity_level VARCHAR(30) CHECK (activity_level IN (
+        'sedentary', 'lightly_active', 'moderately_active',
+        'very_active', 'super_active'
+    )),
+    protein_target_g DECIMAL(6,2),
+    carbs_target_g DECIMAL(6,2),
+    fat_target_g DECIMAL(6,2),
+    calories_target INT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- BADGES & ACHIEVEMENTS
+-- =====================
+CREATE TABLE IF NOT EXISTS achievements (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    description TEXT,
+    icon VARCHAR(50),
+    requirement_type VARCHAR(50) CHECK (requirement_type IN (
+        'total_sessions', 'total_volume', 'streak_days',
+        'personal_record', 'total_distance', 'weight_lost'
+    )),
+    requirement_value DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS user_achievements (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    achievement_id INT REFERENCES achievements(id),
+    achieved_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, achievement_id)
+);
+
+-- =====================
+-- SEED: STREAK DATA
+-- =====================
+INSERT INTO user_streaks (user_id, current_streak, longest_streak, last_workout_date, total_workouts) VALUES
+    (1, 5, 12, '2026-05-02', 23);
+
+-- =====================
+-- SEED: ACHIEVEMENTS
+-- =====================
+INSERT INTO achievements (name, description, icon, requirement_type, requirement_value) VALUES
+    ('First Workout', 'Complete your first workout', 'trophy', 'total_sessions', 1),
+    ('10 Sessions', 'Complete 10 workout sessions', 'medal', 'total_sessions', 10),
+    ('50 Sessions', 'Complete 50 workout sessions', 'star', 'total_sessions', 50),
+    ('Week Warrior', '7 day workout streak', 'fire', 'streak_days', 7),
+    ('Iron Will', '30 day workout streak', 'lightning', 'streak_days', 30),
+    ('Volume King', 'Lift 100,000 kg total', 'crown', 'total_volume', 100000),
+    ('Runner', 'Run 50km total', 'shoe', 'total_distance', 50),
+    ('New PR', 'Set your first personal record', 'chart', 'personal_record', 1);
+
+-- =====================
+-- SEED: USER ACHIEVEMENTS
+-- =====================
+INSERT INTO user_achievements (user_id, achievement_id) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 8);
+
+-- =====================
+-- SEED: NOTIFIKATIONER
+-- =====================
+INSERT INTO notifications (user_id, title, message, notification_type, is_read) VALUES
+    (1, 'Time to train!', 'You have not trained in 2 days. Keep your streak going!', 'workout_reminder', FALSE),
+    (1, 'New personal record!', 'You hit a new deadlift PR of 150kg. Outstanding!', 'personal_record', TRUE),
+    (1, 'Weekly report ready', 'Your weekly training report for week 17 is ready to view.', 'weekly_report', FALSE),
+    (1, '5-day streak!', 'Amazing! You have trained 5 days in a row. Keep it up!', 'streak_milestone', FALSE);
+
+-- =====================
+-- SEED: HEALTH CALCULATIONS
+-- =====================
+INSERT INTO health_calculations (
+    user_id, date, weight_kg, height_cm, age, gender,
+    bmi, bmi_category, bmr, tdee, activity_level,
+    protein_target_g, carbs_target_g, fat_target_g, calories_target
+) VALUES (
+    1, '2026-05-02', 80.0, 180.0, 25, 'male',
+    24.7, 'Normal weight', 1894.0, 2936.7, 'moderately_active',
+    180.0, 330.0, 98.0, 2937
+);
