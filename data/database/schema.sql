@@ -236,3 +236,223 @@ INSERT INTO recovery_logs (user_id, date, sleep_hours, sleep_quality, stress_lev
 INSERT INTO body_measurements (user_id, date, weight_kg, body_fat_percentage, chest_cm, waist_cm, bicep_cm) VALUES
     (1, '2026-04-01', 80.0, 18.0, 100.0, 85.0, 38.0),
     (1, '2026-04-15', 79.5, 17.5, 101.0, 84.0, 38.5);
+
+-- =====================
+-- BIOMETRICS (steps, heart rate, cardio)
+-- =====================
+CREATE TABLE IF NOT EXISTS biometrics (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    date DATE,
+    steps INT,
+    heart_rate_resting INT,
+    heart_rate_avg INT,
+    heart_rate_max INT,
+    heart_rate_post_workout INT,
+    heart_rate_recovery_1min INT,
+    vo2_max DECIMAL(5,2),
+    calories_burned INT,
+    active_minutes INT,
+    distance_km DECIMAL(6,2),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- RUNNING SESSIONS (löpning utomhus/löpband)
+-- =====================
+CREATE TABLE IF NOT EXISTS running_sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    date DATE,
+    distance_km DECIMAL(6,2),
+    duration_minutes INT,
+    avg_pace_min_per_km DECIMAL(5,2),
+    avg_heart_rate INT,
+    max_heart_rate INT,
+    calories_burned INT,
+    route_type VARCHAR(30) CHECK (route_type IN ('utomhus', 'löpband', 'spår')),
+    elevation_m INT,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- NUTRITION (mat och kalorier)
+-- =====================
+CREATE TABLE IF NOT EXISTS nutrition_logs (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    date DATE,
+    calories_consumed INT,
+    protein_g DECIMAL(6,2),
+    carbs_g DECIMAL(6,2),
+    fat_g DECIMAL(6,2),
+    water_ml INT,
+    meal_type VARCHAR(20) CHECK (meal_type IN ('frukost', 'lunch', 'middag', 'mellanmål')),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- TRÄNINGSSCHEMA (program för mål)
+-- =====================
+CREATE TABLE IF NOT EXISTS training_plans (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    goal VARCHAR(50) CHECK (goal IN (
+        'bygga_muskler', 
+        'gå_ner_i_vikt', 
+        'gå_upp_i_vikt', 
+        'öka_kondition', 
+        'hålla_sig_i_form',
+        'löpning'
+    )),
+    difficulty VARCHAR(20) CHECK (difficulty IN ('nybörjare', 'medel', 'avancerad')),
+    duration_weeks INT,
+    days_per_week INT,
+    description TEXT,
+    target_audience TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- TRÄNINGSSCHEMA DAGAR
+-- =====================
+CREATE TABLE IF NOT EXISTS training_plan_days (
+    id SERIAL PRIMARY KEY,
+    plan_id INT REFERENCES training_plans(id),
+    week_number INT,
+    day_number INT,
+    day_name VARCHAR(50),
+    focus VARCHAR(100),
+    rest_day BOOLEAN DEFAULT FALSE
+);
+
+-- =====================
+-- ÖVNINGAR I SCHEMA
+-- =====================
+CREATE TABLE IF NOT EXISTS training_plan_exercises (
+    id SERIAL PRIMARY KEY,
+    plan_day_id INT REFERENCES training_plan_days(id),
+    exercise_id INT REFERENCES exercises(id),
+    sets INT,
+    reps INT,
+    rest_seconds INT,
+    intensity VARCHAR(20),
+    notes TEXT,
+    order_index INT
+);
+
+-- =====================
+-- ANVÄNDARENS AKTIVA SCHEMA
+-- =====================
+CREATE TABLE IF NOT EXISTS user_training_plans (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    plan_id INT REFERENCES training_plans(id),
+    start_date DATE,
+    end_date DATE,
+    current_week INT DEFAULT 1,
+    current_day INT DEFAULT 1,
+    is_active BOOLEAN DEFAULT TRUE,
+    progress_percentage DECIMAL(5,2) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- GOALS (användarmål med deadline)
+-- =====================
+CREATE TABLE IF NOT EXISTS user_goals (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    goal_type VARCHAR(50) CHECK (goal_type IN (
+        'target_weight',
+        'target_body_fat',
+        'target_muscle_mass',
+        'run_distance',
+        'lift_weight',
+        'workout_streak'
+    )),
+    target_value DECIMAL(8,2),
+    current_value DECIMAL(8,2),
+    unit VARCHAR(20),
+    deadline DATE,
+    is_achieved BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- SEED: TRÄNINGSPLANER
+-- =====================
+INSERT INTO training_plans (name, goal, difficulty, duration_weeks, days_per_week, description, target_audience) VALUES
+    (
+        'Muscle Builder 12 Week',
+        'bygga_muskler',
+        'medel',
+        12,
+        4,
+        'A progressive 12-week program focused on hypertrophy with compound and isolation movements.',
+        'Intermediate lifters who want to build muscle mass'
+    ),
+    (
+        'Fat Loss 8 Week',
+        'gå_ner_i_vikt',
+        'nybörjare',
+        8,
+        5,
+        'High intensity program combining strength and cardio to maximize fat burn.',
+        'Beginners and intermediates looking to lose body fat'
+    ),
+    (
+        'Bulk Up 10 Week',
+        'gå_upp_i_vikt',
+        'avancerad',
+        10,
+        5,
+        'Heavy compound movements with progressive overload to maximize muscle and strength gains.',
+        'Advanced lifters looking to gain weight and strength'
+    ),
+    (
+        '5K Running Plan',
+        'löpning',
+        'nybörjare',
+        8,
+        3,
+        'A beginner-friendly plan to go from walking to running 5km without stopping.',
+        'Complete beginners who want to start running'
+    ),
+    (
+        'Stay Fit Plan',
+        'hålla_sig_i_form',
+        'nybörjare',
+        0,
+        3,
+        'A maintenance program combining strength and cardio to stay healthy and active.',
+        'Anyone who wants to maintain their fitness level'
+    );
+
+-- =====================
+-- SEED: BIOMETRICS TESTDATA
+-- =====================
+INSERT INTO biometrics (user_id, date, steps, heart_rate_resting, heart_rate_avg, calories_burned, active_minutes, distance_km) VALUES
+    (1, '2026-04-01', 8500, 62, 75, 2400, 45, 6.2),
+    (1, '2026-04-05', 12000, 60, 80, 2800, 90, 9.1),
+    (1, '2026-04-10', 6000, 65, 72, 2200, 30, 4.5),
+    (1, '2026-04-25', 15000, 58, 85, 3100, 120, 11.3);
+
+-- =====================
+-- SEED: LÖPNING TESTDATA
+-- =====================
+INSERT INTO running_sessions (user_id, date, distance_km, duration_minutes, avg_pace_min_per_km, avg_heart_rate, calories_burned, route_type) VALUES
+    (1, '2026-04-03', 5.0, 28, 5.6, 155, 350, 'utomhus'),
+    (1, '2026-04-08', 7.5, 42, 5.6, 160, 520, 'utomhus'),
+    (1, '2026-04-12', 5.0, 27, 5.4, 150, 340, 'löpband');
+
+-- =====================
+-- SEED: ANVÄNDARMÅL
+-- =====================
+INSERT INTO user_goals (user_id, goal_type, target_value, current_value, unit, deadline) VALUES
+    (1, 'target_weight', 75.0, 80.0, 'kg', '2026-08-01'),
+    (1, 'target_body_fat', 12.0, 18.0, '%', '2026-08-01'),
+    (1, 'run_distance', 10.0, 7.5, 'km', '2026-06-01'),
+    (1, 'lift_weight', 200.0, 150.0, 'kg', '2026-12-01');
