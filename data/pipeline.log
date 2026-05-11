@@ -319,3 +319,11 @@ Tranade kroppsdelar:
 
 2026-05-02 20:44:05,307 [INFO] Alla veckorapporter klara!
 Sat May  2 20:44:05 CEST 2026 - Pipeline klar!
+2026-05-11 16:49:48,450 [INFO] Connected to database!
+2026-05-11 16:49:48,451 [INFO] Starting streak pipeline...
+2026-05-11 16:49:48,525 [INFO] [Test User] Streak: 0 days | Best: 1 days | Total: 4 sessions
+2026-05-11 16:49:48,528 [INFO] Streak pipeline complete!
+2026-05-11 16:50:31,287 [INFO] Connected to database!
+2026-05-11 16:50:31,287 [INFO] Starting streak pipeline...
+2026-05-11 16:50:31,305 [INFO] [Test User] Streak: 1 days | Best: 1 days | Total: 5 sessions
+2026-05-11 16:50:31,306 [INFO] Streak pipeline complete!

@@ -12,5 +12,6 @@ $UV run pipelines/analysis.py
 $UV run pipelines/progression_pipeline.py
 $UV run pipelines/personal_records_pipeline.py
 $UV run pipelines/weekly_report_pipeline.py
+$UV run pipelines/streak_pipeline.py
 
 echo "$(date) - Pipeline klar!" >> "$LOG"
