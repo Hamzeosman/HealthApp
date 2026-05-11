@@ -456,3 +456,238 @@ INSERT INTO user_goals (user_id, goal_type, target_value, current_value, unit, d
     (1, 'target_body_fat', 12.0, 18.0, '%', '2026-08-01'),
     (1, 'run_distance', 10.0, 7.5, 'km', '2026-06-01'),
     (1, 'lift_weight', 200.0, 150.0, 'kg', '2026-12-01');
+
+-- =====================
+-- NUTRITION - LIVSMEDEL
+-- =====================
+CREATE TABLE IF NOT EXISTS foods (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    brand VARCHAR(100),
+    calories_per_100g DECIMAL(6,2),
+    protein_per_100g DECIMAL(6,2),
+    carbs_per_100g DECIMAL(6,2),
+    fat_per_100g DECIMAL(6,2),
+    fiber_per_100g DECIMAL(6,2),
+    category VARCHAR(50) CHECK (category IN (
+        'protein', 'kolhydrater', 'fett', 'grönsaker', 
+        'frukt', 'mejeri', 'snacks', 'dryck'
+    )),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- NUTRITION - MÅLTIDSLOGG
+-- =====================
+CREATE TABLE IF NOT EXISTS meal_logs (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    food_id INT REFERENCES foods(id),
+    date DATE,
+    meal_type VARCHAR(20) CHECK (meal_type IN (
+        'breakfast', 'lunch', 'dinner', 'snack'
+    )),
+    amount_g DECIMAL(6,2),
+    calories DECIMAL(6,2),
+    protein_g DECIMAL(6,2),
+    carbs_g DECIMAL(6,2),
+    fat_g DECIMAL(6,2),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- NUTRITION - DAGLIGT MÅL
+-- =====================
+CREATE TABLE IF NOT EXISTS nutrition_goals (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    calories_target INT,
+    protein_target_g DECIMAL(6,2),
+    carbs_target_g DECIMAL(6,2),
+    fat_target_g DECIMAL(6,2),
+    water_target_ml INT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- SOCIAL - VÄNNER
+-- =====================
+CREATE TABLE IF NOT EXISTS friendships (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    friend_id INT REFERENCES users(id),
+    status VARCHAR(20) CHECK (status IN ('pending', 'accepted', 'blocked')),
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, friend_id)
+);
+
+-- =====================
+-- SOCIAL - UTMANINGAR
+-- =====================
+CREATE TABLE IF NOT EXISTS challenges (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    description TEXT,
+    challenge_type VARCHAR(50) CHECK (challenge_type IN (
+        'most_steps', 'most_volume', 'most_sessions',
+        'longest_streak', 'most_distance', 'weight_loss'
+    )),
+    start_date DATE,
+    end_date DATE,
+    created_by INT REFERENCES users(id),
+    is_public BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- SOCIAL - UTMANINGSDELTAGARE
+-- =====================
+CREATE TABLE IF NOT EXISTS challenge_participants (
+    id SERIAL PRIMARY KEY,
+    challenge_id INT REFERENCES challenges(id),
+    user_id INT REFERENCES users(id),
+    current_value DECIMAL(10,2) DEFAULT 0,
+    rank INT,
+    joined_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(challenge_id, user_id)
+);
+
+-- =====================
+-- SOCIAL - LEADERBOARD
+-- =====================
+CREATE TABLE IF NOT EXISTS leaderboard (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    week_number INT,
+    year INT,
+    total_sessions INT DEFAULT 0,
+    total_volume_kg DECIMAL(10,2) DEFAULT 0,
+    total_steps INT DEFAULT 0,
+    total_distance_km DECIMAL(8,2) DEFAULT 0,
+    points INT DEFAULT 0,
+    rank INT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, week_number, year)
+);
+
+-- =====================
+-- SOCIAL - AKTIVITETSFLÖDE
+-- =====================
+CREATE TABLE IF NOT EXISTS activity_feed (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    activity_type VARCHAR(50) CHECK (activity_type IN (
+        'workout_completed', 'personal_record', 'goal_achieved',
+        'challenge_joined', 'challenge_won', 'streak_milestone'
+    )),
+    description TEXT,
+    related_id INT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- AI - GENERERADE TRÄNINGSPLANER
+-- =====================
+CREATE TABLE IF NOT EXISTS ai_training_plans (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    prompt TEXT,
+    plan_json JSONB,
+    goal VARCHAR(100),
+    duration_weeks INT,
+    difficulty VARCHAR(20),
+    is_active BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- AI - GENERERADE KOSTPLANER
+-- =====================
+CREATE TABLE IF NOT EXISTS ai_nutrition_plans (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    prompt TEXT,
+    plan_json JSONB,
+    calories_target INT,
+    goal VARCHAR(50),
+    is_active BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- AI - SMARTA INSIKTER
+-- =====================
+CREATE TABLE IF NOT EXISTS ai_insights (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    insight_type VARCHAR(50) CHECK (insight_type IN (
+        'training_tip', 'recovery_advice', 'nutrition_tip',
+        'progress_summary', 'weekly_analysis'
+    )),
+    title VARCHAR(200),
+    content TEXT,
+    data_snapshot JSONB,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- SEED: LIVSMEDEL
+-- =====================
+INSERT INTO foods (name, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g, category) VALUES
+    ('Kycklingbröst', 165, 31.0, 0.0, 3.6, 'protein'),
+    ('Havregryn', 370, 13.0, 58.0, 7.0, 'kolhydrater'),
+    ('Ägg', 155, 13.0, 1.1, 11.0, 'protein'),
+    ('Banan', 89, 1.1, 23.0, 0.3, 'frukt'),
+    ('Kvarg', 98, 11.0, 4.0, 4.3, 'mejeri'),
+    ('Broccoli', 34, 2.8, 7.0, 0.4, 'grönsaker'),
+    ('Lax', 208, 20.0, 0.0, 13.0, 'protein'),
+    ('Sötpotatis', 86, 1.6, 20.0, 0.1, 'kolhydrater'),
+    ('Mandlar', 579, 21.0, 22.0, 50.0, 'fett'),
+    ('Proteinpulver', 400, 80.0, 5.0, 5.0, 'protein');
+
+-- =====================
+-- SEED: UTMANINGAR
+-- =====================
+INSERT INTO challenges (name, description, challenge_type, start_date, end_date, created_by, is_public) VALUES
+    (
+        'Step Master May',
+        'Who can take the most steps in May? Track daily and climb the leaderboard!',
+        'most_steps',
+        '2026-05-01',
+        '2026-05-31',
+        1,
+        TRUE
+    ),
+    (
+        'Volume King',
+        'Most total kg lifted this month wins. May the strongest win!',
+        'most_volume',
+        '2026-05-01',
+        '2026-05-31',
+        1,
+        TRUE
+    );
+
+-- =====================
+-- SEED: LEADERBOARD
+-- =====================
+INSERT INTO leaderboard (user_id, week_number, year, total_sessions, total_volume_kg, total_steps, points) VALUES
+    (1, 17, 2026, 3, 15320, 42000, 150);
+
+-- =====================
+-- SEED: NUTRITION MÅL
+-- =====================
+INSERT INTO nutrition_goals (user_id, calories_target, protein_target_g, carbs_target_g, fat_target_g, water_target_ml) VALUES
+    (1, 2500, 180, 250, 80, 3000);
+
+-- =====================
+-- SEED: AI INSIKTER
+-- =====================
+INSERT INTO ai_insights (user_id, insight_type, title, content) VALUES
+    (1, 'training_tip', 'Increase your leg training!', 
+     'Your data shows you train back and chest frequently but legs only twice. Add 1-2 leg sessions per week for balanced development.'),
+    (1, 'recovery_advice', 'Good recovery this week!',
+     'Your average sleep is 7.2 hours and stress levels are low. Perfect conditions for a harder training week.'),
+    (1, 'progress_summary', 'New personal record!',
+     'You hit a new deadlift PR of 150kg this week — a 25% increase from your previous best. Outstanding progress!');
