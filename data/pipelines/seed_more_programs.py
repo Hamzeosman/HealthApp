@@ -501,6 +501,230 @@ def seed_powerlifting_program(conn):
     log.info("Phase 5 (Week 16):    Deload — taper for competition")
     return plan_id
 
+def seed_running_programs(conn):
+    log.info("Creating Running Programs...")
+
+    # 5K Program
+    plan_5k = create_program(conn,
+        name="5K Running Plan — 8 Week",
+        goal="öka_kondition",
+        difficulty="nybörjare",
+        duration_weeks=8,
+        days_per_week=3,
+        description="A beginner-friendly 8-week plan to go from walking to running 5km without stopping. Uses run/walk intervals that gradually increase running time.",
+        target_audience="Complete beginners who want to start running"
+    )
+
+    running_5k_structure = [
+        (1, [(1, "Run 1 min, Walk 2 min x8", 24), (3, "Run 1 min, Walk 2 min x8", 24), (5, "Run 1 min, Walk 2 min x10", 30)]),
+        (2, [(1, "Run 2 min, Walk 1 min x7", 21), (3, "Run 2 min, Walk 1 min x7", 21), (5, "Run 3 min, Walk 1 min x5", 20)]),
+        (3, [(1, "Run 5 min, Walk 1 min x4", 24), (3, "Run 5 min, Walk 1 min x4", 24), (5, "Run 8 min, Walk 1 min x3", 27)]),
+        (4, [(1, "Run 10 min, Walk 1 min x2", 22), (3, "Run 10 min, Walk 1 min x2", 22), (5, "Run 15 min continuous", 15)]),
+        (5, [(1, "Run 20 min continuous", 20), (3, "Run 20 min continuous", 20), (5, "Run 25 min continuous", 25)]),
+        (6, [(1, "Run 25 min continuous", 25), (3, "Run 25 min continuous", 25), (5, "Run 28 min continuous", 28)]),
+        (7, [(1, "Run 25 min continuous", 25), (3, "Run 28 min continuous", 28), (5, "Run 30 min continuous", 30)]),
+        (8, [(1, "Run 30 min continuous", 30), (3, "Easy 20 min run", 20), (5, "5K Race or Time Trial!", 30)]),
+    ]
+
+    for week, days in running_5k_structure:
+        for day_num, focus, duration in days:
+            day_id = add_day(conn, plan_5k, week, day_num,
+                f"Week {week} — Run Day", focus)
+            ex_id = get_exercise_id(conn, "Löpning")
+            add_exercise(conn, day_id, ex_id, 1, duration, 60, "light", 1)
+
+        for rest_day in [2, 4, 6, 7]:
+            add_day(conn, plan_5k, week, rest_day,
+                f"Week {week} — Rest", "Rest or easy walk", is_rest=True)
+
+    conn.commit()
+    log.info("5K program created!")
+
+    # 10K Program
+    plan_10k = create_program(conn,
+        name="10K Running Plan — 10 Week",
+        goal="öka_kondition",
+        difficulty="medel",
+        duration_weeks=10,
+        days_per_week=4,
+        description="A 10-week plan to build up to running 10km. Includes easy runs, tempo runs and a long run each week with progressive distance increases.",
+        target_audience="Runners who can already run 5km and want to double their distance"
+    )
+
+    for week in range(1, 11):
+        is_deload = week % 4 == 0
+        base_long = 6 + (week * 0.5) if not is_deload else 5
+        base_easy = 4 + (week * 0.3) if not is_deload else 3
+
+        days = [
+            (1, f"Easy run {base_easy:.0f}km", round(base_easy * 6), "light"),
+            (3, f"Tempo run {base_easy:.0f}km at faster pace", round(base_easy * 5), "moderate"),
+            (5, f"Easy run {base_easy:.0f}km", round(base_easy * 6), "light"),
+            (6, f"Long run {base_long:.0f}km", round(base_long * 6), "moderate"),
+        ]
+
+        for day_num, focus, duration, intensity in days:
+            day_id = add_day(conn, plan_10k, week, day_num,
+                f"Week {week} — {focus}", focus)
+            ex_id = get_exercise_id(conn, "Löpning")
+            add_exercise(conn, day_id, ex_id, 1, duration, 60, intensity, 1)
+
+        for rest_day in [2, 4, 7]:
+            add_day(conn, plan_10k, week, rest_day,
+                f"Week {week} — Rest", "Rest or cross training", is_rest=True)
+
+    conn.commit()
+    log.info("10K program created!")
+
+    # Halvmaraton Program
+    plan_half = create_program(conn,
+        name="Half Marathon Plan — 14 Week",
+        goal="öka_kondition",
+        difficulty="avancerad",
+        duration_weeks=14,
+        days_per_week=5,
+        description="A 14-week half marathon training plan with easy runs, tempo runs, intervals and a progressive long run peaking at 19km before tapering for race day.",
+        target_audience="Experienced runners who can run 10km and want to complete a half marathon"
+    )
+
+    for week in range(1, 15):
+        is_taper = week >= 13
+        is_deload = week % 4 == 0 and not is_taper
+        long_run = min(19, 8 + week) if not is_taper else (10 if week == 13 else 5)
+
+        days = [
+            (1, f"Easy run 6km", 36, "light"),
+            (2, f"Interval training 5km", 30, "heavy"),
+            (4, f"Tempo run 8km", 44, "moderate"),
+            (5, f"Easy run 6km", 36, "light"),
+            (6, f"Long run {long_run}km", long_run * 6, "moderate"),
+        ]
+
+        if is_deload:
+            days = [(d, f, max(20, int(dur * 0.7)), i) for d, f, dur, i in days]
+        if is_taper:
+            days = [(d, f, max(15, int(dur * 0.5)), "light") for d, f, dur, i in days]
+
+        for day_num, focus, duration, intensity in days:
+            day_id = add_day(conn, plan_half, week, day_num,
+                f"Week {week} — {focus}", focus)
+            ex_id = get_exercise_id(conn, "Löpning")
+            add_exercise(conn, day_id, ex_id, 1, duration, 60, intensity, 1)
+
+        for rest_day in [3, 7]:
+            add_day(conn, plan_half, week, rest_day,
+                f"Week {week} — Rest", "Rest or easy walk", is_rest=True)
+
+    conn.commit()
+    log.info("Half Marathon program created!")
+
+def seed_yoga_program(conn):
+    log.info("Creating Yoga & Stretching Program...")
+
+    plan_id = create_program(conn,
+        name="Yoga & Mobility — 8 Week",
+        goal="hålla_sig_i_form",
+        difficulty="nybörjare",
+        duration_weeks=8,
+        days_per_week=5,
+        description="An 8-week yoga and mobility program to improve flexibility, reduce injury risk and enhance recovery. Perfect as a complement to any strength or cardio program.",
+        target_audience="Anyone who wants to improve flexibility and mobility"
+    )
+
+    stretching_exercises = [
+        ("Plankan", 3, 45, 30, "light"),
+        ("Utfall", 3, 12, 30, "light"),
+    ]
+
+    for week in range(1, 9):
+        sessions = [
+            (1, "Morning Flow", "Full body gentle yoga flow"),
+            (2, "Hip & Lower Body", "Hip flexors, hamstrings, glutes"),
+            (3, "Upper Body & Shoulders", "Chest, shoulders, thoracic spine"),
+            (4, "Core & Balance", "Core stability and balance work"),
+            (5, "Full Body Stretch", "Deep stretching and relaxation"),
+        ]
+
+        for day_num, session_name, focus in sessions:
+            day_id = add_day(conn, plan_id, week, day_num,
+                f"Week {week} — {session_name}", focus)
+            for order, (ex_name, sets, reps, rest, intensity) in enumerate(stretching_exercises, 1):
+                ex_id = get_exercise_id(conn, ex_name)
+                add_exercise(conn, day_id, ex_id, sets, reps, rest, intensity, order)
+
+        for rest_day in [6, 7]:
+            add_day(conn, plan_id, week, rest_day,
+                f"Week {week} — Rest", "Full rest", is_rest=True)
+
+    conn.commit()
+    log.info("Yoga & Mobility program created!")
+
+def seed_home_workout_program(conn):
+    log.info("Creating Home Workout Program...")
+
+    plan_id = create_program(conn,
+        name="Home Workout — Bodyweight 12 Week",
+        goal="hålla_sig_i_form",
+        difficulty="nybörjare",
+        duration_weeks=12,
+        days_per_week=4,
+        description="A 12-week bodyweight program you can do anywhere with no equipment. Progressive difficulty with push, pull, legs and core days. Perfect for home training or travel.",
+        target_audience="Anyone who wants to train at home or while traveling with no equipment"
+    )
+
+    push_bodyweight = [
+        ("Dips", 4, 10, 60, "moderate"),
+        ("Plankan", 3, 45, 45, "light"),
+        ("Burpees", 3, 10, 60, "moderate"),
+    ]
+
+    pull_bodyweight = [
+        ("Pull-ups", 4, 8, 90, "moderate"),
+        ("Face Pulls", 3, 15, 45, "light"),
+        ("Plankan", 3, 45, 45, "light"),
+    ]
+
+    legs_bodyweight = [
+        ("Knäböj", 4, 15, 60, "light"),
+        ("Utfall", 3, 12, 60, "light"),
+        ("Bulgarian Split Squat", 3, 10, 75, "moderate"),
+        ("Calf Raises", 4, 20, 30, "light"),
+    ]
+
+    core_bodyweight = [
+        ("Plankan", 4, 60, 45, "moderate"),
+        ("Burpees", 3, 12, 60, "moderate"),
+        ("Utfall", 3, 15, 45, "light"),
+    ]
+
+    days_structure = [
+        (1, "Push Day", "Chest, Shoulders, Triceps — Bodyweight", push_bodyweight),
+        (2, "Legs Day", "Quads, Hamstrings, Glutes — Bodyweight", legs_bodyweight),
+        (3, "Rest", "Rest or light walk", []),
+        (4, "Pull Day", "Back, Biceps — Bodyweight", pull_bodyweight),
+        (5, "Core Day", "Core, Cardio — Bodyweight", core_bodyweight),
+        (6, "Rest", "Rest", []),
+        (7, "Rest", "Full rest", []),
+    ]
+
+    total_days = 0
+    for week in range(1, 13):
+        is_deload = week == 12
+        sets_mult = 1.0 if week <= 4 else 1.1 if week <= 8 else 1.2
+
+        for day_num, day_name, focus, exercises in days_structure:
+            is_rest = len(exercises) == 0
+            day_id = add_day(conn, plan_id, week, day_num,
+                f"Week {week} — {day_name}", focus, is_rest=is_rest)
+            if not is_rest:
+                for order, (ex_name, sets, reps, rest, intensity) in enumerate(exercises, 1):
+                    ex_id = get_exercise_id(conn, ex_name)
+                    actual_sets = max(2, round(sets * (0.5 if is_deload else sets_mult)))
+                    add_exercise(conn, day_id, ex_id, actual_sets, reps, rest, intensity, order)
+                total_days += 1
+
+    conn.commit()
+    log.info(f"Home Workout program created! {total_days} training days added.")
 
 if __name__ == "__main__":
     log.info("Starting program seeder...")
@@ -510,4 +734,7 @@ if __name__ == "__main__":
         seed_fat_loss_program(conn)
         seed_bulk_program(conn)
         seed_powerlifting_program(conn)
+        seed_running_programs(conn)
+        seed_yoga_program(conn)
+        seed_home_workout_program(conn)
     log.info("All programs created!")
