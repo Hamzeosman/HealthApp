@@ -2,4 +2,11 @@
 .venv
 __pycache__/
 *.pyc
+
+# Mac
 .DS_Store
+
+# .NET
+bin/
+obj/
+*.user
