@@ -4,7 +4,7 @@
 
 ---
 
-## 📁 Projektstruktur
+##  Projektstruktur
 data/
 ├── database/
 │   └── schema.sql              # Hela databasschema (40+ tabeller)
@@ -29,7 +29,7 @@ data/
 
 ---
 
-## 🚀 Kom igång
+##  Kom igång
 
 ### Krav
 - Python 3.13+
@@ -101,7 +101,7 @@ uv run pytest tests/test_pipeline.py -v
 
 ---
 
-## 🗄️ Databas
+##  Databas
 
 ### Kärntabeller
 | Tabell | Beskrivning |
@@ -130,7 +130,7 @@ uv run pytest tests/test_pipeline.py -v
 
 ---
 
-## 🔄 Pipelines
+##  Pipelines
 
 ### recommendation_pipeline.py
 Analyserar vilka kroppsdelar användaren inte tränat på länge och genererar rekommendationer. Körs automatiskt vid varje pipeline-körning.
@@ -152,7 +152,7 @@ Beräknar dagliga träningsstreaks, låser upp achievements och skickar påminne
 
 ---
 
-## 📊 Dashboards
+##  Dashboards
 
 ### app.py — Användardashboard (13 sidor)
 - **Overview** — nyckelmetrik, hälsostatus, muskelgrupper
@@ -181,7 +181,7 @@ Beräknar dagliga träningsstreaks, låser upp achievements och skickar påminne
 
 ---
 
-## 🔗 API-integration med Hamzes backend
+##  API-integration med Hamzes backend
 
 ### Endpoints som Python-pipelinen skriver till
 
@@ -200,7 +200,7 @@ Python-pipelinen och Hamzes API delar samma PostgreSQL-databas:
 
 ---
 
-## ⚙️ Automatisering
+##  Automatisering
 
 Pipelines körs automatiskt via cron:
 
@@ -214,7 +214,7 @@ crontab -e
 
 ---
 
-## 🧪 Tester
+##  Tester
 
 ```bash
 uv run pytest tests/test_pipeline.py -v
@@ -229,7 +229,7 @@ uv run pytest tests/test_pipeline.py -v
 
 ---
 
-## 👥 Team
+##  Team
 
 | Roll | Person | Ansvar |
 |------|--------|--------|
@@ -238,7 +238,7 @@ uv run pytest tests/test_pipeline.py -v
 
 ---
 
-## 📌 Nästa steg
+##  Nästa steg
 
 - [ ] Deployment till Railway/Vercel
 - [ ] React frontend (Hamzes ansvar)
