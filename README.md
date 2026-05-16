@@ -84,9 +84,31 @@ HealthApp.API/
 └── Migrations/
 
 ### Hur man testar 
-Kör: cd data && uv run pipelines/seed_test_data.py
-Kör: uv run pipelines/recommendation_pipeline.py
-Kör: uv run pipelines/analysis.py
+cd data
+
+# Lägg in testdata
+uv run pipelines/seed_test_data.py
+
+# Träningsprogram
+uv run pipelines/seed_ppl_program.py
+uv run pipelines/seed_more_programs.py
+
+# Kör alla pipelines
+uv run pipelines/recommendation_pipeline.py
+uv run pipelines/analysis.py
+uv run pipelines/progression_pipeline.py
+uv run pipelines/personal_records_pipeline.py
+uv run pipelines/weekly_report_pipeline.py
+uv run pipelines/streak_pipeline.py
+
+# Eller kör alla på en gång
+./run_pipeline.sh
+
+# Starta dashboarden
+uv run streamlit run dashboard/app.py
+
+# Kör tester
+uv run pytest tests/test_pipeline.py -v
 
 ## Skapad av
 - Hamze – Systemutvecklare (Backend API)
