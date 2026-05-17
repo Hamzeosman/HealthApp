@@ -37,22 +37,26 @@ def load_data():
         """), conn)
         biometrics = pd.read_sql(text("SELECT * FROM biometrics ORDER BY date"), conn)
         running = pd.read_sql(text("SELECT * FROM running_sessions ORDER BY date"), conn)
-        goals = pd.read_sql(text("SELECT * FROM user_goals"), conn)
-        plans = pd.read_sql(text("SELECT * FROM training_plans"), conn)
+        goals = pd.read_sql(text("SELECT DISTINCT ON (user_id, goal_type) * FROM user_goals ORDER BY user_id, goal_type, id"), conn)
+        plans = pd.read_sql(text("SELECT * FROM training_plans ORDER BY id"), conn)
         users = pd.read_sql(text("SELECT id, name FROM users"), conn)
         foods = pd.read_sql(text("SELECT * FROM foods"), conn)
-        nutrition_goals = pd.read_sql(text("SELECT * FROM nutrition_goals"), conn)
-        challenges = pd.read_sql(text("SELECT * FROM challenges"), conn)
+        nutrition_goals = pd.read_sql(text("SELECT DISTINCT ON (user_id) * FROM nutrition_goals ORDER BY user_id, id"), conn)
+        challenges = pd.read_sql(text("SELECT DISTINCT ON (name) * FROM challenges ORDER BY name, id"), conn)
         leaderboard = pd.read_sql(text("SELECT l.*, u.name FROM leaderboard l JOIN users u ON l.user_id = u.id ORDER BY points DESC"), conn)
-        ai_insights = pd.read_sql(text("SELECT * FROM ai_insights ORDER BY created_at DESC"), conn)
+        ai_insights = pd.read_sql(text("SELECT DISTINCT ON (title) * FROM ai_insights ORDER BY title, created_at DESC"), conn)
         streaks = pd.read_sql(text("SELECT us.*, u.name FROM user_streaks us JOIN users u ON us.user_id = u.id"), conn)
         achievements = pd.read_sql(text("""
-            SELECT ua.*, a.name AS achievement_name, a.description
+            SELECT DISTINCT ON (ua.user_id, a.name)
+            ua.user_id, ua.id,
+            a.name AS achievement_name, a.description,
+            a.requirement_type, a.requirement_value 
             FROM user_achievements ua
             JOIN achievements a ON ua.achievement_id = a.id
+            ORDER BY ua.user_id, a.name, ua.id
         """), conn)
         notifications = pd.read_sql(text("SELECT * FROM notifications ORDER BY created_at DESC"), conn)
-        health_calc = pd.read_sql(text("SELECT * FROM health_calculations ORDER BY date DESC"), conn)
+        health_calc = pd.read_sql(text("SELECT DISTINCT ON (user_id) * FROM health_calculations ORDER BY user_id, date DESC"), conn)
     return (sessions, exercises, records, recovery, recommendations, biometrics,
             running, goals, plans, users, foods, nutrition_goals, challenges,
             leaderboard, ai_insights, streaks, achievements, notifications, health_calc)
@@ -62,7 +66,7 @@ def load_data():
  leaderboard, ai_insights, streaks, achievements, notifications, health_calc) = load_data()
 
 with st.sidebar:
-    st.title("HealthApp 🏋️")
+    st.title("HealthApp")
     st.markdown("---")
     selected_lang_name = st.selectbox(
         "🌍 Language / Språk / اللغة",
@@ -118,9 +122,6 @@ goal_colors = {
     'hålla_sig_i_form': '#7F77DD', 'öka_kondition': '#E040FB'
 }
 
-# ================================
-# OVERVIEW
-# ================================
 if page == t("overview", lang):
     st.title(t("overview_title", lang))
     st.markdown(t("overview_subtitle", lang))
@@ -193,9 +194,6 @@ if page == t("overview", lang):
             fig.update_layout(height=280)
             st.plotly_chart(fig, use_container_width=True)
 
-# ================================
-# TRAINING
-# ================================
 elif page == t("training", lang):
     st.title(t("training_title", lang))
     st.markdown("---")
@@ -238,9 +236,6 @@ elif page == t("training", lang):
         fig.update_layout(showlegend=False, coloraxis_showscale=False, height=300)
         st.plotly_chart(fig, use_container_width=True)
 
-# ================================
-# RUNNING
-# ================================
 elif page == t("running", lang):
     st.title(t("running_title", lang))
     st.markdown("---")
@@ -258,8 +253,7 @@ elif page == t("running", lang):
         col1, col2 = st.columns(2)
         with col1:
             fig = px.bar(running, x='date', y='distance_km',
-                color_discrete_sequence=['#1D9E75'],
-                title=t("distance_per_run", lang))
+                color_discrete_sequence=['#1D9E75'], title=t("distance_per_run", lang))
             fig.update_layout(height=300)
             st.plotly_chart(fig, use_container_width=True)
         with col2:
@@ -275,9 +269,6 @@ elif page == t("running", lang):
     else:
         st.info(t("no_running", lang))
 
-# ================================
-# BIOMETRICS
-# ================================
 elif page == t("biometrics", lang):
     st.title(t("biometrics_title", lang))
     st.markdown("---")
@@ -312,9 +303,6 @@ elif page == t("biometrics", lang):
     else:
         st.info(t("no_biometrics", lang))
 
-# ================================
-# RECOVERY
-# ================================
 elif page == t("recovery", lang):
     st.title(t("recovery_title", lang))
     st.markdown("---")
@@ -354,9 +342,6 @@ elif page == t("recovery", lang):
     else:
         st.info(t("no_recovery", lang))
 
-# ================================
-# NUTRITION
-# ================================
 elif page == t("nutrition", lang):
     st.title(t("nutrition_title", lang))
     st.markdown("---")
@@ -393,9 +378,6 @@ elif page == t("nutrition", lang):
             fig.update_layout(height=400, xaxis_tickangle=-45)
             st.plotly_chart(fig, use_container_width=True)
 
-# ================================
-# GOALS & PLANS
-# ================================
 elif page == t("goals_plans", lang):
     st.title(t("goals_title", lang))
     st.markdown("---")
@@ -415,10 +397,9 @@ elif page == t("goals_plans", lang):
             with col3:
                 days_left = (pd.to_datetime(row['deadline']) - pd.Timestamp.now()).days
                 st.metric(t("days_left", lang), max(0, days_left))
+    else:
+        st.info("No active goals found.")
 
-# ================================
-# TRAINING PROGRAMS
-# ================================
 elif page == t("training_programs", lang):
     st.title(t("programs_title", lang))
     st.markdown(t("programs_subtitle", lang))
@@ -435,9 +416,11 @@ elif page == t("training_programs", lang):
         filtered_plans = filtered_plans[filtered_plans['difficulty'] == level_filter]
     st.markdown(f"**{len(filtered_plans)} {t('programs_found', lang)}**")
     st.markdown("---")
-    goal_labels = {'bygga_muskler': 'Build Muscle', 'gå_ner_i_vikt': 'Lose Weight',
+    goal_labels = {
+        'bygga_muskler': 'Build Muscle', 'gå_ner_i_vikt': 'Lose Weight',
         'gå_upp_i_vikt': 'Gain Weight', 'löpning': 'Running',
-        'hålla_sig_i_form': 'Stay Fit', 'öka_kondition': 'Improve Cardio'}
+        'hålla_sig_i_form': 'Stay Fit', 'öka_kondition': 'Improve Cardio'
+    }
     cols = st.columns(3)
     for i, (_, plan) in enumerate(filtered_plans.iterrows()):
         with cols[i % 3]:
@@ -469,9 +452,6 @@ elif page == t("training_programs", lang):
     fig.update_layout(height=300, xaxis_tickangle=-20)
     st.plotly_chart(fig, use_container_width=True)
 
-# ================================
-# SOCIAL & CHALLENGES
-# ================================
 elif page == t("social_challenges", lang):
     st.title(t("social_challenges", lang))
     st.markdown("---")
@@ -491,6 +471,8 @@ elif page == t("social_challenges", lang):
                     </span>
                 </div>
                 """, unsafe_allow_html=True)
+        else:
+            st.info("No active challenges.")
     with col2:
         st.subheader("Leaderboard")
         if not leaderboard.empty:
@@ -500,9 +482,6 @@ elif page == t("social_challenges", lang):
             lb.columns = ['User', t('sessions', lang), 'Volume (kg)', t('total_steps', lang), 'Points']
             st.dataframe(lb, use_container_width=True)
 
-# ================================
-# ACHIEVEMENTS
-# ================================
 elif page == t("achievements", lang):
     st.title(t("achievements_title", lang))
     st.markdown(t("achievements_subtitle", lang))
@@ -524,17 +503,14 @@ elif page == t("achievements", lang):
             with cols[i % 3]:
                 st.markdown(f"""
                 <div style="border: 1px solid #378ADD; border-radius: 8px;
-                    padding: 12px; margin-bottom: 12px; background: #f0f7ff;">
-                    <strong>{ach['achievement_name']}</strong><br>
+                    padding: 14px; margin-bottom: 12px; background: #f0f7ff;">
+                    <strong style="font-size: 15px;">🏆 {ach['achievement_name']}</strong><br><br>
                     <span style="color: #555; font-size: 13px;">{ach['description']}</span>
                 </div>
                 """, unsafe_allow_html=True)
     else:
         st.info(t("no_achievements", lang))
 
-# ================================
-# HEALTH CALCULATOR
-# ================================
 elif page == t("health_calculator", lang):
     st.title(t("calculator_title", lang))
     st.markdown(t("calculator_subtitle", lang))
@@ -561,17 +537,20 @@ elif page == t("health_calculator", lang):
         col1, col2, col3 = st.columns(3)
         with col1:
             fig = go.Figure(go.Indicator(mode="gauge+number", value=float(hc['protein_target_g']),
-                title={'text': f"{t('protein', lang)} (g)"}, gauge={'axis': {'range': [0, 300]}, 'bar': {'color': '#378ADD'}}))
+                title={'text': f"{t('protein', lang)} (g)"},
+                gauge={'axis': {'range': [0, 300]}, 'bar': {'color': '#378ADD'}}))
             fig.update_layout(height=250)
             st.plotly_chart(fig, use_container_width=True)
         with col2:
             fig = go.Figure(go.Indicator(mode="gauge+number", value=float(hc['carbs_target_g']),
-                title={'text': f"{t('carbs', lang)} (g)"}, gauge={'axis': {'range': [0, 500]}, 'bar': {'color': '#EF9F27'}}))
+                title={'text': f"{t('carbs', lang)} (g)"},
+                gauge={'axis': {'range': [0, 500]}, 'bar': {'color': '#EF9F27'}}))
             fig.update_layout(height=250)
             st.plotly_chart(fig, use_container_width=True)
         with col3:
             fig = go.Figure(go.Indicator(mode="gauge+number", value=float(hc['fat_target_g']),
-                title={'text': f"{t('fat', lang)} (g)"}, gauge={'axis': {'range': [0, 200]}, 'bar': {'color': '#D85A30'}}))
+                title={'text': f"{t('fat', lang)} (g)"},
+                gauge={'axis': {'range': [0, 200]}, 'bar': {'color': '#D85A30'}}))
             fig.update_layout(height=250)
             st.plotly_chart(fig, use_container_width=True)
     st.markdown("---")
@@ -605,9 +584,6 @@ elif page == t("health_calculator", lang):
             st.metric(t("daily_calories", lang), f"{calories:,.0f} kcal")
         st.success(f"{t('protein', lang)}: {protein:.0f}g | {t('carbs', lang)}: {carbs:.0f}g | {t('fat', lang)}: {fat:.0f}g")
 
-# ================================
-# AI INSIGHTS
-# ================================
 elif page == t("ai_insights", lang):
     st.title(t("insights_title", lang))
     st.markdown(t("insights_subtitle", lang))
@@ -623,9 +599,6 @@ elif page == t("ai_insights", lang):
     else:
         st.info(t("no_insights", lang))
 
-# ================================
-# RECOMMENDATIONS
-# ================================
 elif page == t("recommendations", lang):
     st.title(t("recs_title", lang))
     st.markdown(t("recs_subtitle", lang))
