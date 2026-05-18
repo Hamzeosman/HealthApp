@@ -24,6 +24,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddDbContext<DataDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DataConnection")));
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
