@@ -831,3 +831,53 @@ INSERT INTO health_calculations (
     24.7, 'Normal weight', 1894.0, 2936.7, 'moderately_active',
     180.0, 330.0, 98.0, 2937
 );
+
+-- =====================
+-- PULSZONER
+-- =====================
+CREATE TABLE IF NOT EXISTS heart_rate_zones (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    max_heart_rate INT,
+    zone1_min INT,  -- 50-60% -- Mycket lätt
+    zone1_max INT,
+    zone2_min INT,  -- 60-70% -- Lätt/Fettförbränning
+    zone2_max INT,
+    zone3_min INT,  -- 70-80% -- Aerob/Tempo
+    zone3_max INT,
+    zone4_min INT,  -- 80-90% -- Anaerob/Hård
+    zone4_max INT,
+    zone5_min INT,  -- 90-100% -- Max
+    zone5_max INT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- =====================
+-- LÖPPASS MED PULSZONER
+-- =====================
+ALTER TABLE running_sessions ADD COLUMN IF NOT EXISTS zone1_minutes INT DEFAULT 0;
+ALTER TABLE running_sessions ADD COLUMN IF NOT EXISTS zone2_minutes INT DEFAULT 0;
+ALTER TABLE running_sessions ADD COLUMN IF NOT EXISTS zone3_minutes INT DEFAULT 0;
+ALTER TABLE running_sessions ADD COLUMN IF NOT EXISTS zone4_minutes INT DEFAULT 0;
+ALTER TABLE running_sessions ADD COLUMN IF NOT EXISTS zone5_minutes INT DEFAULT 0;
+ALTER TABLE running_sessions ADD COLUMN IF NOT EXISTS target_zone INT;
+ALTER TABLE running_sessions ADD COLUMN IF NOT EXISTS target_pace_min_per_km DECIMAL(5,2);
+
+-- =====================
+-- SEED: PULSZONER FÖR TESTANVÄNDARE
+-- =====================
+INSERT INTO heart_rate_zones (
+    user_id, max_heart_rate,
+    zone1_min, zone1_max,
+    zone2_min, zone2_max,
+    zone3_min, zone3_max,
+    zone4_min, zone4_max,
+    zone5_min, zone5_max
+) VALUES (
+    1, 195,
+    98, 117,
+    117, 137,
+    137, 156,
+    156, 176,
+    176, 195
+) ON CONFLICT DO NOTHING;
