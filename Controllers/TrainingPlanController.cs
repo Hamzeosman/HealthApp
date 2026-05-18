@@ -31,5 +31,16 @@ namespace HealthApp.API.Controllers
             if (plan == null) return NotFound();
             return Ok(plan);
         }
+
+        [HttpGet("{id}/days")]
+        public async Task<IActionResult> GetPlanDays(int id)
+        {
+            var days = await _context.TrainingPlanDays
+            .Where(d => d.PlanId == id)
+            .OrderBy(d => d.WeekNumber)
+            .ThenBy(d => d.DayNumber)
+            .ToListAsync();
+            return Ok(days);
+        }
     }
 }
