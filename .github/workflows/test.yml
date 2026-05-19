@@ -2,9 +2,9 @@ name: Run Tests
 
 on:
   push:
-    branches: [ master, feature/* ]
+    branches: [master, feature/*]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test:
@@ -28,15 +28,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Set up Python 3.13
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'
+          python-version: "3.13"
 
       - name: Install dependencies
         run: |
-          cd data
-          pip install -r requirements.txt
+          pip install -r data/requirements.txt
+
+      - name: Set up database
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
+        run: |
+          psql $DATABASE_URL -f data/database/schema.sql
 
       - name: Run tests
         env:
