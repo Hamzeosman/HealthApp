@@ -21,7 +21,7 @@ def load_all_clients():
         clients = pd.read_sql(text("""
             SELECT
                 u.id, u.name, u.email, u.age, u.weight_kg, u.height_cm,
-                u.fitness_level, u.goal, u.experience_level, u.created_at,
+                u.fitness_level, u.fitness_goal, u.experience_level, u.created_at,
                 COUNT(DISTINCT ws.id) AS total_sessions,
                 MAX(ws.date) AS last_session,
                 AVG(we.rpe) AS avg_rpe,
@@ -30,7 +30,7 @@ def load_all_clients():
             LEFT JOIN workout_sessions ws ON u.id = ws.user_id
             LEFT JOIN workout_exercises we ON ws.id = we.session_id
             GROUP BY u.id, u.name, u.email, u.age, u.weight_kg,
-                     u.height_cm, u.fitness_level, u.goal,
+                     u.height_cm, u.fitness_level, u.fitness_goal,
                      u.experience_level, u.created_at
             ORDER BY total_sessions DESC
         """), conn)
@@ -130,7 +130,7 @@ if page == "Client Overview":
 
     # Client table with color coding
     st.subheader("Client list")
-    display = clients[['name', 'email', 'fitness_level', 'goal',
+    display = clients[['name', 'email', 'fitness_level', 'fitness_goal',
                        'total_sessions', 'last_session', 'avg_rpe']].copy()
     display.columns = ['Name', 'Email', 'Level', 'Goal',
                        'Sessions', 'Last Session', 'Avg RPE']
@@ -155,8 +155,8 @@ if page == "Client Overview":
 
     with col2:
         st.subheader("Client goals distribution")
-        if not clients.empty and clients['goal'].notna().any():
-            goal_counts = clients['goal'].value_counts().reset_index()
+        if not clients.empty and clients['fitness_goal'].notna().any():
+            goal_counts = clients['fitness_goal'].value_counts().reset_index()
             goal_counts.columns = ['Goal', 'Count']
             goal_counts['Goal'] = goal_counts['Goal'].str.replace('_', ' ').str.title()
             fig = px.pie(
@@ -187,7 +187,7 @@ elif page == "Client Detail":
             st.subheader(client['name'])
             st.write(f"Email: {client['email']}")
             st.write(f"Level: {client['fitness_level']}")
-            st.write(f"Goal: {str(client['goal']).replace('_', ' ')}")
+            st.write(f"Goal: {str(client['fitness_goal']).replace('_', ' ')}")
         with col2:
             st.metric("Total sessions", client['total_sessions'])
             st.metric("Last session", str(client['last_session'])[:10] if client['last_session'] else "Never")
@@ -290,10 +290,13 @@ elif page == "Muscle Balance Analysis":
             )
             fig = px.imshow(
                 pivot, color_continuous_scale='Blues',
-                labels={'color': 'Exercises'},
-                title='Exercises per muscle group per client'
+                labels={'color': 'Exercises', 'x': '', 'y': ''},
+                title='Exercises per muscle group per client',
+                aspect='auto'
             )
-            fig.update_layout(height=350)
+            fig.update_layout(height=380,
+                xaxis_tickangle=0,
+                margin=dict(l=120, r=20, t=60, b=20))
             st.plotly_chart(fig, use_container_width=True)
 
         st.markdown("---")
@@ -401,8 +404,11 @@ elif page == "Progress Tracking":
                 st.subheader("Weekly volume")
                 fig = px.bar(volume_data, x='week', y='volume',
                     color_discrete_sequence=['#378ADD'],
-                    labels={'week': 'Week', 'volume': 'Volume (kg)'})
-                fig.update_layout(height=300)
+                    labels={'week': '', 'volume': 'Volume (kg)'},
+                    hover_data={'volume': ':.0f'})
+                fig.update_layout(height=300, xaxis_tickangle=-30,
+                    yaxis_title='Volume (kg)', xaxis_title='',
+                    bargap=0.2)
                 st.plotly_chart(fig, use_container_width=True)
             with col2:
                 st.subheader("RPE trend")
@@ -411,7 +417,8 @@ elif page == "Progress Tracking":
                     labels={'week': 'Week', 'avg_rpe': 'Avg RPE'})
                 fig.add_hline(y=8, line_dash="dash", line_color="orange",
                     annotation_text="RPE 8 target")
-                fig.update_layout(height=300)
+                fig.update_layout(height=300, xaxis_tickangle=-30,
+                    yaxis_range=[5, 10], xaxis_title='')
                 st.plotly_chart(fig, use_container_width=True)
 
         if not pr_data.empty:
