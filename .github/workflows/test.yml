@@ -34,14 +34,20 @@ jobs:
           python-version: "3.13"
 
       - name: Install dependencies
-        run: |
-          pip install -r data/requirements.txt
+        run: pip install -r data/requirements.txt
 
-      - name: Set up database
+      - name: Set up database schema
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
+        run: psql $DATABASE_URL -f data/database/schema.sql
+
+      - name: Seed test data
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
         run: |
-          psql $DATABASE_URL -f data/database/schema.sql
+          cd data
+          python pipelines/seed_test_data.py
+          python pipelines/seed_exercises.py
 
       - name: Run tests
         env:
