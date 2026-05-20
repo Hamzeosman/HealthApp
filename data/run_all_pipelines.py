@@ -18,14 +18,14 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 sys.path.insert(0, os.path.dirname(__file__))
 
-from core.users import get_all_users
+from core.repositories.users_repo import get_all_users
 
 def safe_run_for_all_users(pipeline_name, func):
     """Kor en funktion per user med error isolation."""
     users = get_all_users()
     success_count = 0
     fail_count = 0
-    for user_id, name, fitness_level, fitness_goal in users:
+    for user_id, name, fitness_level, fitness_goal, *_ in users:
         try:
             func(user_id, name)
             success_count += 1

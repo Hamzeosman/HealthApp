@@ -2,20 +2,16 @@ from sqlalchemy import text
 from core.db import engine
 
 def get_all_users():
-    """Alla användare."""
     with engine.connect() as conn:
-        result = conn.execute(text(
+        return conn.execute(text(
             "SELECT id, name, fitness_level, fitness_goal, role FROM users"
-        ))
-        return result.fetchall()
+        )).fetchall()
 
-def get_users_by_role(role):
-    """Hämtar användare per roll: user / pt / admin."""
+def get_users_by_role(role: str):
     with engine.connect() as conn:
-        result = conn.execute(text(
+        return conn.execute(text(
             "SELECT id, name, fitness_level, fitness_goal, role FROM users WHERE role = :role"
-        ), {"role": role})
-        return result.fetchall()
+        ), {"role": role}).fetchall()
 
 def get_pts():
     return get_users_by_role("pt")
@@ -25,3 +21,9 @@ def get_regular_users():
 
 def get_admins():
     return get_users_by_role("admin")
+
+def get_user_by_id(user_id: int):
+    with engine.connect() as conn:
+        return conn.execute(text(
+            "SELECT id, name, fitness_level, fitness_goal, role FROM users WHERE id = :uid"
+        ), {"uid": user_id}).fetchone()
