@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HealthApp.API.Models;
+using HealthApp.API.Helpers;
 
 namespace HealthApp.API.Controllers
 {
@@ -20,7 +20,11 @@ namespace HealthApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
             var sessions = await _context.WorkoutSessions
+                .Where(s => s.UserId == userId)
                 .OrderByDescending(s => s.Date)
                 .ToListAsync();
             return Ok(sessions);
@@ -29,7 +33,11 @@ namespace HealthApp.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var session = await _context.WorkoutSessions.FindAsync(id);
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
+            var session = await _context.WorkoutSessions
+                .FirstOrDefaultAsync(s => s.Id == id && s.UserId == userId);
             if (session == null) return NotFound();
             return Ok(session);
         }

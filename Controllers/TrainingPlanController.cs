@@ -31,5 +31,40 @@ namespace HealthApp.API.Controllers
             if (plan == null) return NotFound();
             return Ok(plan);
         }
+
+        [HttpGet("{id}/days")]
+        public async Task<IActionResult> GetPlanDays(int id)
+        {
+            var days = await _context.TrainingPlanDays
+                .Where(d => d.PlanId == id)
+                .OrderBy(d => d.WeekNumber)
+                .ThenBy(d => d.DayNumber)
+                .ToListAsync();
+            return Ok(days);
+        }
+
+        [HttpGet("days/{dayId}/exercises")]
+public async Task<IActionResult> GetDayExercises(int dayId)
+{
+    var exercises = await (from tpe in _context.TrainingPlanExercises
+                           join ex in _context.Exercises on tpe.ExerciseId equals ex.Id
+                           where tpe.PlanDayId == dayId
+                           orderby tpe.OrderIndex
+                           select new
+                           {
+                               tpe.Id,
+                               tpe.ExerciseId,
+                               ExerciseName = ex.Name,
+                               ex.Difficulty,
+                               ex.ExerciseType,
+                               tpe.Sets,
+                               tpe.Reps,
+                               tpe.RestSeconds,
+                               tpe.Intensity,
+                               tpe.Notes,
+                               tpe.OrderIndex
+                           }).ToListAsync();
+    return Ok(exercises);
+}
     }
 }
