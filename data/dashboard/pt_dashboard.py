@@ -28,6 +28,7 @@ def load_all_clients():
                 SUM(we.sets * we.reps * COALESCE(we.weight_kg, 0)) AS total_volume
             FROM users u
             LEFT JOIN workout_sessions ws ON u.id = ws.user_id
+            WHERE u.role = 'user'
             LEFT JOIN workout_exercises we ON ws.id = we.session_id
             GROUP BY u.id, u.name, u.email, u.age, u.weight_kg,
                      u.height_cm, u.fitness_level, u.fitness_goal,
