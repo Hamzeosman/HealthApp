@@ -1,17 +1,13 @@
 #!/bin/bash
-CD_PATH="/Users/abdulrahmanfahmi/Documents/egna projekt/HealthApp/HealthApp/data"
-UV="/opt/homebrew/bin/uv"
-LOG="$CD_PATH/pipeline.log"
+# HealthApp Training Intelligence Platform
+# Entry point — all logic hanteras av run_all_pipelines.py
 
-echo "$(date) - Startar pipeline..." >> "$LOG"
+echo "Starting HealthApp Intelligence Engine..."
+echo "$(date '+%Y-%m-%d %H:%M:%S')"
+echo "=================================="
 
-cd "$CD_PATH" || { echo "$(date) - Kunde inte hitta mappen!" >> "$LOG"; exit 1; }
+export PYTHONPATH=.
+uv run run_all_pipelines.py
 
-$UV run pipelines/recommendation_pipeline.py
-$UV run pipelines/analysis.py
-$UV run pipelines/progression_pipeline.py
-$UV run pipelines/personal_records_pipeline.py
-$UV run pipelines/weekly_report_pipeline.py
-$UV run pipelines/streak_pipeline.py
-
-echo "$(date) - Pipeline klar!" >> "$LOG"
+echo "=================================="
+echo "Done!"

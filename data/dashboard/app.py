@@ -18,21 +18,31 @@ st.set_page_config(page_title="HealthApp Dashboard", page_icon="🏋️", layout
 def load_data():
     with engine.connect() as conn:
         sessions = pd.read_sql(text("SELECT ws.*, u.name AS user_name FROM workout_sessions ws JOIN users u ON ws.user_id = u.id"), conn)
+        # FIX: equipment_name tillagd i exercises
         exercises = pd.read_sql(text("""
-            SELECT we.*, e.name AS exercise_name, bp.name AS body_part,
-                e.difficulty, e.calories_per_minute, ws.date, ws.user_id
+            SELECT we.*,
+                e.name AS exercise_name,
+                bp.name AS body_part,
+                eq.name AS equipment_name,
+                e.difficulty,
+                e.calories_per_minute,
+                ws.date,
+                ws.user_id
             FROM workout_exercises we
             JOIN exercises e ON we.exercise_id = e.id
             JOIN body_parts bp ON e.body_part_id = bp.id
+            LEFT JOIN equipment eq ON e.equipment_id = eq.id
             JOIN workout_sessions ws ON we.session_id = ws.id
         """), conn)
         records = pd.read_sql(text("SELECT pr.*, e.name AS exercise_name FROM personal_records pr JOIN exercises e ON pr.exercise_id = e.id"), conn)
         recovery = pd.read_sql(text("SELECT * FROM recovery_logs ORDER BY date"), conn)
         recommendations = pd.read_sql(text("""
-            SELECT r.*, e.name AS exercise_name, bp.name AS body_part
+            SELECT r.*, e.name AS exercise_name, bp.name AS body_part,
+                eq.name AS equipment_name
             FROM recommendations r
             JOIN exercises e ON r.exercise_id = e.id
             JOIN body_parts bp ON e.body_part_id = bp.id
+            LEFT JOIN equipment eq ON e.equipment_id = eq.id
             ORDER BY score DESC
         """), conn)
         biometrics = pd.read_sql(text("SELECT * FROM biometrics ORDER BY date"), conn)
@@ -56,11 +66,19 @@ def load_data():
         achievements = pd.read_sql(text("""
             SELECT DISTINCT ON (ua.user_id, a.name)
                 ua.user_id, ua.id,
-                a.name AS achievement_name, a.description,
+                a.name AS achievement_name, a.description, a.icon,
                 a.requirement_type, a.requirement_value
             FROM user_achievements ua
             JOIN achievements a ON ua.achievement_id = a.id
             ORDER BY ua.user_id, a.name, ua.id
+        """), conn)
+        all_achievements = pd.read_sql(text("""
+            SELECT a.*,
+                CASE WHEN ua.user_id IS NOT NULL THEN TRUE ELSE FALSE END AS unlocked,
+                ua.achieved_at
+            FROM achievements a
+            LEFT JOIN user_achievements ua ON a.id = ua.achievement_id AND ua.user_id = 1
+            ORDER BY unlocked DESC, a.requirement_value ASC
         """), conn)
         notifications = pd.read_sql(text("SELECT * FROM notifications ORDER BY created_at DESC"), conn)
         health_calc = pd.read_sql(text("SELECT DISTINCT ON (user_id) * FROM health_calculations ORDER BY user_id, date DESC"), conn)
@@ -72,17 +90,63 @@ def load_data():
             JOIN users u ON af.user_id = u.id
             ORDER BY af.created_at DESC LIMIT 20
         """), conn)
+        hr_zones = pd.read_sql(text("SELECT * FROM heart_rate_zones"), conn)
+        friendships = pd.read_sql(text("""
+            SELECT f.*, u1.name AS user_name, u2.name AS friend_name
+            FROM friendships f
+            JOIN users u1 ON f.user_id = u1.id
+            JOIN users u2 ON f.friend_id = u2.id
+            WHERE f.status = 'accepted'
+        """), conn)
+        streak_rewards = pd.read_sql(text("""
+            SELECT sr.*, u.name FROM streak_rewards sr
+            JOIN users u ON sr.user_id = u.id
+            ORDER BY sr.achieved_at DESC
+        """), conn)
+        intensity_log = pd.read_sql(text("SELECT * FROM workout_intensity_log ORDER BY year, week_number"), conn)
+        plan_days = pd.read_sql(text("""
+            SELECT tpd.*, tp.name AS plan_name, tp.goal
+            FROM training_plan_days tpd
+            JOIN training_plans tp ON tpd.plan_id = tp.id
+            ORDER BY tpd.plan_id, tpd.week_number, tpd.day_number
+        """), conn)
+        plan_exercises = pd.read_sql(text("""
+            SELECT tpe.*, e.name AS exercise_name, bp.name AS body_part,
+                eq.name AS equipment_name, e.difficulty
+            FROM training_plan_exercises tpe
+            JOIN exercises e ON tpe.exercise_id = e.id
+            JOIN body_parts bp ON e.body_part_id = bp.id
+            LEFT JOIN equipment eq ON e.equipment_id = eq.id
+            ORDER BY tpe.plan_day_id, tpe.order_index
+        """), conn)
+        equipment = pd.read_sql(text("SELECT DISTINCT id, name FROM equipment ORDER BY name"), conn)
+        challenge_participants = pd.read_sql(text("""
+            SELECT cp.*, u.name AS user_name, c.name AS challenge_name
+            FROM challenge_participants cp
+            JOIN users u ON cp.user_id = u.id
+            JOIN challenges c ON cp.challenge_id = c.id
+            ORDER BY cp.challenge_id, cp.current_value DESC
+        """), conn)
+
+    if not challenge_participants.empty and 'challenge_id' in challenge_participants.columns:
+        challenge_participants['rank'] = challenge_participants.groupby('challenge_id')['current_value'].rank(
+            ascending=False, method='min').astype(int)
+
     return (sessions, exercises, records, recovery, recommendations, biometrics,
             running, goals, plans, users, foods, nutrition_goals, meal_logs,
             challenges, leaderboard, ai_insights, streaks, achievements,
             notifications, health_calc, body_measurements,
-            user_progress, activity_feed)
+            user_progress, activity_feed, hr_zones, friendships,
+            streak_rewards, intensity_log, plan_days, plan_exercises,
+            equipment, challenge_participants, all_achievements)
 
 (sessions, exercises, records, recovery, recommendations, biometrics,
  running, goals, plans, users, foods, nutrition_goals, meal_logs,
  challenges, leaderboard, ai_insights, streaks, achievements,
  notifications, health_calc, body_measurements,
- user_progress, activity_feed) = load_data()
+ user_progress, activity_feed, hr_zones, friendships,
+ streak_rewards, intensity_log, plan_days, plan_exercises,
+ equipment, challenge_participants, all_achievements) = load_data()
 
 with st.sidebar:
     st.title("HealthApp 🏋️")
@@ -115,6 +179,15 @@ with st.sidebar:
         body_measurements = body_measurements[body_measurements['user_id'] == user_id]
         user_progress = user_progress[user_progress['user_id'] == user_id]
         activity_feed = activity_feed[activity_feed['user_id'] == user_id]
+        hr_zones = hr_zones[hr_zones['user_id'] == user_id]
+        friendships = friendships[friendships['user_id'] == user_id]
+        streak_rewards = streak_rewards[streak_rewards['user_id'] == user_id]
+        intensity_log = intensity_log[intensity_log['user_id'] == user_id] if 'user_id' in intensity_log.columns else intensity_log
+        challenge_participants = challenge_participants[challenge_participants['user_id'] == user_id]
+        all_achievements_filtered = all_achievements
+    else:
+        all_achievements_filtered = all_achievements
+
     st.markdown("---")
     if not streaks.empty:
         s = streaks.iloc[0]
@@ -145,6 +218,14 @@ goal_colors = {
     'hålla_sig_i_form': '#7F77DD', 'öka_kondition': '#E040FB'
 }
 
+equipment_icons = {
+    "Hantlar": "🏋️", "Kettlebell": "⚫", "Skivstång": "🏋️‍♂️",
+    "Kroppsvikt": "🤸", "Kabelmaskin": "🔗", "Resistansband": "🪢"
+}
+
+# =====================================================================
+# OVERVIEW
+# =====================================================================
 if page == t("overview", lang):
     st.title(t("overview_title", lang))
     st.markdown(t("overview_subtitle", lang))
@@ -218,8 +299,7 @@ if page == t("overview", lang):
             fig = px.bar(weekly_vol, x='week', y='volume',
                 color_discrete_sequence=['#378ADD'],
                 labels={'week': '', 'volume': 'Volume (kg)'})
-            fig.update_layout(height=280, xaxis_tickangle=-30,
-                margin=dict(l=0, r=0, t=30, b=0))
+            fig.update_layout(height=280, xaxis_tickangle=-30, margin=dict(l=0, r=0, t=30, b=0))
             st.plotly_chart(fig, use_container_width=True)
     if not activity_feed.empty:
         st.markdown("---")
@@ -227,6 +307,9 @@ if page == t("overview", lang):
         for _, act in activity_feed.head(5).iterrows():
             st.info(f"**{act['user_name']}** — {act['description']}")
 
+# =====================================================================
+# TRAINING — Fullt utrustningsfilter med analytics
+# =====================================================================
 elif page == t("training", lang):
     st.title(t("training_title", lang))
     st.markdown("---")
@@ -241,29 +324,134 @@ elif page == t("training", lang):
     with col4:
         avg_rpe = exercises['rpe'].mean() if not exercises.empty else 0
         st.metric(t("avg_rpe", lang), f"{avg_rpe:.1f}/10")
+
     st.markdown("---")
+
+    # ── Equipment Cards ──────────────────────────────────────────────
+    if not exercises.empty and 'equipment_name' in exercises.columns:
+        st.subheader("🏋️ Equipment Overview")
+        equip_stats = exercises.groupby('equipment_name').agg(
+            sessions=('session_id', 'nunique'),
+            volume=('weight_kg', lambda x: (
+                exercises.loc[x.index, 'sets'] *
+                exercises.loc[x.index, 'reps'] *
+                x.fillna(0)
+            ).sum())
+        ).reset_index().sort_values('volume', ascending=False)
+
+        cols = st.columns(min(len(equip_stats), 4))
+        for i, (_, row) in enumerate(equip_stats.iterrows()):
+            with cols[i % 4]:
+                icon = equipment_icons.get(row['equipment_name'], "🏅")
+                st.markdown(f"""
+                <div style="text-align:center; padding:12px; border-radius:10px;
+                    border:1px solid #444; margin-bottom:10px;">
+                    <div style="font-size:26px;">{icon}</div>
+                    <div style="font-weight:600; font-size:13px;">{row['equipment_name']}</div>
+                    <div style="font-size:11px; color:#888;">{int(row['sessions'])} sessions</div>
+                    <div style="font-size:11px; color:#378ADD;">{row['volume']:,.0f} kg</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # ── Multiselect filter ───────────────────────────────────────────
+    if not equipment.empty and not exercises.empty:
+        available_equip = sorted(exercises['equipment_name'].dropna().unique().tolist())
+        selected_equips = st.multiselect(
+            "🏋️ Filter by equipment (select one or more)",
+            options=available_equip,
+            default=[]
+        )
+        if selected_equips:
+            exercises_filtered = exercises[exercises['equipment_name'].isin(selected_equips)].copy()
+        else:
+            exercises_filtered = exercises.copy()
+    else:
+        exercises_filtered = exercises.copy()
+        selected_equips = []
+
+    # ── Equipment Analytics (visas bara när filter är valt) ──────────
+    if selected_equips and not exercises_filtered.empty:
+        label = ", ".join([f"{equipment_icons.get(e,'🏋️')} {e}" for e in selected_equips])
+        st.markdown(f"### {label}")
+        exercises_filtered['volume'] = (
+            exercises_filtered['sets'] *
+            exercises_filtered['reps'] *
+            exercises_filtered['weight_kg'].fillna(0)
+        )
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("Unique exercises", exercises_filtered['exercise_name'].nunique())
+        with col2:
+            st.metric("Total volume", f"{exercises_filtered['volume'].sum():,.0f} kg")
+        with col3:
+            top_ex = exercises_filtered['exercise_name'].value_counts().idxmax()
+            st.metric("Top exercise", top_ex)
+        with col4:
+            avg_rpe_f = exercises_filtered['rpe'].mean()
+            st.metric("Avg RPE", f"{avg_rpe_f:.1f}")
+
+        col1, col2 = st.columns(2)
+        with col1:
+            # Top övningar
+            top_exs = exercises_filtered['exercise_name'].value_counts().head(10).reset_index()
+            top_exs.columns = ['Exercise', 'Count']
+            fig = px.bar(top_exs, x='Count', y='Exercise', orientation='h',
+                color='Count', color_continuous_scale='Blues',
+                title=f"Top exercises — {', '.join(selected_equips)}")
+            fig.update_layout(height=320, showlegend=False, coloraxis_showscale=False)
+            st.plotly_chart(fig, use_container_width=True)
+        with col2:
+            # Muskelgrupper per equipment
+            muscles = exercises_filtered.groupby('body_part').size().reset_index(name='count')
+            muscles = muscles.sort_values('count', ascending=True)
+            fig = px.bar(muscles, x='count', y='body_part', orientation='h',
+                color='count', color_continuous_scale='Greens',
+                title="Muscle groups trained",
+                labels={'count': 'Sets', 'body_part': ''})
+            fig.update_layout(height=320, showlegend=False, coloraxis_showscale=False)
+            st.plotly_chart(fig, use_container_width=True)
+
+        # Volym per vecka för valt equipment
+        exercises_filtered['week'] = pd.to_datetime(exercises_filtered['date']).dt.strftime('%Y-W%W')
+        weekly_equip = exercises_filtered.groupby('week')['volume'].sum().reset_index()
+        fig = px.bar(weekly_equip, x='week', y='volume',
+            color_discrete_sequence=['#7F77DD'],
+            title=f"Weekly volume — {', '.join(selected_equips)}",
+            labels={'week': '', 'volume': 'kg'})
+        fig.update_layout(height=260, xaxis_tickangle=-30)
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.markdown("---")
+
+    # ── Vanliga grafer (filtrerade) ──────────────────────────────────
     col1, col2 = st.columns(2)
     with col1:
         st.subheader(t("volume_per_week", lang))
-        if not exercises.empty:
-            exercises['week'] = pd.to_datetime(exercises['date']).dt.strftime('%Y-W%W')
-            exercises['volume'] = exercises['sets'] * exercises['reps'] * exercises['weight_kg'].fillna(0)
-            weekly_vol = exercises.groupby('week')['volume'].sum().reset_index()
+        if not exercises_filtered.empty:
+            exercises_filtered['week'] = pd.to_datetime(exercises_filtered['date']).dt.strftime('%Y-W%W')
+            exercises_filtered['volume'] = (
+                exercises_filtered['sets'] *
+                exercises_filtered['reps'] *
+                exercises_filtered['weight_kg'].fillna(0)
+            )
+            weekly_vol = exercises_filtered.groupby('week')['volume'].sum().reset_index()
             fig = px.bar(weekly_vol, x='week', y='volume',
-                color_discrete_sequence=['#378ADD'],
-                labels={'week': '', 'volume': 'kg'})
+                color_discrete_sequence=['#378ADD'], labels={'week': '', 'volume': 'kg'})
             fig.update_layout(height=300, xaxis_tickangle=-30)
             st.plotly_chart(fig, use_container_width=True)
     with col2:
         st.subheader(t("top_exercises_rpe", lang))
-        if not exercises.empty:
-            top = exercises.groupby('exercise_name')['rpe'].mean().reset_index()
+        if not exercises_filtered.empty:
+            top = exercises_filtered.groupby('exercise_name')['rpe'].mean().reset_index()
             top = top.sort_values('rpe', ascending=True).tail(8)
             fig = px.bar(top, x='rpe', y='exercise_name', orientation='h',
                 color='rpe', color_continuous_scale='RdYlGn_r',
                 labels={'rpe': 'Avg RPE', 'exercise_name': ''})
             fig.update_layout(showlegend=False, coloraxis_showscale=False, height=300)
             st.plotly_chart(fig, use_container_width=True)
+
     st.subheader(t("personal_records", lang))
     if not records.empty:
         fig = px.bar(records.sort_values('weight_kg', ascending=True),
@@ -272,30 +460,57 @@ elif page == t("training", lang):
             labels={'weight_kg': 'Weight (kg)', 'exercise_name': ''})
         fig.update_layout(showlegend=False, coloraxis_showscale=False, height=250)
         st.plotly_chart(fig, use_container_width=True)
+
     if not user_progress.empty:
         st.markdown("---")
         st.subheader("📈 Progress tracking")
         up = user_progress.sort_values('date')
         col1, col2, col3 = st.columns(3)
         with col1:
-            fig = px.line(up, x='date', y='weight_kg',
-                markers=True, color_discrete_sequence=['#378ADD'],
-                title='Weight (kg)')
+            fig = px.line(up, x='date', y='weight_kg', markers=True,
+                color_discrete_sequence=['#378ADD'], title='Weight (kg)')
             fig.update_layout(height=220, margin=dict(t=40))
             st.plotly_chart(fig, use_container_width=True)
         with col2:
-            fig = px.line(up, x='date', y='body_fat_percentage',
-                markers=True, color_discrete_sequence=['#D85A30'],
-                title='Body fat %')
+            fig = px.line(up, x='date', y='body_fat_percentage', markers=True,
+                color_discrete_sequence=['#D85A30'], title='Body fat %')
             fig.update_layout(height=220, margin=dict(t=40))
             st.plotly_chart(fig, use_container_width=True)
         with col3:
-            fig = px.line(up, x='date', y='bicep_cm',
-                markers=True, color_discrete_sequence=['#1D9E75'],
-                title='Bicep (cm)')
+            fig = px.line(up, x='date', y='bicep_cm', markers=True,
+                color_discrete_sequence=['#1D9E75'], title='Bicep (cm)')
             fig.update_layout(height=220, margin=dict(t=40))
             st.plotly_chart(fig, use_container_width=True)
 
+    if not intensity_log.empty:
+        st.markdown("---")
+        st.subheader("📊 Weekly Intensity Log")
+        intensity_log['week_label'] = (
+            intensity_log['year'].astype(str) + '-W' +
+            intensity_log['week_number'].astype(str).str.zfill(2))
+        col1, col2 = st.columns(2)
+        with col1:
+            fig = go.Figure()
+            fig.add_trace(go.Bar(x=intensity_log['week_label'], y=intensity_log['total_volume_kg'],
+                name='Volume (kg)', marker_color='#378ADD'))
+            fig.update_layout(title='Weekly volume from intensity log', height=280, xaxis_tickangle=-30)
+            st.plotly_chart(fig, use_container_width=True)
+        with col2:
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=intensity_log['week_label'], y=intensity_log['avg_rpe'],
+                mode='lines+markers', name='Avg RPE', line=dict(color='#D85A30')))
+            fig.update_layout(title='Average RPE per week', height=280,
+                xaxis_tickangle=-30, yaxis=dict(range=[0, 10]))
+            st.plotly_chart(fig, use_container_width=True)
+        st.dataframe(
+            intensity_log[['week_label', 'total_sessions', 'total_volume_kg', 'avg_rpe', 'total_minutes']].rename(columns={
+                'week_label': 'Week', 'total_sessions': 'Sessions',
+                'total_volume_kg': 'Volume (kg)', 'avg_rpe': 'Avg RPE', 'total_minutes': 'Total min'}),
+            use_container_width=True)
+
+# =====================================================================
+# RUNNING
+# =====================================================================
 elif page == t("running", lang):
     st.title(t("running_title", lang))
     st.markdown("---")
@@ -312,12 +527,10 @@ elif page == t("running", lang):
         st.markdown("---")
         col1, col2 = st.columns(2)
         with col1:
-            # Aggregera per vecka för tydligare graf
             running['week'] = pd.to_datetime(running['date']).dt.strftime('%Y-W%W')
             weekly_run = running.groupby('week')['distance_km'].sum().reset_index()
             fig = px.bar(weekly_run, x='week', y='distance_km',
-                color_discrete_sequence=['#1D9E75'],
-                title=t("distance_per_run", lang),
+                color_discrete_sequence=['#1D9E75'], title=t("distance_per_run", lang),
                 labels={'week': '', 'distance_km': 'km'})
             fig.update_layout(height=300, xaxis_tickangle=-30)
             st.plotly_chart(fig, use_container_width=True)
@@ -341,22 +554,65 @@ elif page == t("running", lang):
             st.plotly_chart(fig, use_container_width=True)
         with col2:
             fig = px.scatter(running, x='distance_km', y='avg_pace_min_per_km',
-                color='avg_heart_rate', size='calories_burned',
-                title='Distance vs Pace',
+                color='avg_heart_rate', size='calories_burned', title='Distance vs Pace',
                 color_continuous_scale='RdYlGn_r',
                 labels={'distance_km': 'Distance (km)', 'avg_pace_min_per_km': 'Pace (min/km)'})
             fig.update_layout(height=280)
             st.plotly_chart(fig, use_container_width=True)
+
+        if not hr_zones.empty:
+            st.markdown("---")
+            st.subheader("❤️ Heart Rate Zones")
+            hz = hr_zones.iloc[0]
+            st.markdown(f"**Max heart rate:** {hz['max_heart_rate']} bpm")
+            zone_data = {
+                'Zone': ['Zone 1 — Very Easy', 'Zone 2 — Fat Burn', 'Zone 3 — Aerobic', 'Zone 4 — Anaerobic', 'Zone 5 — Max'],
+                'Range': [f"{hz['zone1_min']}–{hz['zone1_max']}", f"{hz['zone2_min']}–{hz['zone2_max']}",
+                          f"{hz['zone3_min']}–{hz['zone3_max']}", f"{hz['zone4_min']}–{hz['zone4_max']}",
+                          f"{hz['zone5_min']}–{hz['zone5_max']}"],
+                'Intensity': ['50–60%', '60–70%', '70–80%', '80–90%', '90–100%'],
+            }
+            colors = ['#5DCAA5', '#378ADD', '#EF9F27', '#D85A30', '#E24B4A']
+            zone_names = ['Z1 Very Easy', 'Z2 Fat Burn', 'Z3 Aerobic', 'Z4 Anaerobic', 'Z5 Max']
+            starts = [hz['zone1_min'], hz['zone2_min'], hz['zone3_min'], hz['zone4_min'], hz['zone5_min']]
+            widths = [hz['zone1_max']-hz['zone1_min'], hz['zone2_max']-hz['zone2_min'],
+                      hz['zone3_max']-hz['zone3_min'], hz['zone4_max']-hz['zone4_min'],
+                      hz['zone5_max']-hz['zone5_min']]
+            fig = go.Figure()
+            for name, color, start, width in zip(zone_names, colors, starts, widths):
+                fig.add_trace(go.Bar(name=name, x=[width], y=['Heart Rate'], orientation='h',
+                    base=[start], marker_color=color,
+                    text=f"{start}–{start+width} bpm", textposition='inside'))
+            fig.update_layout(barmode='stack', height=120, showlegend=True,
+                legend=dict(orientation='h', y=-0.5),
+                xaxis=dict(title='bpm', range=[0, hz['max_heart_rate'] + 10]),
+                margin=dict(t=10, b=60))
+            st.plotly_chart(fig, use_container_width=True)
+            st.dataframe(pd.DataFrame(zone_data)[['Zone', 'Range', 'Intensity']],
+                use_container_width=True, hide_index=True)
+            zone_cols = ['zone1_minutes', 'zone2_minutes', 'zone3_minutes', 'zone4_minutes', 'zone5_minutes']
+            if all(col in running.columns for col in zone_cols):
+                zone_totals = running[zone_cols].sum()
+                if zone_totals.sum() > 0:
+                    st.markdown("**Time spent per zone (all runs)**")
+                    fig = px.bar(x=['Z1','Z2','Z3','Z4','Z5'], y=zone_totals.values,
+                        color=['Z1','Z2','Z3','Z4','Z5'], color_discrete_sequence=colors,
+                        labels={'x': 'Zone', 'y': 'Minutes'}, title='Minutes per heart rate zone')
+                    fig.update_layout(height=250, showlegend=False)
+                    st.plotly_chart(fig, use_container_width=True)
+
         st.subheader(t("session_details", lang))
         st.dataframe(running[['date', 'distance_km', 'duration_minutes',
             'avg_pace_min_per_km', 'avg_heart_rate', 'calories_burned', 'route_type']].rename(columns={
             'distance_km': 'Distance (km)', 'duration_minutes': 'Duration (min)',
             'avg_pace_min_per_km': 'Pace (min/km)', 'avg_heart_rate': 'HR (bpm)',
-            'calories_burned': 'Calories', 'route_type': 'Route'}),
-            use_container_width=True)
+            'calories_burned': 'Calories', 'route_type': 'Route'}), use_container_width=True)
     else:
         st.info(t("no_running", lang))
 
+# =====================================================================
+# BIOMETRICS
+# =====================================================================
 elif page == t("biometrics", lang):
     st.title(t("biometrics_title", lang))
     st.markdown("---")
@@ -371,23 +627,16 @@ elif page == t("biometrics", lang):
         with col4:
             st.metric(t("avg_active_min", lang), f"{biometrics['active_minutes'].mean():.0f} min")
         st.markdown("---")
-        # Aggregera per vecka
         biometrics['week'] = pd.to_datetime(biometrics['date']).dt.strftime('%Y-W%W')
         weekly_bio = biometrics.groupby('week').agg({
-            'steps': 'mean',
-            'calories_burned': 'mean',
-            'heart_rate_resting': 'mean',
-            'heart_rate_avg': 'mean',
-            'active_minutes': 'mean'
-        }).reset_index()
+            'steps': 'mean', 'calories_burned': 'mean',
+            'heart_rate_resting': 'mean', 'heart_rate_avg': 'mean',
+            'active_minutes': 'mean'}).reset_index()
         col1, col2 = st.columns(2)
         with col1:
-            fig = px.bar(weekly_bio, x='week', y='steps',
-                color_discrete_sequence=['#378ADD'],
-                title=t("daily_steps", lang),
-                labels={'week': '', 'steps': 'Avg steps/day'})
-            fig.add_hline(y=10000, line_dash="dash", line_color="green",
-                annotation_text="Goal: 10,000")
+            fig = px.bar(weekly_bio, x='week', y='steps', color_discrete_sequence=['#378ADD'],
+                title=t("daily_steps", lang), labels={'week': '', 'steps': 'Avg steps/day'})
+            fig.add_hline(y=10000, line_dash="dash", line_color="green", annotation_text="Goal: 10,000")
             fig.update_layout(height=280, xaxis_tickangle=-30)
             st.plotly_chart(fig, use_container_width=True)
         with col2:
@@ -397,33 +646,26 @@ elif page == t("biometrics", lang):
             fig.add_trace(go.Scatter(x=weekly_bio['week'], y=weekly_bio['heart_rate_avg'],
                 name='Avg HR', mode='lines+markers', line=dict(color='#D85A30')))
             fig.update_layout(height=280, title=t("heart_rate", lang),
-                legend=dict(orientation='h', y=-0.2),
-                xaxis_tickangle=-30)
+                legend=dict(orientation='h', y=-0.2), xaxis_tickangle=-30)
             st.plotly_chart(fig, use_container_width=True)
         col1, col2 = st.columns(2)
         with col1:
-            fig = px.bar(weekly_bio, x='week', y='calories_burned',
-                color_discrete_sequence=['#EF9F27'],
-                title=t("calories_burned", lang),
-                labels={'week': '', 'calories_burned': 'Avg kcal/day'})
+            fig = px.bar(weekly_bio, x='week', y='calories_burned', color_discrete_sequence=['#EF9F27'],
+                title=t("calories_burned", lang), labels={'week': '', 'calories_burned': 'Avg kcal/day'})
             fig.update_layout(height=250, xaxis_tickangle=-30)
             st.plotly_chart(fig, use_container_width=True)
         with col2:
-            fig = px.bar(weekly_bio, x='week', y='active_minutes',
-                color_discrete_sequence=['#7F77DD'],
-                title='Active minutes per week',
-                labels={'week': '', 'active_minutes': 'Avg min/day'})
-            fig.add_hline(y=30, line_dash="dash", line_color="green",
-                annotation_text="Goal: 30 min")
+            fig = px.bar(weekly_bio, x='week', y='active_minutes', color_discrete_sequence=['#7F77DD'],
+                title='Active minutes per week', labels={'week': '', 'active_minutes': 'Avg min/day'})
+            fig.add_hline(y=30, line_dash="dash", line_color="green", annotation_text="Goal: 30 min")
             fig.update_layout(height=250, xaxis_tickangle=-30)
             st.plotly_chart(fig, use_container_width=True)
         if 'vo2_max' in biometrics.columns and biometrics['vo2_max'].notna().any():
             st.markdown("---")
             st.subheader("VO2 Max trend")
             weekly_vo2 = biometrics.groupby('week')['vo2_max'].mean().reset_index()
-            fig = px.line(weekly_vo2, x='week', y='vo2_max',
-                markers=True, color_discrete_sequence=['#7F77DD'],
-                title='VO2 Max (weekly avg)',
+            fig = px.line(weekly_vo2, x='week', y='vo2_max', markers=True,
+                color_discrete_sequence=['#7F77DD'], title='VO2 Max (weekly avg)',
                 labels={'week': '', 'vo2_max': 'VO2 Max'})
             fig.update_layout(height=250, xaxis_tickangle=-30)
             st.plotly_chart(fig, use_container_width=True)
@@ -432,11 +674,13 @@ elif page == t("biometrics", lang):
             st.subheader("📏 Body measurements")
             bm = body_measurements.drop_duplicates(subset=['date']).head(10)
             st.dataframe(bm[['date', 'weight_kg', 'body_fat_percentage',
-                'chest_cm', 'waist_cm', 'hips_cm', 'bicep_cm', 'thigh_cm']],
-                use_container_width=True)
+                'chest_cm', 'waist_cm', 'hips_cm', 'bicep_cm', 'thigh_cm']], use_container_width=True)
     else:
         st.info(t("no_biometrics", lang))
 
+# =====================================================================
+# RECOVERY
+# =====================================================================
 elif page == t("recovery", lang):
     st.title(t("recovery_title", lang))
     st.markdown("---")
@@ -451,13 +695,9 @@ elif page == t("recovery", lang):
         with col4:
             st.metric(t("avg_stress", lang), f"{recovery['stress_level'].mean():.1f}/10")
         st.markdown("---")
-        # Aggregera per vecka för tydligare graf
         recovery['week'] = pd.to_datetime(recovery['date']).dt.strftime('%Y-W%W')
         weekly_rec = recovery.groupby('week').agg({
-            'sleep_hours': 'mean',
-            'energy_level': 'mean',
-            'stress_level': 'mean'
-        }).reset_index()
+            'sleep_hours': 'mean', 'energy_level': 'mean', 'stress_level': 'mean'}).reset_index()
         fig = go.Figure()
         fig.add_trace(go.Bar(x=weekly_rec['week'], y=weekly_rec['sleep_hours'],
             name='Avg Sleep (h)', marker_color='#5DCAA5'))
@@ -465,11 +705,8 @@ elif page == t("recovery", lang):
             name='Avg Energy', marker_color='#378ADD'))
         fig.add_trace(go.Bar(x=weekly_rec['week'], y=weekly_rec['stress_level'],
             name='Avg Stress', marker_color='#D85A30'))
-        fig.update_layout(height=350, barmode='group',
-            legend=dict(orientation='h'),
-            title=t("recovery_trends", lang),
-            xaxis_tickangle=-30,
-            yaxis_title='Score (1-10)')
+        fig.update_layout(height=350, barmode='group', legend=dict(orientation='h'),
+            title=t("recovery_trends", lang), xaxis_tickangle=-30, yaxis_title='Score (1-10)')
         st.plotly_chart(fig, use_container_width=True)
         avg_sleep = recovery['sleep_hours'].mean()
         avg_energy = recovery['energy_level'].mean()
@@ -487,28 +724,27 @@ elif page == t("recovery", lang):
         st.markdown("---")
         col1, col2 = st.columns(2)
         with col1:
-            sleep_dist = pd.cut(recovery['sleep_hours'],
-                bins=[0,5,6,7,8,24],
+            sleep_dist = pd.cut(recovery['sleep_hours'], bins=[0,5,6,7,8,24],
                 labels=['<5h','5-6h','6-7h','7-8h','>8h'])
             sleep_counts = sleep_dist.value_counts().reset_index()
             sleep_counts.columns = ['range', 'count']
-            fig = px.pie(sleep_counts, values='count', names='range',
-                title='Sleep distribution',
+            fig = px.pie(sleep_counts, values='count', names='range', title='Sleep distribution',
                 color_discrete_sequence=['#D85A30','#EF9F27','#5DCAA5','#378ADD','#7F77DD'])
             fig.update_traces(textposition='inside', textinfo='percent+label')
             fig.update_layout(height=280, showlegend=False)
             st.plotly_chart(fig, use_container_width=True)
         with col2:
             fig = px.scatter(recovery, x='sleep_hours', y='energy_level',
-                color='stress_level', color_continuous_scale='RdYlGn_r',
-                title='Sleep vs Energy',
-                labels={'sleep_hours': 'Sleep (h)', 'energy_level': 'Energy (1-10)',
-                        'stress_level': 'Stress'})
+                color='stress_level', color_continuous_scale='RdYlGn_r', title='Sleep vs Energy',
+                labels={'sleep_hours': 'Sleep (h)', 'energy_level': 'Energy (1-10)', 'stress_level': 'Stress'})
             fig.update_layout(height=280)
             st.plotly_chart(fig, use_container_width=True)
     else:
         st.info(t("no_recovery", lang))
 
+# =====================================================================
+# NUTRITION
+# =====================================================================
 elif page == t("nutrition", lang):
     st.title(t("nutrition_title", lang))
     st.markdown("---")
@@ -530,17 +766,14 @@ elif page == t("nutrition", lang):
         st.markdown("---")
         st.subheader("🍽️ Recent meals")
         meal_logs['calories'] = meal_logs['amount_g'] * meal_logs['calories_per_100g'] / 100
-        today_meals = meal_logs.head(10)
         col1, col2 = st.columns(2)
         with col1:
-            st.dataframe(today_meals[['date', 'food_name', 'meal_type', 'amount_g', 'category']].rename(columns={
-                'amount_g': 'Amount (g)', 'food_name': 'Food',
-                'meal_type': 'Meal', 'category': 'Category'}),
+            st.dataframe(meal_logs.head(10)[['date', 'food_name', 'meal_type', 'amount_g', 'category']].rename(columns={
+                'amount_g': 'Amount (g)', 'food_name': 'Food', 'meal_type': 'Meal', 'category': 'Category'}),
                 use_container_width=True, height=300)
         with col2:
             cal_by_type = meal_logs.groupby('meal_type')['calories'].sum().reset_index()
-            fig = px.pie(cal_by_type, values='calories', names='meal_type',
-                title='Calories by meal type',
+            fig = px.pie(cal_by_type, values='calories', names='meal_type', title='Calories by meal type',
                 color_discrete_sequence=['#378ADD','#1D9E75','#EF9F27','#D85A30'])
             fig.update_traces(textposition='inside', textinfo='percent+label')
             fig.update_layout(height=300, showlegend=False)
@@ -569,11 +802,14 @@ elif page == t("nutrition", lang):
         with col2:
             top_protein = filtered.nlargest(10, 'protein_per_100g')
             fig = px.bar(top_protein, x='protein_per_100g', y='name', orientation='h',
-                color='category', title=f"Top 10 protein per 100g",
+                color='category', title="Top 10 protein per 100g",
                 labels={'protein_per_100g': 'Protein (g)', 'name': ''})
             fig.update_layout(height=400, showlegend=False)
             st.plotly_chart(fig, use_container_width=True)
 
+# =====================================================================
+# GOALS & PLANS
+# =====================================================================
 elif page == t("goals_plans", lang):
     st.title(t("goals_title", lang))
     st.markdown("---")
@@ -603,13 +839,17 @@ elif page == t("goals_plans", lang):
             'duration_weeks': 'Weeks', 'days_per_week': 'Days/week'}),
             use_container_width=True, height=300)
 
+# =====================================================================
+# TRAINING PROGRAMS
+# =====================================================================
 elif page == t("training_programs", lang):
     st.title(t("programs_title", lang))
     st.markdown(t("programs_subtitle", lang))
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-        goal_filter = st.selectbox(t("filter_goal", lang), [t("all", lang), "bygga_muskler", "gå_ner_i_vikt", "gå_upp_i_vikt", "öka_kondition", "hålla_sig_i_form", "löpning"])
+        goal_filter = st.selectbox(t("filter_goal", lang), [t("all", lang), "bygga_muskler",
+            "gå_ner_i_vikt", "gå_upp_i_vikt", "öka_kondition", "hålla_sig_i_form", "löpning"])
     with col2:
         level_filter = st.selectbox(t("filter_level", lang), [t("all", lang), "nybörjare", "medel", "avancerad"])
     filtered_plans = plans.copy()
@@ -647,15 +887,47 @@ elif page == t("training_programs", lang):
                 </span>
             </div>
             """, unsafe_allow_html=True)
+
+    if not plan_days.empty:
+        st.markdown("---")
+        st.subheader("📅 Program Schedule — Days & Exercises")
+        plan_names = plan_days['plan_name'].unique().tolist()
+        selected_plan_detail = st.selectbox("Select program to view schedule", plan_names)
+        days_for_plan = plan_days[plan_days['plan_name'] == selected_plan_detail].sort_values(['week_number', 'day_number'])
+        if not days_for_plan.empty:
+            weeks_available = sorted(days_for_plan['week_number'].unique())
+            selected_week = st.selectbox("Week", weeks_available)
+            week_days = days_for_plan[days_for_plan['week_number'] == selected_week]
+            for _, day in week_days.iterrows():
+                if day.get('rest_day', False):
+                    st.info(f"**Day {day['day_number']} — {day.get('day_name', '')}**: 🛌 Rest day")
+                else:
+                    with st.expander(f"Day {day['day_number']} — {day.get('day_name', '')} | Focus: {day.get('focus', '')}"):
+                        day_exercises = plan_exercises[plan_exercises['plan_day_id'] == day['id']]
+                        if not day_exercises.empty:
+                            st.dataframe(
+                                day_exercises[['exercise_name', 'body_part', 'equipment_name',
+                                    'sets', 'reps', 'rest_seconds', 'intensity']].rename(columns={
+                                    'exercise_name': 'Exercise', 'body_part': 'Muscle',
+                                    'equipment_name': 'Equipment', 'sets': 'Sets',
+                                    'reps': 'Reps', 'rest_seconds': 'Rest (s)', 'intensity': 'Intensity'}),
+                                use_container_width=True, hide_index=True)
+                        else:
+                            st.info("No exercises registered for this day yet.")
+        else:
+            st.info("No schedule data available for this program.")
+
     st.markdown("---")
     overview = plans.groupby(['goal', 'difficulty']).size().reset_index(name='count')
     fig = px.bar(overview, x='goal', y='count', color='difficulty',
         color_discrete_map={'nybörjare': '#5DCAA5', 'medel': '#378ADD', 'avancerad': '#D85A30'},
-        title=t("program_overview", lang),
-        labels={'goal': '', 'count': 'Programs'})
+        title=t("program_overview", lang), labels={'goal': '', 'count': 'Programs'})
     fig.update_layout(height=300, xaxis_tickangle=-20, legend_title='Level')
     st.plotly_chart(fig, use_container_width=True)
 
+# =====================================================================
+# SOCIAL & CHALLENGES
+# =====================================================================
 elif page == t("social_challenges", lang):
     st.title(t("social_challenges", lang))
     st.markdown("---")
@@ -665,16 +937,34 @@ elif page == t("social_challenges", lang):
         if not challenges.empty:
             for _, c in challenges.iterrows():
                 days_left = (pd.to_datetime(c['end_date']) - pd.Timestamp.now()).days
+                if not challenge_participants.empty:
+                    cp_for_challenge = challenge_participants[
+                        challenge_participants['challenge_name'] == c['name']].copy()
+                else:
+                    cp_for_challenge = pd.DataFrame()
+                participant_count = len(cp_for_challenge)
                 st.markdown(f"""
                 <div style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
                     <strong>{c['name']}</strong><br>
                     <span style="color: #555; font-size: 13px;">
                     {c['description']}<br>
                     Type: {c['challenge_type'].replace('_', ' ')}<br>
-                    {t('days_left', lang)}: {max(0, days_left)}
+                    {t('days_left', lang)}: {max(0, days_left)} | 👥 {participant_count} participants
                     </span>
                 </div>
                 """, unsafe_allow_html=True)
+                if not cp_for_challenge.empty:
+                    with st.expander(f"Participants — {c['name']}"):
+                        display_cols = ['user_name', 'current_value']
+                        col_rename = {'user_name': 'User', 'current_value': 'Score'}
+                        if 'rank' in cp_for_challenge.columns:
+                            display_cols.append('rank')
+                            col_rename['rank'] = 'Rank'
+                            cp_for_challenge = cp_for_challenge.sort_values('rank')
+                        else:
+                            cp_for_challenge = cp_for_challenge.sort_values('current_value', ascending=False)
+                        st.dataframe(cp_for_challenge[display_cols].rename(columns=col_rename),
+                            use_container_width=True, hide_index=True)
         else:
             st.info("No active challenges.")
     with col2:
@@ -685,12 +975,40 @@ elif page == t("social_challenges", lang):
             lb.index += 1
             lb.columns = ['User', 'Sessions', 'Volume (kg)', 'Steps', 'Points']
             st.dataframe(lb, use_container_width=True)
+
+    st.markdown("---")
+    st.subheader("👥 Friends")
+    if not friendships.empty:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(f"**{len(friendships)} active friendships**")
+            for _, f in friendships.iterrows():
+                st.markdown(f"""
+                <div style="display: flex; align-items: center; padding: 8px 12px;
+                    border: 0.5px solid #ddd; border-radius: 8px; margin-bottom: 8px;">
+                    <span style="font-size: 20px; margin-right: 10px;">👤</span>
+                    <span><strong>{f['user_name']}</strong> &nbsp;↔&nbsp; <strong>{f['friend_name']}</strong></span>
+                </div>
+                """, unsafe_allow_html=True)
+        with col2:
+            friend_counts = friendships.groupby('user_name').size().reset_index(name='friends')
+            fig = px.bar(friend_counts, x='user_name', y='friends',
+                color_discrete_sequence=['#7F77DD'], title='Friends per user',
+                labels={'user_name': '', 'friends': 'Friends'})
+            fig.update_layout(height=300, xaxis_tickangle=-20)
+            st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.info("No friendships registered yet.")
+
     if not activity_feed.empty:
         st.markdown("---")
         st.subheader("📢 Activity Feed")
         for _, act in activity_feed.head(10).iterrows():
             st.info(f"**{act['user_name']}** — {act['description']}")
 
+# =====================================================================
+# ACHIEVEMENTS
+# =====================================================================
 elif page == t("achievements", lang):
     st.title(t("achievements_title", lang))
     st.markdown(t("achievements_subtitle", lang))
@@ -704,8 +1022,63 @@ elif page == t("achievements", lang):
             st.metric(t("best_streak", lang), f"{s['longest_streak']} {t('days', lang)}")
         with col3:
             st.metric(t("total_workouts", lang), s['total_workouts'])
+
+    if not streak_rewards.empty:
+        st.markdown("---")
+        st.subheader("🎖️ Streak Rewards")
+        reward_icons = {'bronze': '🥉', 'silver': '🥈', 'gold': '🥇', 'platinum': '💎', 'diamond': '👑'}
+        reward_colors = {'bronze': '#CD7F32', 'silver': '#C0C0C0', 'gold': '#FFD700', 'platinum': '#E5E4E2', 'diamond': '#B9F2FF'}
+        cols = st.columns(min(len(streak_rewards), 4))
+        for i, (_, reward) in enumerate(streak_rewards.iterrows()):
+            with cols[i % len(cols)]:
+                icon = reward_icons.get(reward['reward_type'], '🏅')
+                color = reward_colors.get(reward['reward_type'], '#888')
+                st.markdown(f"""
+                <div style="text-align: center; padding: 12px; border-radius: 8px;
+                    border: 2px solid {color}; margin-bottom: 12px;">
+                    <div style="font-size: 32px;">{icon}</div>
+                    <div style="font-weight: 600; color: {color}; text-transform: capitalize;">{reward['reward_type']}</div>
+                    <div style="font-size: 12px; color: #555;">{reward['streak_days']} day streak</div>
+                </div>
+                """, unsafe_allow_html=True)
+    else:
+        st.info("No streak rewards earned yet. Keep training to unlock them! 🔥")
+
     st.markdown("---")
-    if not achievements.empty:
+    if not all_achievements_filtered.empty:
+        unlocked = all_achievements_filtered[all_achievements_filtered['unlocked'] == True]
+        locked = all_achievements_filtered[all_achievements_filtered['unlocked'] == False]
+        st.subheader(f"✅ Unlocked ({len(unlocked)}/{len(all_achievements_filtered)})")
+        if not unlocked.empty:
+            cols = st.columns(3)
+            for i, (_, ach) in enumerate(unlocked.iterrows()):
+                with cols[i % 3]:
+                    st.markdown(f"""
+                    <div style="border: 2px solid #1D9E75; border-radius: 8px;
+                        padding: 14px; margin-bottom: 12px; background: #e8f8f2;">
+                        <strong style="font-size: 15px;">🏆 {ach['name']}</strong><br><br>
+                        <span style="color: #555; font-size: 13px;">{ach['description']}</span><br>
+                        <span style="color: #1D9E75; font-size: 11px;">
+                            {ach['requirement_type'].replace('_', ' ')}: {int(ach['requirement_value'])}
+                        </span>
+                    </div>
+                    """, unsafe_allow_html=True)
+        if not locked.empty:
+            st.subheader(f"🔒 Locked ({len(locked)})")
+            cols = st.columns(3)
+            for i, (_, ach) in enumerate(locked.iterrows()):
+                with cols[i % 3]:
+                    st.markdown(f"""
+                    <div style="border: 1px solid #ccc; border-radius: 8px;
+                        padding: 14px; margin-bottom: 12px; background: #f5f5f5; opacity: 0.7;">
+                        <strong style="font-size: 15px; color: #888;">🔒 {ach['name']}</strong><br><br>
+                        <span style="color: #aaa; font-size: 13px;">{ach['description']}</span><br>
+                        <span style="color: #bbb; font-size: 11px;">
+                            Requires: {ach['requirement_type'].replace('_', ' ')} — {int(ach['requirement_value'])}
+                        </span>
+                    </div>
+                    """, unsafe_allow_html=True)
+    elif not achievements.empty:
         st.subheader(f"{len(achievements)} {t('achievements_unlocked', lang)}")
         cols = st.columns(3)
         for i, (_, ach) in enumerate(achievements.iterrows()):
@@ -720,6 +1093,9 @@ elif page == t("achievements", lang):
     else:
         st.info(t("no_achievements", lang))
 
+# =====================================================================
+# HEALTH CALCULATOR
+# =====================================================================
 elif page == t("health_calculator", lang):
     st.title(t("calculator_title", lang))
     st.markdown(t("calculator_subtitle", lang))
@@ -771,12 +1147,14 @@ elif page == t("health_calculator", lang):
         age = st.number_input(t("age", lang), value=25, step=1)
     with col2:
         gender = st.selectbox(t("gender", lang), [t("male", lang), t("female", lang)])
-        activity = st.selectbox(t("activity_level", lang), ["sedentary", "lightly_active", "moderately_active", "very_active", "super_active"])
+        activity = st.selectbox(t("activity_level", lang), ["sedentary", "lightly_active",
+            "moderately_active", "very_active", "super_active"])
         goal = st.selectbox(t("goal", lang), ["lose_weight", "maintain", "gain_weight", "build_muscle"])
     if st.button(t("calculate", lang)):
         bmi = weight / ((height / 100) ** 2)
         bmr = 10 * weight + 6.25 * height - 5 * age + (5 if gender == t("male", lang) else -161)
-        multipliers = {"sedentary": 1.2, "lightly_active": 1.375, "moderately_active": 1.55, "very_active": 1.725, "super_active": 1.9}
+        multipliers = {"sedentary": 1.2, "lightly_active": 1.375, "moderately_active": 1.55,
+            "very_active": 1.725, "super_active": 1.9}
         tdee = bmr * multipliers[activity]
         calories = tdee - 500 if goal == "lose_weight" else tdee + 300 if goal in ["gain_weight", "build_muscle"] else tdee
         protein = weight * 2.0
@@ -793,6 +1171,9 @@ elif page == t("health_calculator", lang):
             st.metric(t("daily_calories", lang), f"{calories:,.0f} kcal")
         st.success(f"{t('protein', lang)}: {protein:.0f}g | {t('carbs', lang)}: {carbs:.0f}g | {t('fat', lang)}: {fat:.0f}g")
 
+# =====================================================================
+# AI INSIGHTS
+# =====================================================================
 elif page == t("ai_insights", lang):
     st.title(t("insights_title", lang))
     st.markdown(t("insights_subtitle", lang))
@@ -808,6 +1189,9 @@ elif page == t("ai_insights", lang):
     else:
         st.info(t("no_insights", lang))
 
+# =====================================================================
+# RECOMMENDATIONS
+# =====================================================================
 elif page == t("recommendations", lang):
     st.title(t("recs_title", lang))
     st.markdown(t("recs_subtitle", lang))
@@ -816,11 +1200,12 @@ elif page == t("recommendations", lang):
         st.subheader(f"{len(recommendations)} {t('recs_count', lang)}")
         for _, row in recommendations.iterrows():
             score = row['score']
+            equip = f" | 🏋️ {row['equipment_name']}" if pd.notna(row.get('equipment_name')) else ""
             if score >= 0.8:
-                st.error(f"**{row['exercise_name']}** ({row['body_part']}) — {row['reason']}")
+                st.error(f"**{row['exercise_name']}** ({row['body_part']}){equip} — {row['reason']}")
             elif score >= 0.5:
-                st.warning(f"**{row['exercise_name']}** ({row['body_part']}) — {row['reason']}")
+                st.warning(f"**{row['exercise_name']}** ({row['body_part']}){equip} — {row['reason']}")
             else:
-                st.info(f"**{row['exercise_name']}** ({row['body_part']}) — {row['reason']}")
+                st.info(f"**{row['exercise_name']}** ({row['body_part']}){equip} — {row['reason']}")
     else:
         st.success(t("no_recs", lang))
