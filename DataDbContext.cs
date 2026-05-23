@@ -20,5 +20,9 @@ namespace HealthApp.API
         public DbSet<BodyMeasurement> BodyMeasurements { get; set; }
         public DbSet<MealLog> MealLogs { get; set; }
         public DbSet<Food> Foods { get; set; }
+        public DbSet<UserAchievement> UserAchievements { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<WorkoutExerciseData> WorkoutExercises { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
     }
 }

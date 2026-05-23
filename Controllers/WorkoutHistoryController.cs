@@ -39,5 +39,26 @@ namespace HealthApp.API.Controllers
             if (session == null) return NotFound();
             return Ok(session);
         }
+
+        [HttpGet("{id}/exercises")]
+        public async Task<IActionResult> GetSessionExercises(int id)
+        {
+            var exercises = await (from we in _context.WorkoutExercises
+                                join ex in _context.Exercises on we.ExerciseId equals ex.Id
+                                where we.SessionId == id
+                                select new
+                                {
+                                    we.Id,
+                                    ExerciseName = ex.Name,
+                                    we.Sets,
+                                    we.Reps,
+                                    we.WeightKg,
+                                    we.DurationSeconds,
+                                    we.RestSeconds,
+                                    we.Rpe,
+                                    we.Notes
+                                }).ToListAsync();
+            return Ok(exercises);
+        }
     }
 }

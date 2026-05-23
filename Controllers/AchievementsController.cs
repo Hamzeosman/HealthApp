@@ -33,5 +33,26 @@ namespace HealthApp.API.Controllers
             var streak = await _context.UserStreaks.FirstOrDefaultAsync(s => s.UserId == userId);
             return Ok(streak);
         }
+
+        [HttpGet("mine")]
+        public async Task<IActionResult> GetUserAchievements()
+        {
+            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
+            var userId = 1;
+
+            var achievements = await (from ua in _context.UserAchievements
+                                    join a in _context.Achievements on ua.AchievementId equals a.Id
+                                    where ua.UserId == userId
+                                    orderby ua.AchievedAt descending
+                                    select new
+                                    {
+                                        a.Id,
+                                        a.Name,
+                                        a.Description,
+                                        a.Icon,
+                                        ua.AchievedAt
+                                    }).ToListAsync();
+            return Ok(achievements);
+        }
     }
 }
