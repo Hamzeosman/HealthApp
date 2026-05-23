@@ -20,11 +20,9 @@ namespace HealthApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var userId = UserHelper.GetUserId(User);
-            if (userId == null) return Unauthorized();
-
+            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
             var sessions = await _context.WorkoutSessions
-                .Where(s => s.UserId == userId)
+                .Where(s => s.UserId == 1)
                 .OrderByDescending(s => s.Date)
                 .ToListAsync();
             return Ok(sessions);

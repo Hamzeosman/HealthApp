@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HealthApp.API.Helpers;
 
 namespace HealthApp.API.Controllers
 {
@@ -20,8 +19,8 @@ namespace HealthApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStats()
         {
-            var userId = UserHelper.GetUserId(User);
-            if (userId == null) return Unauthorized();
+            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
+            var userId = 1;
 
             var totalWorkouts = await _context.WorkoutSessions.CountAsync(s => s.UserId == userId);
             var totalRunning = await _context.RunningSessions.CountAsync(r => r.UserId == userId);

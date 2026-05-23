@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HealthApp.API.Helpers;
 
 namespace HealthApp.API.Controllers
 {
@@ -20,11 +19,9 @@ namespace HealthApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var userId = UserHelper.GetUserId(User);
-            if (userId == null) return Unauthorized();
-
+            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
             var biometrics = await _context.Biometrics
-                .Where(b => b.UserId == userId)
+                .Where(b => b.UserId == 1)
                 .OrderByDescending(b => b.Date)
                 .ToListAsync();
             return Ok(biometrics);

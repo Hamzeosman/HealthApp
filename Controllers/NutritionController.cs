@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HealthApp.API.Helpers;
 
 namespace HealthApp.API.Controllers
 {
@@ -20,12 +19,10 @@ namespace HealthApp.API.Controllers
         [HttpGet("meals")]
         public async Task<IActionResult> GetMeals()
         {
-            var userId = UserHelper.GetUserId(User);
-            if (userId == null) return Unauthorized();
-
+            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
             var meals = await (from m in _context.MealLogs
                                join f in _context.Foods on m.FoodId equals f.Id
-                               where m.UserId == userId
+                               where m.UserId == 1
                                orderby m.Date descending
                                select new
                                {
