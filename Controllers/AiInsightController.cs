@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HealthApp.API.Models;
+using HealthApp.API.Helpers;
 
 namespace HealthApp.API.Controllers
 {
@@ -20,7 +20,11 @@ namespace HealthApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
             var insights = await _context.AiInsights
+                .Where(i => i.UserId == userId)
                 .OrderByDescending(i => i.CreatedAt)
                 .ToListAsync();
             return Ok(insights);
@@ -29,7 +33,11 @@ namespace HealthApp.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var insight = await _context.AiInsights.FindAsync(id);
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
+            var insight = await _context.AiInsights
+                .FirstOrDefaultAsync(i => i.Id == id && i.UserId == userId);
             if (insight == null) return NotFound();
             return Ok(insight);
         }
