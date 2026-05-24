@@ -1,4 +1,5 @@
 using HealthApp.API.DTOs;
+using HealthApp.API.Models;
 using HealthApp.API.Repositories;
 
 namespace HealthApp.API.Services
@@ -15,19 +16,7 @@ namespace HealthApp.API.Services
         public async Task<UserProfileDto?> GetProfileAsync(int userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
-            if (user == null) return null;
-
-            return new UserProfileDto
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Age = user.Age,
-                WeightKg = user.WeightKg,
-                HeightCm = user.HeightCm,
-                FitnessLevel = user.FitnessLevel,
-                Goal = user.Goal,
-                CreatedAt = user.CreatedAt
-            };
+            return user == null ? null : ToProfileDto(user);
         }
 
         public async Task<UserProfileDto?> UpdateProfileAsync(int userId, UpdateProfileDto dto)
@@ -43,17 +32,19 @@ namespace HealthApp.API.Services
 
             await _userRepository.SaveChangesAsync();
 
-            return new UserProfileDto
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Age = user.Age,
-                WeightKg = user.WeightKg,
-                HeightCm = user.HeightCm,
-                FitnessLevel = user.FitnessLevel,
-                Goal = user.Goal,
-                CreatedAt = user.CreatedAt
-            };
+            return ToProfileDto(user);
         }
+
+        private static UserProfileDto ToProfileDto(User user) => new()
+        {
+            Name = user.Name,
+            Email = user.Email,
+            Age = user.Age,
+            WeightKg = user.WeightKg,
+            HeightCm = user.HeightCm,
+            FitnessLevel = user.FitnessLevel,
+            Goal = user.Goal,
+            CreatedAt = user.CreatedAt
+        };
     }
 }
