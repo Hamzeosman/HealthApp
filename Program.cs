@@ -51,6 +51,7 @@ builder.Services.AddScoped<IPersonalRecordService, PersonalRecordService>();
 builder.Services.AddScoped<IRecommendationService, RecommendationService>();
 builder.Services.AddScoped<IWorkoutProgramService, WorkoutProgramService>();
 builder.Services.AddScoped<IWorkoutTemplateService, WorkoutTemplateService>();
+builder.Services.AddScoped<IUserService, UserService>();
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
