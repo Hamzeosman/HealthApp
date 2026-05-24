@@ -6962,3 +6962,1010 @@ Aterhamtningsbedomning:
 2026-05-21 00:01:35,615 [INFO]   [OK] streaks
 2026-05-21 00:01:35,615 [INFO]   [OK] training_intel
 2026-05-21 00:01:35,615 [INFO]   [OK] weekly_reports
+2026-05-23 22:33:43,797 [INFO] Training Intelligence Platform
+2026-05-23 22:33:43,797 [INFO] Start: 2026-05-23 22:33:43
+2026-05-23 22:33:43,797 [INFO] Pipelines registrerade: ['recommendations', 'personal_records', 'progression', 'streaks', 'fatigue_scores', 'training_intel', 'weekly_reports']
+2026-05-23 22:33:43,797 [INFO] 
+==================================================
+2026-05-23 22:33:43,797 [INFO] Kor: recommendations
+2026-05-23 22:33:43,797 [INFO] ==================================================
+2026-05-23 22:33:44,001 [INFO] Anslutning till databas lyckades!
+2026-05-23 22:33:44,034 [INFO] [Test User] Cycling — Du har inte tränat Kondition sedan 2026-05-15 (score: 1.00)
+2026-05-23 22:33:44,035 [INFO] [Test User] Hanging Leg Raise — Du har inte tränat Mage sedan 2026-05-09 (score: 1.00)
+2026-05-23 22:33:44,035 [INFO] Rekommendationer sparade för Test User!
+2026-05-23 22:33:44,037 [INFO] [Mohammed Al-Rashid] Sled Push — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-23 22:33:44,037 [INFO] Rekommendationer sparade för Mohammed Al-Rashid!
+2026-05-23 22:33:44,038 [INFO] [Viktor Svensson] Battle Ropes — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-23 22:33:44,039 [INFO] [Viktor Svensson] Cable Flyes — Du har inte tränat Bröst sedan 2026-05-11 (score: 1.00)
+2026-05-23 22:33:44,039 [INFO] [Viktor Svensson] Concentration Curl — Du har inte tränat Armar sedan 2026-05-08 (score: 1.00)
+2026-05-23 22:33:44,039 [INFO] [Viktor Svensson] Arnold Press — Du har inte tränat Axlar sedan 2026-05-13 (score: 1.00)
+2026-05-23 22:33:44,040 [INFO] [Viktor Svensson] Pull-ups — Du har inte tränat Rygg sedan 2026-05-13 (score: 1.00)
+2026-05-23 22:33:44,040 [INFO] [Viktor Svensson] Plank — Du har inte tränat Mage sedan 2026-05-09 (score: 1.00)
+2026-05-23 22:33:44,040 [INFO] [Viktor Svensson] Frog Pump — Du har inte tränat Ben sedan 2026-05-13 (score: 1.00)
+2026-05-23 22:33:44,040 [INFO] Rekommendationer sparade för Viktor Svensson!
+2026-05-23 22:33:44,042 [INFO] [Sara Lindqvist] Burpees — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-23 22:33:44,042 [INFO] [Sara Lindqvist] Upright Row — Du har inte tränat Axlar sedan 2026-05-05 (score: 1.00)
+2026-05-23 22:33:44,042 [INFO] [Sara Lindqvist] Leg Raise — Du har inte tränat Mage sedan 2026-05-12 (score: 1.00)
+2026-05-23 22:33:44,042 [INFO] Rekommendationer sparade för Sara Lindqvist!
+2026-05-23 22:33:44,044 [INFO] [Amina Osman] Box Jumps — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-23 22:33:44,044 [INFO] [Amina Osman] Pec Deck Machine — Du har inte tränat Bröst sedan 2026-05-13 (score: 1.00)
+2026-05-23 22:33:44,044 [INFO] [Amina Osman] Cable Curl — Du har inte tränat Armar sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,044 [INFO] [Amina Osman] Reverse Fly — Du har inte tränat Axlar sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,045 [INFO] [Amina Osman] T-Bar Row — Du har inte tränat Rygg sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,045 [INFO] [Amina Osman] Plank — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,045 [INFO] [Amina Osman] Romanian Deadlift with Dumbbells — Du har inte tränat Ben sedan 2026-05-13 (score: 1.00)
+2026-05-23 22:33:44,046 [INFO] Rekommendationer sparade för Amina Osman!
+2026-05-23 22:33:44,047 [INFO] [Fatima Hassan] Farmer's Walk — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-23 22:33:44,047 [INFO] [Fatima Hassan] Chest Doorway Stretch — Du har inte tränat Bröst sedan 2026-05-15 (score: 1.00)
+2026-05-23 22:33:44,048 [INFO] [Fatima Hassan] Bicepscurl — Du har inte tränat Armar sedan 2026-05-15 (score: 1.00)
+2026-05-23 22:33:44,048 [INFO] [Fatima Hassan] Cable Lateral Raise — Du har inte tränat Axlar sedan 2026-05-15 (score: 1.00)
+2026-05-23 22:33:44,048 [INFO] [Fatima Hassan] Cobra Stretch — Du har inte tränat Rygg sedan 2026-05-12 (score: 1.00)
+2026-05-23 22:33:44,048 [INFO] [Fatima Hassan] Russian Twist — Du har inte tränat Mage sedan 2026-05-03 (score: 1.00)
+2026-05-23 22:33:44,049 [INFO] [Fatima Hassan] Hip Circle Stretch — Du har inte tränat Ben sedan 2026-05-12 (score: 1.00)
+2026-05-23 22:33:44,049 [INFO] Rekommendationer sparade för Fatima Hassan!
+2026-05-23 22:33:44,050 [INFO] [Lina Karlsson] Jump Rope — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-23 22:33:44,050 [INFO] [Lina Karlsson] Cable Crossover — Du har inte tränat Bröst sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,051 [INFO] [Lina Karlsson] Tricepspress — Du har inte tränat Armar sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,051 [INFO] [Lina Karlsson] Front Squat — Du har inte tränat Ben sedan 2026-05-10 (score: 1.00)
+2026-05-23 22:33:44,051 [INFO] Rekommendationer sparade för Lina Karlsson!
+2026-05-23 22:33:44,052 [INFO] [Lucas Bergström] Rowing — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-23 22:33:44,052 [INFO] [Lucas Bergström] Cross-Body Shoulder Stretch — Du har inte tränat Axlar sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,053 [INFO] [Lucas Bergström] Downward Dog — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,053 [INFO] Rekommendationer sparade för Lucas Bergström!
+2026-05-23 22:33:44,054 [INFO] [Erik Johansson] Box Jumps — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-23 22:33:44,054 [INFO] [Erik Johansson] Dips — Du har inte tränat Bröst sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,054 [INFO] [Erik Johansson] Incline Dumbbell Curl — Du har inte tränat Armar sedan 2026-05-12 (score: 1.00)
+2026-05-23 22:33:44,055 [INFO] [Erik Johansson] Reverse Fly — Du har inte tränat Axlar sedan 2026-05-07 (score: 1.00)
+2026-05-23 22:33:44,055 [INFO] [Erik Johansson] Jefferson Curl — Du har inte tränat Rygg sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,055 [INFO] [Erik Johansson] Child's Pose — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-23 22:33:44,055 [INFO] [Erik Johansson] Calf Stretch Wall — Du har inte tränat Ben sedan 2026-05-07 (score: 1.00)
+2026-05-23 22:33:44,056 [INFO] Rekommendationer sparade för Erik Johansson!
+2026-05-23 22:33:44,056 [INFO]   Resultat: 9 OK, 0 FEL
+2026-05-23 22:33:44,056 [INFO] [OK] recommendations klar pa 0s!
+2026-05-23 22:33:44,056 [INFO] 
+==================================================
+2026-05-23 22:33:44,056 [INFO] Kor: personal_records
+2026-05-23 22:33:44,056 [INFO] ==================================================
+2026-05-23 22:33:44,057 [INFO] Anslutning till databas lyckades!
+2026-05-23 22:33:44,064 [INFO] [Test User] Knäböj: 108.80kg — inget nytt rekord (bästa: 108.80kg)
+2026-05-23 22:33:44,064 [INFO] [Test User] Bänkpress: 94.70kg — inget nytt rekord (bästa: 94.70kg)
+2026-05-23 22:33:44,064 [INFO] [Test User] Militärpress: 71.90kg — inget nytt rekord (bästa: 71.90kg)
+2026-05-23 22:33:44,064 [INFO] [Test User] Latsdrag: 87.20kg — inget nytt rekord (bästa: 87.20kg)
+2026-05-23 22:33:44,065 [INFO] [Test User] Marklyft: 124.80kg — inget nytt rekord (bästa: 150.00kg)
+2026-05-23 22:33:44,065 [INFO] [Test User] Bicepscurl: 42.70kg — inget nytt rekord (bästa: 42.70kg)
+2026-05-23 22:33:44,065 [INFO] Test User satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,065 [INFO] [Mohammed Al-Rashid] Tricepspress: 76.80kg — inget nytt rekord (bästa: 76.80kg)
+2026-05-23 22:33:44,066 [INFO] [Mohammed Al-Rashid] Knäböj: 29.60kg — inget nytt rekord (bästa: 29.60kg)
+2026-05-23 22:33:44,066 [INFO] [Mohammed Al-Rashid] Bänkpress: 34.50kg — inget nytt rekord (bästa: 34.50kg)
+2026-05-23 22:33:44,066 [INFO] [Mohammed Al-Rashid] Militärpress: 64.30kg — inget nytt rekord (bästa: 64.30kg)
+2026-05-23 22:33:44,066 [INFO] Mohammed Al-Rashid satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,067 [INFO] [Viktor Svensson] Latsdrag: 36.20kg — inget nytt rekord (bästa: 36.20kg)
+2026-05-23 22:33:44,067 [INFO] [Viktor Svensson] Knäböj: 88.50kg — inget nytt rekord (bästa: 88.50kg)
+2026-05-23 22:33:44,067 [INFO] [Viktor Svensson] Militärpress: 45.70kg — inget nytt rekord (bästa: 45.70kg)
+2026-05-23 22:33:44,067 [INFO] [Viktor Svensson] Utfall: 29.80kg — inget nytt rekord (bästa: 29.80kg)
+2026-05-23 22:33:44,067 [INFO] Viktor Svensson satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,068 [INFO] [Sara Lindqvist] Knäböj: 49.50kg — inget nytt rekord (bästa: 49.50kg)
+2026-05-23 22:33:44,068 [INFO] [Sara Lindqvist] Hantelflyes: 37.70kg — inget nytt rekord (bästa: 37.70kg)
+2026-05-23 22:33:44,068 [INFO] [Sara Lindqvist] Marklyft: 47.50kg — inget nytt rekord (bästa: 47.50kg)
+2026-05-23 22:33:44,068 [INFO] [Sara Lindqvist] Bänkpress: 77.40kg — inget nytt rekord (bästa: 77.40kg)
+2026-05-23 22:33:44,068 [INFO] Sara Lindqvist satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,069 [INFO] [Amina Osman] Plankan: 91.70kg — inget nytt rekord (bästa: 91.70kg)
+2026-05-23 22:33:44,069 [INFO] [Amina Osman] Militärpress: 99.00kg — inget nytt rekord (bästa: 99.00kg)
+2026-05-23 22:33:44,069 [INFO] [Amina Osman] Latsdrag: 43.30kg — inget nytt rekord (bästa: 43.30kg)
+2026-05-23 22:33:44,070 [INFO] [Amina Osman] Bicepscurl: 54.20kg — inget nytt rekord (bästa: 54.20kg)
+2026-05-23 22:33:44,070 [INFO] Amina Osman satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,070 [INFO] [Fatima Hassan] Bänkpress: 40.90kg — inget nytt rekord (bästa: 40.90kg)
+2026-05-23 22:33:44,071 [INFO] [Fatima Hassan] Tricepspress: 25.20kg — inget nytt rekord (bästa: 25.20kg)
+2026-05-23 22:33:44,071 [INFO] [Fatima Hassan] Militärpress: 60.50kg — inget nytt rekord (bästa: 60.50kg)
+2026-05-23 22:33:44,071 [INFO] [Fatima Hassan] Bicepscurl: 63.80kg — inget nytt rekord (bästa: 63.80kg)
+2026-05-23 22:33:44,071 [INFO] Fatima Hassan satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,072 [INFO] [Lina Karlsson] Marklyft: 27.40kg — inget nytt rekord (bästa: 27.40kg)
+2026-05-23 22:33:44,072 [INFO] [Lina Karlsson] Militärpress: 27.20kg — inget nytt rekord (bästa: 27.20kg)
+2026-05-23 22:33:44,072 [INFO] [Lina Karlsson] Plankan: 51.70kg — inget nytt rekord (bästa: 51.70kg)
+2026-05-23 22:33:44,072 [INFO] [Lina Karlsson] Latsdrag: 44.00kg — inget nytt rekord (bästa: 44.00kg)
+2026-05-23 22:33:44,072 [INFO] Lina Karlsson satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,073 [INFO] [Lucas Bergström] Utfall: 84.10kg — inget nytt rekord (bästa: 84.10kg)
+2026-05-23 22:33:44,073 [INFO] [Lucas Bergström] Hantelflyes: 56.40kg — inget nytt rekord (bästa: 56.40kg)
+2026-05-23 22:33:44,073 [INFO] [Lucas Bergström] Marklyft: 93.30kg — inget nytt rekord (bästa: 93.30kg)
+2026-05-23 22:33:44,073 [INFO] [Lucas Bergström] Bicepscurl: 64.60kg — inget nytt rekord (bästa: 64.60kg)
+2026-05-23 22:33:44,073 [INFO] Lucas Bergström satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,074 [INFO] [Erik Johansson] Bänkpress: 98.60kg — inget nytt rekord (bästa: 98.60kg)
+2026-05-23 22:33:44,074 [INFO] [Erik Johansson] Marklyft: 34.60kg — inget nytt rekord (bästa: 34.60kg)
+2026-05-23 22:33:44,074 [INFO] [Erik Johansson] Plankan: 81.20kg — inget nytt rekord (bästa: 81.20kg)
+2026-05-23 22:33:44,074 [INFO] [Erik Johansson] Latsdrag: 73.70kg — inget nytt rekord (bästa: 73.70kg)
+2026-05-23 22:33:44,074 [INFO] Erik Johansson satte inga nya personbästa denna gång.
+2026-05-23 22:33:44,074 [INFO]   Resultat: 9 OK, 0 FEL
+2026-05-23 22:33:44,074 [INFO] [OK] personal_records klar pa 0s!
+2026-05-23 22:33:44,074 [INFO] 
+==================================================
+2026-05-23 22:33:44,075 [INFO] Kor: progression
+2026-05-23 22:33:44,075 [INFO] ==================================================
+2026-05-23 22:33:44,137 [INFO] Anslutning till databas lyckades!
+2026-05-23 22:33:44,166 [INFO] 
+==================================================
+2026-05-23 22:33:44,167 [INFO] PROGRESSIONSANALYS FÖR TEST USER
+2026-05-23 22:33:44,167 [INFO] ==================================================
+2026-05-23 22:33:44,177 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,177 [INFO]    Bicepscurl: 2156.1% ökning | Bästa vikt: 49.5kg
+2026-05-23 22:33:44,177 [INFO]    Tricepspress: 1044.3% ökning | Bästa vikt: 54.2kg
+2026-05-23 22:33:44,177 [INFO]    Latsdrag: 894.6% ökning | Bästa vikt: 90.4kg
+2026-05-23 22:33:44,177 [INFO]    Militärpress: 619.2% ökning | Bästa vikt: 76.3kg
+2026-05-23 22:33:44,177 [INFO]    Bänkpress: 350.6% ökning | Bästa vikt: 96.0kg
+2026-05-23 22:33:44,177 [INFO]    Marklyft: 291.9% ökning | Bästa vikt: 150.0kg
+2026-05-23 22:33:44,177 [INFO]    Utfall: 253.0% ökning | Bästa vikt: 58.3kg
+2026-05-23 22:33:44,177 [INFO]    Knäböj: 178.1% ökning | Bästa vikt: 108.8kg
+2026-05-23 22:33:44,177 [INFO]   📉 Plankan: nan% ökning | Bästa vikt: 27.5kg
+2026-05-23 22:33:44,177 [INFO]   📉 Burpees: nan% ökning | Bästa vikt: 30.4kg
+2026-05-23 22:33:44,178 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,178 [INFO]   Mage: 1079.8kg snittvolym
+2026-05-23 22:33:44,178 [INFO]   Kondition: 1448.1kg snittvolym
+2026-05-23 22:33:44,178 [INFO]   Armar: 3738.9kg snittvolym
+2026-05-23 22:33:44,179 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,179 [INFO]   Snitt sömn: 7.5 timmar
+2026-05-23 22:33:44,179 [INFO]   Snitt energi: 7.6/10
+2026-05-23 22:33:44,179 [INFO]   Snitt stress: 4.9/10
+2026-05-23 22:33:44,186 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,186 [INFO]   Vecka 2026-19: 58120kg volym | RPE: 7.84 | 24.0 set
+2026-05-23 22:33:44,186 [INFO]   Vecka 2026-18: 91175kg volym | RPE: 7.8 | 38.0 set
+2026-05-23 22:33:44,186 [INFO]   Vecka 2026-17: 64190kg volym | RPE: 7.6 | 34.0 set
+2026-05-23 22:33:44,186 [INFO]   Vecka 2026-16: 74268kg volym | RPE: 7.67 | 31.0 set
+2026-05-23 22:33:44,190 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,197 [INFO] 
+==================================================
+2026-05-23 22:33:44,197 [INFO] PROGRESSIONSANALYS FÖR MOHAMMED AL-RASHID
+2026-05-23 22:33:44,197 [INFO] ==================================================
+2026-05-23 22:33:44,199 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,199 [INFO]    Utfall: 379.8% ökning | Bästa vikt: 87.8kg
+2026-05-23 22:33:44,199 [INFO]    Plankan: 288.6% ökning | Bästa vikt: 99.3kg
+2026-05-23 22:33:44,199 [INFO]    Knäböj: 237.4% ökning | Bästa vikt: 96.3kg
+2026-05-23 22:33:44,199 [INFO]    Militärpress: 218.9% ökning | Bästa vikt: 90.4kg
+2026-05-23 22:33:44,199 [INFO]    Marklyft: 120.3% ökning | Bästa vikt: 76.4kg
+2026-05-23 22:33:44,199 [INFO]    Hantelflyes: 92.3% ökning | Bästa vikt: 62.7kg
+2026-05-23 22:33:44,199 [INFO]    Bänkpress: 87.8% ökning | Bästa vikt: 75.6kg
+2026-05-23 22:33:44,199 [INFO]    Bicepscurl: 76.1% ökning | Bästa vikt: 98.6kg
+2026-05-23 22:33:44,199 [INFO]    Latsdrag: 19.2% ökning | Bästa vikt: 56.5kg
+2026-05-23 22:33:44,200 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,200 [INFO]   Bröst: 1685.3kg snittvolym
+2026-05-23 22:33:44,200 [INFO]   Rygg: 2577.9kg snittvolym
+2026-05-23 22:33:44,200 [INFO]   Armar: 2632.0kg snittvolym
+2026-05-23 22:33:44,200 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,200 [INFO]   Snitt sömn: 7.7 timmar
+2026-05-23 22:33:44,200 [INFO]   Snitt energi: 7.7/10
+2026-05-23 22:33:44,200 [INFO]   Snitt stress: 5.5/10
+2026-05-23 22:33:44,202 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,202 [INFO]   Vecka 2026-19: 27219kg volym | RPE: 7.33 | 16.0 set
+2026-05-23 22:33:44,202 [INFO]   Vecka 2026-18: 18829kg volym | RPE: 7.5 | 8.0 set
+2026-05-23 22:33:44,202 [INFO]   Vecka 2026-17: 17332kg volym | RPE: 8.13 | 8.0 set
+2026-05-23 22:33:44,202 [INFO]   Vecka 2026-16: 13611kg volym | RPE: 7.42 | 8.0 set
+2026-05-23 22:33:44,203 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,209 [INFO] 
+==================================================
+2026-05-23 22:33:44,209 [INFO] PROGRESSIONSANALYS FÖR VIKTOR SVENSSON
+2026-05-23 22:33:44,209 [INFO] ==================================================
+2026-05-23 22:33:44,211 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,211 [INFO]    Plankan: 572.2% ökning | Bästa vikt: 99.3kg
+2026-05-23 22:33:44,211 [INFO]    Hantelflyes: 226.6% ökning | Bästa vikt: 89.9kg
+2026-05-23 22:33:44,211 [INFO]    Militärpress: 201.6% ökning | Bästa vikt: 93.8kg
+2026-05-23 22:33:44,211 [INFO]    Tricepspress: 143.8% ökning | Bästa vikt: 86.3kg
+2026-05-23 22:33:44,211 [INFO]    Bicepscurl: 141.0% ökning | Bästa vikt: 92.5kg
+2026-05-23 22:33:44,211 [INFO]    Utfall: 139.5% ökning | Bästa vikt: 71.4kg
+2026-05-23 22:33:44,211 [INFO]    Knäböj: 117.9% ökning | Bästa vikt: 92.2kg
+2026-05-23 22:33:44,211 [INFO]    Bänkpress: 85.1% ökning | Bästa vikt: 69.5kg
+2026-05-23 22:33:44,211 [INFO]    Latsdrag: 80.6% ökning | Bästa vikt: 96.8kg
+2026-05-23 22:33:44,211 [INFO]    Marklyft: 57.7% ökning | Bästa vikt: 70.0kg
+2026-05-23 22:33:44,212 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,212 [INFO]   Axlar: 2251.7kg snittvolym
+2026-05-23 22:33:44,212 [INFO]   Armar: 2515.1kg snittvolym
+2026-05-23 22:33:44,212 [INFO]   Bröst: 2836.7kg snittvolym
+2026-05-23 22:33:44,212 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,212 [INFO]   Snitt sömn: 7.3 timmar
+2026-05-23 22:33:44,212 [INFO]   Snitt energi: 7.2/10
+2026-05-23 22:33:44,212 [INFO]   Snitt stress: 5.5/10
+2026-05-23 22:33:44,213 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,213 [INFO]   Vecka 2026-19: 13788kg volym | RPE: 7.17 | 8.0 set
+2026-05-23 22:33:44,213 [INFO]   Vecka 2026-18: 26478kg volym | RPE: 7.55 | 12.0 set
+2026-05-23 22:33:44,213 [INFO]   Vecka 2026-17: 13558kg volym | RPE: 7.83 | 8.0 set
+2026-05-23 22:33:44,213 [INFO]   Vecka 2026-16: 36714kg volym | RPE: 7.44 | 16.0 set
+2026-05-23 22:33:44,215 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,221 [INFO] 
+==================================================
+2026-05-23 22:33:44,221 [INFO] PROGRESSIONSANALYS FÖR SARA LINDQVIST
+2026-05-23 22:33:44,221 [INFO] ==================================================
+2026-05-23 22:33:44,222 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,222 [INFO]    Marklyft: 451.5% ökning | Bästa vikt: 99.6kg
+2026-05-23 22:33:44,222 [INFO]    Bänkpress: 296.2% ökning | Bästa vikt: 92.7kg
+2026-05-23 22:33:44,222 [INFO]    Militärpress: 272.1% ökning | Bästa vikt: 89.8kg
+2026-05-23 22:33:44,222 [INFO]    Plankan: 229.5% ökning | Bästa vikt: 90.6kg
+2026-05-23 22:33:44,222 [INFO]    Tricepspress: 158.0% ökning | Bästa vikt: 95.1kg
+2026-05-23 22:33:44,222 [INFO]    Latsdrag: 119.8% ökning | Bästa vikt: 93.3kg
+2026-05-23 22:33:44,222 [INFO]    Knäböj: 112.7% ökning | Bästa vikt: 96.0kg
+2026-05-23 22:33:44,222 [INFO]    Hantelflyes: 53.0% ökning | Bästa vikt: 87.6kg
+2026-05-23 22:33:44,222 [INFO]    Utfall: 29.6% ökning | Bästa vikt: 77.5kg
+2026-05-23 22:33:44,223 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,223 [INFO]   Mage: 1953.7kg snittvolym
+2026-05-23 22:33:44,223 [INFO]   Bröst: 2289.3kg snittvolym
+2026-05-23 22:33:44,223 [INFO]   Armar: 3241.7kg snittvolym
+2026-05-23 22:33:44,223 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,223 [INFO]   Snitt sömn: 7.5 timmar
+2026-05-23 22:33:44,223 [INFO]   Snitt energi: 7.4/10
+2026-05-23 22:33:44,223 [INFO]   Snitt stress: 5.1/10
+2026-05-23 22:33:44,225 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,225 [INFO]   Vecka 2026-19: 21689kg volym | RPE: 7.79 | 12.0 set
+2026-05-23 22:33:44,225 [INFO]   Vecka 2026-18: 35158kg volym | RPE: 7.85 | 16.0 set
+2026-05-23 22:33:44,225 [INFO]   Vecka 2026-17: 17169kg volym | RPE: 7.5 | 8.0 set
+2026-05-23 22:33:44,225 [INFO]   Vecka 2026-16: 14351kg volym | RPE: 8.0 | 8.0 set
+2026-05-23 22:33:44,226 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,233 [INFO] 
+==================================================
+2026-05-23 22:33:44,233 [INFO] PROGRESSIONSANALYS FÖR AMINA OSMAN
+2026-05-23 22:33:44,233 [INFO] ==================================================
+2026-05-23 22:33:44,234 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,235 [INFO]    Tricepspress: 644.6% ökning | Bästa vikt: 71.4kg
+2026-05-23 22:33:44,235 [INFO]    Militärpress: 534.0% ökning | Bästa vikt: 99.0kg
+2026-05-23 22:33:44,235 [INFO]    Plankan: 370.6% ökning | Bästa vikt: 91.7kg
+2026-05-23 22:33:44,235 [INFO]    Hantelflyes: 314.5% ökning | Bästa vikt: 91.2kg
+2026-05-23 22:33:44,235 [INFO]    Utfall: 282.2% ökning | Bästa vikt: 99.1kg
+2026-05-23 22:33:44,235 [INFO]    Bicepscurl: 176.4% ökning | Bästa vikt: 89.7kg
+2026-05-23 22:33:44,235 [INFO]    Knäböj: 141.3% ökning | Bästa vikt: 91.0kg
+2026-05-23 22:33:44,235 [INFO]    Latsdrag: 133.7% ökning | Bästa vikt: 58.8kg
+2026-05-23 22:33:44,235 [INFO]    Bänkpress: 49.1% ökning | Bästa vikt: 91.8kg
+2026-05-23 22:33:44,235 [INFO]    Marklyft: 31.7% ökning | Bästa vikt: 70.5kg
+2026-05-23 22:33:44,235 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,235 [INFO]   Armar: 2480.7kg snittvolym
+2026-05-23 22:33:44,235 [INFO]   Rygg: 2900.9kg snittvolym
+2026-05-23 22:33:44,236 [INFO]   Bröst: 3227.1kg snittvolym
+2026-05-23 22:33:44,236 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,236 [INFO]   Snitt sömn: 7.5 timmar
+2026-05-23 22:33:44,236 [INFO]   Snitt energi: 7.8/10
+2026-05-23 22:33:44,236 [INFO]   Snitt stress: 5.4/10
+2026-05-23 22:33:44,237 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,237 [INFO]   Vecka 2026-19: 28978kg volym | RPE: 7.69 | 12.0 set
+2026-05-23 22:33:44,237 [INFO]   Vecka 2026-18: 23284kg volym | RPE: 7.71 | 12.0 set
+2026-05-23 22:33:44,237 [INFO]   Vecka 2026-17: 33410kg volym | RPE: 7.91 | 16.0 set
+2026-05-23 22:33:44,237 [INFO]   Vecka 2026-16: 29526kg volym | RPE: 7.5 | 16.0 set
+2026-05-23 22:33:44,238 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,245 [INFO] 
+==================================================
+2026-05-23 22:33:44,245 [INFO] PROGRESSIONSANALYS FÖR FATIMA HASSAN
+2026-05-23 22:33:44,245 [INFO] ==================================================
+2026-05-23 22:33:44,247 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,247 [INFO]    Militärpress: 1307.6% ökning | Bästa vikt: 81.8kg
+2026-05-23 22:33:44,247 [INFO]    Hantelflyes: 374.6% ökning | Bästa vikt: 93.7kg
+2026-05-23 22:33:44,247 [INFO]    Utfall: 301.5% ökning | Bästa vikt: 88.9kg
+2026-05-23 22:33:44,247 [INFO]    Marklyft: 289.1% ökning | Bästa vikt: 96.6kg
+2026-05-23 22:33:44,247 [INFO]    Bicepscurl: 168.2% ökning | Bästa vikt: 63.8kg
+2026-05-23 22:33:44,247 [INFO]    Bänkpress: 124.6% ökning | Bästa vikt: 93.4kg
+2026-05-23 22:33:44,247 [INFO]    Latsdrag: 123.6% ökning | Bästa vikt: 74.8kg
+2026-05-23 22:33:44,247 [INFO]    Tricepspress: 47.6% ökning | Bästa vikt: 97.3kg
+2026-05-23 22:33:44,247 [INFO]    Knäböj: 9.1% ökning | Bästa vikt: 65.8kg
+2026-05-23 22:33:44,247 [INFO]    Plankan: 9.0% ökning | Bästa vikt: 79.8kg
+2026-05-23 22:33:44,247 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,248 [INFO]   Ben: 2154.5kg snittvolym
+2026-05-23 22:33:44,248 [INFO]   Mage: 2295.2kg snittvolym
+2026-05-23 22:33:44,248 [INFO]   Rygg: 2973.3kg snittvolym
+2026-05-23 22:33:44,248 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,248 [INFO]   Snitt sömn: 7.1 timmar
+2026-05-23 22:33:44,248 [INFO]   Snitt energi: 7.8/10
+2026-05-23 22:33:44,248 [INFO]   Snitt stress: 4.6/10
+2026-05-23 22:33:44,249 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,249 [INFO]   Vecka 2026-19: 17981kg volym | RPE: 6.58 | 8.0 set
+2026-05-23 22:33:44,249 [INFO]   Vecka 2026-18: 32681kg volym | RPE: 7.53 | 16.0 set
+2026-05-23 22:33:44,249 [INFO]   Vecka 2026-17: 31684kg volym | RPE: 7.43 | 16.0 set
+2026-05-23 22:33:44,249 [INFO]   Vecka 2026-16: 27522kg volym | RPE: 7.46 | 12.0 set
+2026-05-23 22:33:44,250 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,256 [INFO] 
+==================================================
+2026-05-23 22:33:44,256 [INFO] PROGRESSIONSANALYS FÖR LINA KARLSSON
+2026-05-23 22:33:44,256 [INFO] ==================================================
+2026-05-23 22:33:44,257 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,257 [INFO]    Marklyft: 867.9% ökning | Bästa vikt: 83.4kg
+2026-05-23 22:33:44,257 [INFO]    Tricepspress: 405.7% ökning | Bästa vikt: 93.0kg
+2026-05-23 22:33:44,257 [INFO]    Hantelflyes: 307.8% ökning | Bästa vikt: 94.4kg
+2026-05-23 22:33:44,257 [INFO]    Knäböj: 273.4% ökning | Bästa vikt: 96.6kg
+2026-05-23 22:33:44,257 [INFO]    Militärpress: 236.4% ökning | Bästa vikt: 74.0kg
+2026-05-23 22:33:44,257 [INFO]    Plankan: 219.3% ökning | Bästa vikt: 99.9kg
+2026-05-23 22:33:44,257 [INFO]    Latsdrag: 67.6% ökning | Bästa vikt: 62.6kg
+2026-05-23 22:33:44,257 [INFO]    Bänkpress: 20.9% ökning | Bästa vikt: 87.7kg
+2026-05-23 22:33:44,258 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,258 [INFO]   Rygg: 2715.0kg snittvolym
+2026-05-23 22:33:44,258 [INFO]   Axlar: 2872.8kg snittvolym
+2026-05-23 22:33:44,258 [INFO]   Bröst: 3417.8kg snittvolym
+2026-05-23 22:33:44,258 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,258 [INFO]   Snitt sömn: 7.4 timmar
+2026-05-23 22:33:44,258 [INFO]   Snitt energi: 7.6/10
+2026-05-23 22:33:44,258 [INFO]   Snitt stress: 4.8/10
+2026-05-23 22:33:44,260 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,260 [INFO]   Vecka 2026-19: 21661kg volym | RPE: 7.43 | 12.0 set
+2026-05-23 22:33:44,260 [INFO]   Vecka 2026-18: 34639kg volym | RPE: 8.0 | 16.0 set
+2026-05-23 22:33:44,260 [INFO]   Vecka 2026-17: 20538kg volym | RPE: 7.36 | 12.0 set
+2026-05-23 22:33:44,260 [INFO]   Vecka 2026-16: 18368kg volym | RPE: 7.33 | 8.0 set
+2026-05-23 22:33:44,261 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,267 [INFO] 
+==================================================
+2026-05-23 22:33:44,267 [INFO] PROGRESSIONSANALYS FÖR LUCAS BERGSTRÖM
+2026-05-23 22:33:44,267 [INFO] ==================================================
+2026-05-23 22:33:44,269 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,269 [INFO]    Militärpress: 415.1% ökning | Bästa vikt: 93.8kg
+2026-05-23 22:33:44,269 [INFO]    Plankan: 311.1% ökning | Bästa vikt: 93.6kg
+2026-05-23 22:33:44,269 [INFO]    Bicepscurl: 264.9% ökning | Bästa vikt: 87.5kg
+2026-05-23 22:33:44,269 [INFO]    Utfall: 136.2% ökning | Bästa vikt: 94.2kg
+2026-05-23 22:33:44,269 [INFO]    Latsdrag: 110.5% ökning | Bästa vikt: 46.2kg
+2026-05-23 22:33:44,269 [INFO]    Hantelflyes: 107.0% ökning | Bästa vikt: 56.4kg
+2026-05-23 22:33:44,269 [INFO]    Marklyft: 77.1% ökning | Bästa vikt: 93.3kg
+2026-05-23 22:33:44,269 [INFO]    Knäböj: 74.9% ökning | Bästa vikt: 52.7kg
+2026-05-23 22:33:44,269 [INFO]    Tricepspress: 36.2% ökning | Bästa vikt: 83.6kg
+2026-05-23 22:33:44,270 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,270 [INFO]   Ben: 1967.5kg snittvolym
+2026-05-23 22:33:44,270 [INFO]   Mage: 2011.1kg snittvolym
+2026-05-23 22:33:44,270 [INFO]   Bröst: 2267.0kg snittvolym
+2026-05-23 22:33:44,270 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,270 [INFO]   Snitt sömn: 7.6 timmar
+2026-05-23 22:33:44,270 [INFO]   Snitt energi: 7.7/10
+2026-05-23 22:33:44,270 [INFO]   Snitt stress: 5.2/10
+2026-05-23 22:33:44,271 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,271 [INFO]   Vecka 2026-19: 17072kg volym | RPE: 7.0 | 8.0 set
+2026-05-23 22:33:44,271 [INFO]   Vecka 2026-18: 14264kg volym | RPE: 6.93 | 8.0 set
+2026-05-23 22:33:44,271 [INFO]   Vecka 2026-17: 22821kg volym | RPE: 8.1 | 12.0 set
+2026-05-23 22:33:44,271 [INFO]   Vecka 2026-16: 22273kg volym | RPE: 8.28 | 12.0 set
+2026-05-23 22:33:44,272 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,279 [INFO] 
+==================================================
+2026-05-23 22:33:44,279 [INFO] PROGRESSIONSANALYS FÖR ERIK JOHANSSON
+2026-05-23 22:33:44,279 [INFO] ==================================================
+2026-05-23 22:33:44,280 [INFO] 
+Volymökning per övning:
+2026-05-23 22:33:44,280 [INFO]    Tricepspress: 669.5% ökning | Bästa vikt: 86.0kg
+2026-05-23 22:33:44,280 [INFO]    Plankan: 388.3% ökning | Bästa vikt: 96.8kg
+2026-05-23 22:33:44,280 [INFO]    Bänkpress: 323.2% ökning | Bästa vikt: 98.6kg
+2026-05-23 22:33:44,280 [INFO]    Knäböj: 186.5% ökning | Bästa vikt: 90.6kg
+2026-05-23 22:33:44,280 [INFO]    Hantelflyes: 110.4% ökning | Bästa vikt: 87.1kg
+2026-05-23 22:33:44,280 [INFO]    Bicepscurl: 88.4% ökning | Bästa vikt: 73.2kg
+2026-05-23 22:33:44,280 [INFO]    Latsdrag: 85.0% ökning | Bästa vikt: 99.3kg
+2026-05-23 22:33:44,280 [INFO]    Utfall: 50.7% ökning | Bästa vikt: 62.6kg
+2026-05-23 22:33:44,280 [INFO]    Marklyft: 44.4% ökning | Bästa vikt: 49.2kg
+2026-05-23 22:33:44,280 [INFO]    Militärpress: 32.1% ökning | Bästa vikt: 63.9kg
+2026-05-23 22:33:44,282 [INFO] 
+Kroppsdelar som behöver mer fokus:
+2026-05-23 22:33:44,282 [INFO]   Axlar: 2377.5kg snittvolym
+2026-05-23 22:33:44,282 [INFO]   Bröst: 2663.0kg snittvolym
+2026-05-23 22:33:44,282 [INFO]   Ben: 3014.8kg snittvolym
+2026-05-23 22:33:44,282 [INFO] 
+Återhämtningsanalys:
+2026-05-23 22:33:44,282 [INFO]   Snitt sömn: 7.3 timmar
+2026-05-23 22:33:44,282 [INFO]   Snitt energi: 7.5/10
+2026-05-23 22:33:44,282 [INFO]   Snitt stress: 4.8/10
+2026-05-23 22:33:44,284 [INFO] 
+Senaste veckornas träning:
+2026-05-23 22:33:44,284 [INFO]   Vecka 2026-19: 15895kg volym | RPE: 7.5 | 8.0 set
+2026-05-23 22:33:44,284 [INFO]   Vecka 2026-18: 22720kg volym | RPE: 7.89 | 12.0 set
+2026-05-23 22:33:44,284 [INFO]   Vecka 2026-17: 41596kg volym | RPE: 7.48 | 16.0 set
+2026-05-23 22:33:44,284 [INFO]   Vecka 2026-16: 28770kg volym | RPE: 7.02 | 12.0 set
+2026-05-23 22:33:44,285 [INFO] 
+Intensitetslogg sparad!
+2026-05-23 22:33:44,286 [INFO]   Resultat: 9 OK, 0 FEL
+2026-05-23 22:33:44,286 [INFO] [OK] progression klar pa 0s!
+2026-05-23 22:33:44,286 [INFO] 
+==================================================
+2026-05-23 22:33:44,286 [INFO] Kor: streaks
+2026-05-23 22:33:44,286 [INFO] ==================================================
+2026-05-23 22:33:44,289 [INFO] Connected to database!
+2026-05-23 22:33:44,300 [INFO] [Test User] Streak: 0 days | Best: 84 days | Total: 84 sessions
+2026-05-23 22:33:44,303 [INFO] [Test User] Workout reminder sent — 7 days since last session.
+2026-05-23 22:33:44,304 [INFO] [Mohammed Al-Rashid] Streak: 0 days | Best: 4 days | Total: 10 sessions
+2026-05-23 22:33:44,305 [INFO] [Mohammed Al-Rashid] Workout reminder sent — 6 days since last session.
+2026-05-23 22:33:44,305 [INFO] [Viktor Svensson] Streak: 0 days | Best: 4 days | Total: 11 sessions
+2026-05-23 22:33:44,306 [INFO] [Viktor Svensson] Workout reminder sent — 10 days since last session.
+2026-05-23 22:33:44,307 [INFO] [Sara Lindqvist] Streak: 0 days | Best: 3 days | Total: 11 sessions
+2026-05-23 22:33:44,307 [INFO] [Sara Lindqvist] Workout reminder sent — 6 days since last session.
+2026-05-23 22:33:44,308 [INFO] [Amina Osman] Streak: 0 days | Best: 5 days | Total: 14 sessions
+2026-05-23 22:33:44,309 [INFO] [Amina Osman] Workout reminder sent — 9 days since last session.
+2026-05-23 22:33:44,310 [INFO] [Fatima Hassan] Streak: 0 days | Best: 3 days | Total: 13 sessions
+2026-05-23 22:33:44,310 [INFO] [Fatima Hassan] Workout reminder sent — 8 days since last session.
+2026-05-23 22:33:44,311 [INFO] [Lina Karlsson] Streak: 0 days | Best: 5 days | Total: 12 sessions
+2026-05-23 22:33:44,311 [INFO] [Lina Karlsson] Workout reminder sent — 7 days since last session.
+2026-05-23 22:33:44,312 [INFO] [Lucas Bergström] Streak: 0 days | Best: 2 days | Total: 10 sessions
+2026-05-23 22:33:44,313 [INFO] [Lucas Bergström] Workout reminder sent — 7 days since last session.
+2026-05-23 22:33:44,313 [INFO] [Erik Johansson] Streak: 0 days | Best: 2 days | Total: 12 sessions
+2026-05-23 22:33:44,314 [INFO] [Erik Johansson] Workout reminder sent — 9 days since last session.
+2026-05-23 22:33:44,314 [INFO]   Resultat: 9 OK, 0 FEL
+2026-05-23 22:33:44,314 [INFO] [OK] streaks klar pa 0s!
+2026-05-23 22:33:44,314 [INFO] 
+==================================================
+2026-05-23 22:33:44,314 [INFO] Kor: fatigue_scores
+2026-05-23 22:33:44,314 [INFO] ==================================================
+2026-05-23 22:33:44,333 [INFO] [OK] fatigue_scores klar pa 0s!
+2026-05-23 22:33:44,333 [INFO] 
+==================================================
+2026-05-23 22:33:44,333 [INFO] Kor: training_intel
+2026-05-23 22:33:44,333 [INFO] ==================================================
+2026-05-23 22:33:44,342 [INFO] 
+=======================================================
+2026-05-23 22:33:44,342 [INFO] Analyserar: Test User (medel) (ID: 1)
+2026-05-23 22:33:44,342 [INFO] =======================================================
+2026-05-23 22:33:44,342 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,345 [INFO] 
+ACWR (EMA): 0.18 — UNDERTRAINING
+2026-05-23 22:33:44,345 [INFO]   ACWR 0.18 — for lag traning, risk for detraining
+2026-05-23 22:33:44,346 [INFO] 
+VOLYM DENNA VECKA:
+2026-05-23 22:33:44,346 [INFO]   [LOW] Rygg: 7 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,346 [INFO]   [LOW] Axlar: 4 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,346 [INFO]   [LOW] Ben: 3 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,346 [INFO]   [LOW] Bröst: 3 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,346 [INFO]   [LOW] Armar: 3 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,346 [INFO] 
+FATIGUE SCORE: 106,416 (ratio: 0.18x) — LOW — Under normal niva
+2026-05-23 22:33:44,346 [INFO] 
+COMPOSITE READINESS: 55.4/100 — TRAIN LIGHT
+2026-05-23 22:33:44,346 [INFO]   Måttlig readiness. Välj lättare träning.
+2026-05-23 22:33:44,346 [INFO] 
+MUSKELBALANS:
+2026-05-23 22:33:44,346 [INFO]   Push/Pull obalans: 10 pull vs 4 push sets — mer pressövningar behövs
+2026-05-23 22:33:44,346 [INFO]   Upper/Lower obalans: 14 övre vs 3 nedre sets — mer benträning behövs
+2026-05-23 22:33:44,347 [INFO] 
+PROGRESSION:
+2026-05-23 22:33:44,347 [INFO]   Volym minskade med 79.6% vs forriga veckan
+2026-05-23 22:33:44,349 [INFO] 
+=======================================================
+2026-05-23 22:33:44,349 [INFO] Analyserar: Mohammed Al-Rashid (avancerad) (ID: 4)
+2026-05-23 22:33:44,349 [INFO] =======================================================
+2026-05-23 22:33:44,349 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,350 [INFO] 
+ACWR (EMA): 0.71 — UNDERTRAINING
+2026-05-23 22:33:44,350 [INFO]   ACWR 0.71 — for lag traning, risk for detraining
+2026-05-23 22:33:44,351 [INFO] 
+VOLYM DENNA VECKA:
+2026-05-23 22:33:44,351 [INFO]   [OK] Armar: 10 sets — optimal zon (8-12 sets/vecka)
+2026-05-23 22:33:44,351 [INFO]   [OK] Bröst: 9 sets — optimal zon (8-12 sets/vecka)
+2026-05-23 22:33:44,351 [INFO]   [LOW] Mage: 4 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,351 [INFO]   [LOW] Axlar: 3 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,351 [INFO]   [LOW] Ben: 3 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,351 [INFO]   [LOW] Rygg: 3 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,351 [INFO] 
+FATIGUE SCORE: 92,056 (ratio: 0.71x) — LOW — Under normal niva
+2026-05-23 22:33:44,351 [INFO] 
+COMPOSITE READINESS: 71.3/100 — GOOD TO TRAIN
+2026-05-23 22:33:44,351 [INFO]   Bra readiness. Träna normalt.
+2026-05-23 22:33:44,351 [INFO] 
+MUSKELBALANS:
+2026-05-23 22:33:44,351 [INFO]   Push/Pull obalans: 13 pull vs 3 push sets — mer pressövningar behövs
+2026-05-23 22:33:44,351 [INFO]   Upper/Lower obalans: 16 övre vs 7 nedre sets — mer benträning behövs
+2026-05-23 22:33:44,352 [INFO] 
+PROGRESSION:
+2026-05-23 22:33:44,352 [INFO]   Volym minskade med 16.2% vs forriga veckan
+2026-05-23 22:33:44,352 [INFO] 
+=======================================================
+2026-05-23 22:33:44,352 [INFO] Analyserar: Viktor Svensson (avancerad) (ID: 8)
+2026-05-23 22:33:44,352 [INFO] =======================================================
+2026-05-23 22:33:44,352 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,354 [INFO] 
+ACWR (EMA): 0.0 — UNDERTRAINING
+2026-05-23 22:33:44,354 [INFO]   ACWR 0.0 — for lag traning, risk for detraining
+2026-05-23 22:33:44,354 [INFO] 
+Ingen traning registrerad denna vecka.
+2026-05-23 22:33:44,355 [INFO] 
+=======================================================
+2026-05-23 22:33:44,355 [INFO] Analyserar: Sara Lindqvist (nybörjare) (ID: 3)
+2026-05-23 22:33:44,355 [INFO] =======================================================
+2026-05-23 22:33:44,355 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,356 [INFO] 
+ACWR (EMA): 0.8 — OPTIMAL ZONE
+2026-05-23 22:33:44,356 [INFO]   ACWR 0.8 — optimal traning, liten skaderisk
+2026-05-23 22:33:44,356 [INFO] 
+VOLYM DENNA VECKA:
+2026-05-23 22:33:44,356 [INFO]   [OK] Bröst: 10 sets — optimal zon (8-12 sets/vecka)
+2026-05-23 22:33:44,356 [INFO]   [LOW] Rygg: 9 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,356 [INFO]   [LOW] Ben: 7 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,356 [INFO]   [LOW] Armar: 5 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,356 [INFO] 
+FATIGUE SCORE: 117,105 (ratio: 0.8x) — LOW — Under normal niva
+2026-05-23 22:33:44,356 [INFO] 
+COMPOSITE READINESS: 74.0/100 — GOOD TO TRAIN
+2026-05-23 22:33:44,356 [INFO]   Bra readiness. Träna normalt.
+2026-05-23 22:33:44,356 [INFO] 
+MUSKELBALANS:
+2026-05-23 22:33:44,356 [INFO]   Upper/Lower ratio: 2.0 — bra balans
+2026-05-23 22:33:44,357 [INFO] 
+PROGRESSION:
+2026-05-23 22:33:44,357 [INFO]   Volym stabil (+1.9%) vs forriga veckan
+2026-05-23 22:33:44,358 [INFO] 
+=======================================================
+2026-05-23 22:33:44,358 [INFO] Analyserar: Amina Osman (medel) (ID: 7)
+2026-05-23 22:33:44,358 [INFO] =======================================================
+2026-05-23 22:33:44,358 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,359 [INFO] 
+ACWR (EMA): 0.0 — UNDERTRAINING
+2026-05-23 22:33:44,359 [INFO]   ACWR 0.0 — for lag traning, risk for detraining
+2026-05-23 22:33:44,359 [INFO] 
+Ingen traning registrerad denna vecka.
+2026-05-23 22:33:44,360 [INFO] 
+=======================================================
+2026-05-23 22:33:44,360 [INFO] Analyserar: Fatima Hassan (nybörjare) (ID: 5)
+2026-05-23 22:33:44,360 [INFO] =======================================================
+2026-05-23 22:33:44,360 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,361 [INFO] 
+ACWR (EMA): 0.0 — UNDERTRAINING
+2026-05-23 22:33:44,361 [INFO]   ACWR 0.0 — for lag traning, risk for detraining
+2026-05-23 22:33:44,361 [INFO] 
+Ingen traning registrerad denna vecka.
+2026-05-23 22:33:44,362 [INFO] 
+=======================================================
+2026-05-23 22:33:44,362 [INFO] Analyserar: Lina Karlsson (medel) (ID: 9)
+2026-05-23 22:33:44,362 [INFO] =======================================================
+2026-05-23 22:33:44,362 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,363 [INFO] 
+ACWR (EMA): 0.2 — UNDERTRAINING
+2026-05-23 22:33:44,363 [INFO]   ACWR 0.2 — for lag traning, risk for detraining
+2026-05-23 22:33:44,364 [INFO] 
+VOLYM DENNA VECKA:
+2026-05-23 22:33:44,364 [INFO]   [LOW] Rygg: 7 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,364 [INFO]   [LOW] Axlar: 5 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,364 [INFO]   [LOW] Mage: 5 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,364 [INFO] 
+FATIGUE SCORE: 38,610 (ratio: 0.2x) — LOW — Under normal niva
+2026-05-23 22:33:44,364 [INFO] 
+COMPOSITE READINESS: 56.0/100 — TRAIN LIGHT
+2026-05-23 22:33:44,364 [INFO]   Måttlig readiness. Välj lättare träning.
+2026-05-23 22:33:44,364 [INFO] 
+MUSKELBALANS:
+2026-05-23 22:33:44,364 [INFO]   Push/Pull ratio: 0.7 — bra balans
+2026-05-23 22:33:44,364 [INFO]   Upper/Lower obalans: 12 övre vs 5 nedre sets — mer benträning behövs
+2026-05-23 22:33:44,364 [INFO] 
+PROGRESSION:
+2026-05-23 22:33:44,364 [INFO]   Volym minskade med 81.0% vs forriga veckan
+2026-05-23 22:33:44,364 [INFO]   RPE stiger (+0.8) — kan tyda pa trotthet
+2026-05-23 22:33:44,365 [INFO] 
+=======================================================
+2026-05-23 22:33:44,365 [INFO] Analyserar: Lucas Bergström (nybörjare) (ID: 6)
+2026-05-23 22:33:44,365 [INFO] =======================================================
+2026-05-23 22:33:44,365 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,367 [INFO] 
+ACWR (EMA): 0.75 — UNDERTRAINING
+2026-05-23 22:33:44,367 [INFO]   ACWR 0.75 — for lag traning, risk for detraining
+2026-05-23 22:33:44,367 [INFO] 
+VOLYM DENNA VECKA:
+2026-05-23 22:33:44,367 [INFO]   [LOW] Ben: 5 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,367 [INFO]   [LOW] Bröst: 4 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,367 [INFO]   [LOW] Armar: 3 sets — minimum 8 sets/vecka
+2026-05-23 22:33:44,367 [INFO]   [LOW] Rygg: 3 sets — minimum 10 sets/vecka
+2026-05-23 22:33:44,367 [INFO] 
+FATIGUE SCORE: 71,159 (ratio: 0.75x) — LOW — Under normal niva
+2026-05-23 22:33:44,367 [INFO] 
+COMPOSITE READINESS: 72.5/100 — GOOD TO TRAIN
+2026-05-23 22:33:44,367 [INFO]   Bra readiness. Träna normalt.
+2026-05-23 22:33:44,367 [INFO] 
+MUSKELBALANS:
+2026-05-23 22:33:44,367 [INFO]   Upper/Lower ratio: 1.2 — bra balans
+2026-05-23 22:33:44,368 [INFO] 
+PROGRESSION:
+2026-05-23 22:33:44,368 [INFO]   Volym okade med 16.4% vs forriga veckan — bra progression!
+2026-05-23 22:33:44,368 [INFO]   RPE stiger (+1.5) — kan tyda pa trotthet
+2026-05-23 22:33:44,368 [INFO] 
+=======================================================
+2026-05-23 22:33:44,368 [INFO] Analyserar: Erik Johansson (medel) (ID: 2)
+2026-05-23 22:33:44,368 [INFO] =======================================================
+2026-05-23 22:33:44,368 [INFO] 
+RECOVERY SCORE: 50.0/100
+2026-05-23 22:33:44,370 [INFO] 
+ACWR (EMA): 0.0 — UNDERTRAINING
+2026-05-23 22:33:44,370 [INFO]   ACWR 0.0 — for lag traning, risk for detraining
+2026-05-23 22:33:44,370 [INFO] 
+Ingen traning registrerad denna vecka.
+2026-05-23 22:33:44,371 [INFO] 
+Analys klar! Metrics och AI insights sparade.
+2026-05-23 22:33:44,371 [INFO] [OK] training_intel klar pa 0s!
+2026-05-23 22:33:44,371 [INFO] 
+==================================================
+2026-05-23 22:33:44,371 [INFO] Kor: weekly_reports
+2026-05-23 22:33:44,371 [INFO] ==================================================
+2026-05-23 22:33:44,371 [INFO] Anslutning till databas lyckades!
+2026-05-23 22:33:44,381 [INFO] 
+=======================================================
+2026-05-23 22:33:44,381 [INFO] VECKORAPPORT - TEST USER - 2026 vecka 20
+2026-05-23 22:33:44,381 [INFO] =======================================================
+2026-05-23 22:33:44,381 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,386 [INFO] Antal trningspass: 1
+2026-05-23 22:33:44,386 [INFO] Total traningstid: 276 minuter
+2026-05-23 22:33:44,386 [INFO] Total volym: 13820 kg
+2026-05-23 22:33:44,386 [INFO] Snitt anstrangning (RPE): 7.7/10
+2026-05-23 22:33:44,386 [INFO] Uppskattade kalorier: 2162 kcal
+2026-05-23 22:33:44,387 [INFO] 
+Tranade kroppsdelar:
+2026-05-23 22:33:44,387 [INFO]   Rygg: 2 ovningar
+2026-05-23 22:33:44,387 [INFO]   Bröst: 1 ovningar
+2026-05-23 22:33:44,387 [INFO]   Armar: 1 ovningar
+2026-05-23 22:33:44,387 [INFO]   Axlar: 1 ovningar
+2026-05-23 22:33:44,387 [INFO]   Ben: 1 ovningar
+2026-05-23 22:33:44,388 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,388 [INFO] GRATTIS! 5 nya personbasta!
+2026-05-23 22:33:44,388 [INFO]   Knäböj: 108.8kg x 6 reps
+2026-05-23 22:33:44,388 [INFO]   Bänkpress: 94.7kg x 11 reps
+2026-05-23 22:33:44,388 [INFO]   Militärpress: 71.9kg x 8 reps
+2026-05-23 22:33:44,388 [INFO]   Latsdrag: 87.2kg x 8 reps
+2026-05-23 22:33:44,388 [INFO]   Bicepscurl: 42.7kg x 8 reps
+2026-05-23 22:33:44,388 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,388 [INFO] Snitt somn: 6.7 timmar/natt
+2026-05-23 22:33:44,388 [INFO] Somnkvalitet: 5.0/10
+2026-05-23 22:33:44,388 [INFO] Energiniva: 8.0/10
+2026-05-23 22:33:44,389 [INFO] Stressniva: 4.0/10
+2026-05-23 22:33:44,389 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,389 [INFO]   STATUS: BRA - Fortsatt bra arbete!
+2026-05-23 22:33:44,389 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,389 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,389 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,393 [INFO] Fokusera mer pa: Bröst
+2026-05-23 22:33:44,394 [INFO] 
+=======================================================
+2026-05-23 22:33:44,394 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,394 [INFO] =======================================================
+
+2026-05-23 22:33:44,396 [INFO] 
+=======================================================
+2026-05-23 22:33:44,396 [INFO] VECKORAPPORT - MOHAMMED AL-RASHID - 2026 vecka 20
+2026-05-23 22:33:44,396 [INFO] =======================================================
+2026-05-23 22:33:44,396 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,401 [INFO] Antal trningspass: 2
+2026-05-23 22:33:44,401 [INFO] Total traningstid: 472 minuter
+2026-05-23 22:33:44,401 [INFO] Total volym: 12412 kg
+2026-05-23 22:33:44,401 [INFO] Snitt anstrangning (RPE): 7.5/10
+2026-05-23 22:33:44,401 [INFO] Uppskattade kalorier: 3215 kcal
+2026-05-23 22:33:44,402 [INFO] 
+Tranade kroppsdelar:
+2026-05-23 22:33:44,402 [INFO]   Armar: 2 ovningar
+2026-05-23 22:33:44,402 [INFO]   Bröst: 2 ovningar
+2026-05-23 22:33:44,402 [INFO]   Axlar: 1 ovningar
+2026-05-23 22:33:44,402 [INFO]   Mage: 1 ovningar
+2026-05-23 22:33:44,402 [INFO]   Ben: 1 ovningar
+2026-05-23 22:33:44,402 [INFO]   Rygg: 1 ovningar
+2026-05-23 22:33:44,402 [INFO] 
+Humor under traning: trött
+2026-05-23 22:33:44,403 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,403 [INFO] GRATTIS! 4 nya personbasta!
+2026-05-23 22:33:44,403 [INFO]   Tricepspress: 76.8kg x 6 reps
+2026-05-23 22:33:44,403 [INFO]   Knäböj: 29.6kg x 6 reps
+2026-05-23 22:33:44,403 [INFO]   Bänkpress: 34.5kg x 7 reps
+2026-05-23 22:33:44,403 [INFO]   Militärpress: 64.3kg x 10 reps
+2026-05-23 22:33:44,403 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,403 [INFO] Snitt somn: 7.4 timmar/natt
+2026-05-23 22:33:44,403 [INFO] Somnkvalitet: 9.0/10
+2026-05-23 22:33:44,403 [INFO] Energiniva: 9.5/10
+2026-05-23 22:33:44,403 [INFO] Stressniva: 6.5/10
+2026-05-23 22:33:44,403 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,403 [INFO]   STATUS: OPTIMAL - Kroppen ar redo att prestera!
+2026-05-23 22:33:44,403 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,403 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,403 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,408 [INFO] Fokusera mer pa: Rygg
+2026-05-23 22:33:44,408 [INFO] 
+=======================================================
+2026-05-23 22:33:44,408 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,408 [INFO] =======================================================
+
+2026-05-23 22:33:44,410 [INFO] 
+=======================================================
+2026-05-23 22:33:44,411 [INFO] VECKORAPPORT - VIKTOR SVENSSON - 2026 vecka 20
+2026-05-23 22:33:44,411 [INFO] =======================================================
+2026-05-23 22:33:44,411 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,411 [INFO] Ingen traning registrerad denna vecka.
+2026-05-23 22:33:44,411 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,411 [INFO] Inga nya personbasta denna vecka.
+2026-05-23 22:33:44,411 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,411 [INFO] Snitt somn: 6.4 timmar/natt
+2026-05-23 22:33:44,411 [INFO] Somnkvalitet: 6.5/10
+2026-05-23 22:33:44,411 [INFO] Energiniva: 5.5/10
+2026-05-23 22:33:44,411 [INFO] Stressniva: 8.0/10
+2026-05-23 22:33:44,411 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,411 [INFO]   VARNING: Hog stressniva! Overvaag lattare traning.
+2026-05-23 22:33:44,411 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,411 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,411 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,411 [INFO] 
+=======================================================
+2026-05-23 22:33:44,411 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,411 [INFO] =======================================================
+
+2026-05-23 22:33:44,414 [INFO] 
+=======================================================
+2026-05-23 22:33:44,414 [INFO] VECKORAPPORT - SARA LINDQVIST - 2026 vecka 20
+2026-05-23 22:33:44,414 [INFO] =======================================================
+2026-05-23 22:33:44,414 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,418 [INFO] Antal trningspass: 2
+2026-05-23 22:33:44,418 [INFO] Total traningstid: 688 minuter
+2026-05-23 22:33:44,418 [INFO] Total volym: 14487 kg
+2026-05-23 22:33:44,418 [INFO] Snitt anstrangning (RPE): 8.1/10
+2026-05-23 22:33:44,418 [INFO] Uppskattade kalorier: 5340 kcal
+2026-05-23 22:33:44,419 [INFO] 
+Tranade kroppsdelar:
+2026-05-23 22:33:44,419 [INFO]   Bröst: 3 ovningar
+2026-05-23 22:33:44,419 [INFO]   Rygg: 2 ovningar
+2026-05-23 22:33:44,419 [INFO]   Ben: 2 ovningar
+2026-05-23 22:33:44,419 [INFO]   Armar: 1 ovningar
+2026-05-23 22:33:44,420 [INFO] 
+Humor under traning: bra
+2026-05-23 22:33:44,420 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,420 [INFO] GRATTIS! 4 nya personbasta!
+2026-05-23 22:33:44,420 [INFO]   Knäböj: 49.5kg x 12 reps
+2026-05-23 22:33:44,420 [INFO]   Hantelflyes: 37.7kg x 11 reps
+2026-05-23 22:33:44,420 [INFO]   Marklyft: 47.5kg x 6 reps
+2026-05-23 22:33:44,420 [INFO]   Bänkpress: 77.4kg x 7 reps
+2026-05-23 22:33:44,420 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,420 [INFO] Snitt somn: 7.8 timmar/natt
+2026-05-23 22:33:44,420 [INFO] Somnkvalitet: 9.0/10
+2026-05-23 22:33:44,420 [INFO] Energiniva: 7.5/10
+2026-05-23 22:33:44,420 [INFO] Stressniva: 5.0/10
+2026-05-23 22:33:44,420 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,420 [INFO]   STATUS: OPTIMAL - Kroppen ar redo att prestera!
+2026-05-23 22:33:44,420 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,420 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,420 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,425 [INFO] Fokusera mer pa: Armar
+2026-05-23 22:33:44,425 [INFO] Overvaeg en aktiv vilodag - du har traint hart!
+2026-05-23 22:33:44,425 [INFO] 
+=======================================================
+2026-05-23 22:33:44,425 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,425 [INFO] =======================================================
+
+2026-05-23 22:33:44,428 [INFO] 
+=======================================================
+2026-05-23 22:33:44,428 [INFO] VECKORAPPORT - AMINA OSMAN - 2026 vecka 20
+2026-05-23 22:33:44,428 [INFO] =======================================================
+2026-05-23 22:33:44,428 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,428 [INFO] Ingen traning registrerad denna vecka.
+2026-05-23 22:33:44,428 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,428 [INFO] Inga nya personbasta denna vecka.
+2026-05-23 22:33:44,428 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,428 [INFO] Snitt somn: 7.8 timmar/natt
+2026-05-23 22:33:44,428 [INFO] Somnkvalitet: 7.5/10
+2026-05-23 22:33:44,428 [INFO] Energiniva: 6.5/10
+2026-05-23 22:33:44,428 [INFO] Stressniva: 5.5/10
+2026-05-23 22:33:44,428 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,428 [INFO]   STATUS: BRA - Fortsatt bra arbete!
+2026-05-23 22:33:44,428 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,428 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,428 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,428 [INFO] 
+=======================================================
+2026-05-23 22:33:44,428 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,428 [INFO] =======================================================
+
+2026-05-23 22:33:44,431 [INFO] 
+=======================================================
+2026-05-23 22:33:44,431 [INFO] VECKORAPPORT - FATIMA HASSAN - 2026 vecka 20
+2026-05-23 22:33:44,431 [INFO] =======================================================
+2026-05-23 22:33:44,431 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,431 [INFO] Ingen traning registrerad denna vecka.
+2026-05-23 22:33:44,431 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,431 [INFO] Inga nya personbasta denna vecka.
+2026-05-23 22:33:44,431 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,431 [INFO] Snitt somn: 7.6 timmar/natt
+2026-05-23 22:33:44,431 [INFO] Somnkvalitet: 6.0/10
+2026-05-23 22:33:44,431 [INFO] Energiniva: 7.0/10
+2026-05-23 22:33:44,431 [INFO] Stressniva: 5.5/10
+2026-05-23 22:33:44,431 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,431 [INFO]   STATUS: OPTIMAL - Kroppen ar redo att prestera!
+2026-05-23 22:33:44,431 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,431 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,431 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,431 [INFO] 
+=======================================================
+2026-05-23 22:33:44,431 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,431 [INFO] =======================================================
+
+2026-05-23 22:33:44,433 [INFO] 
+=======================================================
+2026-05-23 22:33:44,433 [INFO] VECKORAPPORT - LINA KARLSSON - 2026 vecka 20
+2026-05-23 22:33:44,433 [INFO] =======================================================
+2026-05-23 22:33:44,433 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,438 [INFO] Antal trningspass: 1
+2026-05-23 22:33:44,438 [INFO] Total traningstid: 316 minuter
+2026-05-23 22:33:44,438 [INFO] Total volym: 4542 kg
+2026-05-23 22:33:44,438 [INFO] Snitt anstrangning (RPE): 8.3/10
+2026-05-23 22:33:44,438 [INFO] Uppskattade kalorier: 2291 kcal
+2026-05-23 22:33:44,439 [INFO] 
+Tranade kroppsdelar:
+2026-05-23 22:33:44,439 [INFO]   Rygg: 2 ovningar
+2026-05-23 22:33:44,439 [INFO]   Axlar: 1 ovningar
+2026-05-23 22:33:44,439 [INFO]   Mage: 1 ovningar
+2026-05-23 22:33:44,439 [INFO] 
+Humor under traning: stark
+2026-05-23 22:33:44,440 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,440 [INFO] GRATTIS! 4 nya personbasta!
+2026-05-23 22:33:44,440 [INFO]   Marklyft: 27.4kg x 7 reps
+2026-05-23 22:33:44,440 [INFO]   Militärpress: 27.2kg x 10 reps
+2026-05-23 22:33:44,440 [INFO]   Plankan: 51.7kg x 6 reps
+2026-05-23 22:33:44,440 [INFO]   Latsdrag: 44.0kg x 6 reps
+2026-05-23 22:33:44,440 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,440 [INFO] Snitt somn: 6.6 timmar/natt
+2026-05-23 22:33:44,440 [INFO] Somnkvalitet: 5.5/10
+2026-05-23 22:33:44,440 [INFO] Energiniva: 7.5/10
+2026-05-23 22:33:44,440 [INFO] Stressniva: 6.0/10
+2026-05-23 22:33:44,440 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,440 [INFO]   STATUS: BRA - Fortsatt bra arbete!
+2026-05-23 22:33:44,440 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,440 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,440 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,445 [INFO] Fokusera mer pa: Axlar
+2026-05-23 22:33:44,445 [INFO] Overvaeg en aktiv vilodag - du har traint hart!
+2026-05-23 22:33:44,445 [INFO] 
+=======================================================
+2026-05-23 22:33:44,445 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,445 [INFO] =======================================================
+
+2026-05-23 22:33:44,448 [INFO] 
+=======================================================
+2026-05-23 22:33:44,448 [INFO] VECKORAPPORT - LUCAS BERGSTRÖM - 2026 vecka 20
+2026-05-23 22:33:44,448 [INFO] =======================================================
+2026-05-23 22:33:44,448 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,452 [INFO] Antal trningspass: 1
+2026-05-23 22:33:44,452 [INFO] Total traningstid: 316 minuter
+2026-05-23 22:33:44,452 [INFO] Total volym: 9182 kg
+2026-05-23 22:33:44,452 [INFO] Snitt anstrangning (RPE): 7.8/10
+2026-05-23 22:33:44,452 [INFO] Uppskattade kalorier: 2212 kcal
+2026-05-23 22:33:44,453 [INFO] 
+Tranade kroppsdelar:
+2026-05-23 22:33:44,453 [INFO]   Armar: 1 ovningar
+2026-05-23 22:33:44,453 [INFO]   Bröst: 1 ovningar
+2026-05-23 22:33:44,453 [INFO]   Rygg: 1 ovningar
+2026-05-23 22:33:44,453 [INFO]   Ben: 1 ovningar
+2026-05-23 22:33:44,454 [INFO] 
+Humor under traning: okej
+2026-05-23 22:33:44,454 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,454 [INFO] GRATTIS! 4 nya personbasta!
+2026-05-23 22:33:44,454 [INFO]   Utfall: 84.1kg x 6 reps
+2026-05-23 22:33:44,454 [INFO]   Hantelflyes: 56.4kg x 11 reps
+2026-05-23 22:33:44,454 [INFO]   Marklyft: 93.3kg x 8 reps
+2026-05-23 22:33:44,454 [INFO]   Bicepscurl: 64.6kg x 10 reps
+2026-05-23 22:33:44,454 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,455 [INFO] Snitt somn: 7.6 timmar/natt
+2026-05-23 22:33:44,455 [INFO] Somnkvalitet: 7.5/10
+2026-05-23 22:33:44,455 [INFO] Energiniva: 7.5/10
+2026-05-23 22:33:44,455 [INFO] Stressniva: 5.0/10
+2026-05-23 22:33:44,455 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,455 [INFO]   STATUS: OPTIMAL - Kroppen ar redo att prestera!
+2026-05-23 22:33:44,455 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,455 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,455 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,459 [INFO] Fokusera mer pa: Armar
+2026-05-23 22:33:44,459 [INFO] 
+=======================================================
+2026-05-23 22:33:44,459 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,459 [INFO] =======================================================
+
+2026-05-23 22:33:44,461 [INFO] 
+=======================================================
+2026-05-23 22:33:44,461 [INFO] VECKORAPPORT - ERIK JOHANSSON - 2026 vecka 20
+2026-05-23 22:33:44,461 [INFO] =======================================================
+2026-05-23 22:33:44,461 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-23 22:33:44,461 [INFO] Ingen traning registrerad denna vecka.
+2026-05-23 22:33:44,461 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-23 22:33:44,461 [INFO] Inga nya personbasta denna vecka.
+2026-05-23 22:33:44,461 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-23 22:33:44,462 [INFO] Snitt somn: 8.9 timmar/natt
+2026-05-23 22:33:44,462 [INFO] Somnkvalitet: 6.0/10
+2026-05-23 22:33:44,462 [INFO] Energiniva: 5.5/10
+2026-05-23 22:33:44,462 [INFO] Stressniva: 5.5/10
+2026-05-23 22:33:44,462 [INFO] 
+Aterhamtningsbedomning:
+2026-05-23 22:33:44,462 [INFO]   STATUS: BRA - Fortsatt bra arbete!
+2026-05-23 22:33:44,462 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-23 22:33:44,462 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-23 22:33:44,462 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-23 22:33:44,462 [INFO] 
+=======================================================
+2026-05-23 22:33:44,462 [INFO] VECKORAPPORT KLAR!
+2026-05-23 22:33:44,462 [INFO] =======================================================
+
+2026-05-23 22:33:44,462 [INFO]   Resultat: 9 OK, 0 FEL
+2026-05-23 22:33:44,462 [INFO] [OK] weekly_reports klar pa 0s!
+2026-05-23 22:33:44,462 [INFO] 
+==================================================
+2026-05-23 22:33:44,462 [INFO] Platform klar pa 0s — 7 OK, 0 FEL
+2026-05-23 22:33:44,462 [INFO] ==================================================
+2026-05-23 22:33:44,462 [INFO]   [OK] recommendations
+2026-05-23 22:33:44,462 [INFO]   [OK] personal_records
+2026-05-23 22:33:44,462 [INFO]   [OK] progression
+2026-05-23 22:33:44,462 [INFO]   [OK] streaks
+2026-05-23 22:33:44,462 [INFO]   [OK] fatigue_scores
+2026-05-23 22:33:44,462 [INFO]   [OK] training_intel
+2026-05-23 22:33:44,462 [INFO]   [OK] weekly_reports

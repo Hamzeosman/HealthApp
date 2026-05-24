@@ -69,6 +69,10 @@ def run_all_weekly_reports():
     from pipelines.weekly_report_pipeline import generate_weekly_report
     return safe_run_for_all_users("Weekly Reports", generate_weekly_report)
 
+def run_feature_store():
+    from pipelines.feature_store_pipeline import run
+    run()
+
 def run_fatigue_pipeline():
     from pipelines.fatigue_pipeline import run
     run()
@@ -83,6 +87,7 @@ PIPELINE_REGISTRY = {
     "personal_records": run_all_personal_records,
     "progression":      run_all_progression,
     "streaks":          run_all_streaks,
+    "feature_store":     run_feature_store,
     "fatigue_scores":    run_fatigue_pipeline,
     "training_intel":   run_training_intelligence,
     "weekly_reports":   run_all_weekly_reports,
