@@ -33,6 +33,8 @@ namespace HealthApp.API.Controllers
         [HttpPut("me")]
         public async Task<IActionResult> UpdateMyProfile(UpdateProfileDto dto)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var userId = UserHelper.GetUserId(User);
             if (userId == null) return Unauthorized();
 

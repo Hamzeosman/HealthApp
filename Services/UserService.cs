@@ -24,11 +24,12 @@ namespace HealthApp.API.Services
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) return null;
 
-            user.Age = dto.Age;
-            user.WeightKg = dto.WeightKg;
-            user.HeightCm = dto.HeightCm;
-            user.FitnessLevel = dto.FitnessLevel;
-            user.Goal = dto.Goal;
+            // Endast uppdatera fält som faktiskt skickats in (partial update)
+            if (dto.Age.HasValue) user.Age = dto.Age.Value;
+            if (dto.WeightKg.HasValue) user.WeightKg = dto.WeightKg.Value;
+            if (dto.HeightCm.HasValue) user.HeightCm = dto.HeightCm.Value;
+            if (!string.IsNullOrWhiteSpace(dto.FitnessLevel)) user.FitnessLevel = dto.FitnessLevel;
+            if (!string.IsNullOrWhiteSpace(dto.Goal)) user.Goal = dto.Goal;
 
             await _userRepository.SaveChangesAsync();
 
