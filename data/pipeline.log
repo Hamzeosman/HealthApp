@@ -8886,3 +8886,536 @@ Aterhamtningsbedomning:
 2026-05-24 20:20:46,483 [INFO]   [OK] fatigue_scores
 2026-05-24 20:20:46,483 [INFO]   [OK] training_intel
 2026-05-24 20:20:46,483 [INFO]   [OK] weekly_reports
+2026-05-24 22:01:46,009 [INFO] Anslutning till databas lyckades!
+2026-05-24 22:01:46,023 [INFO] [Test User] Löpning — Du har inte tränat Kondition sedan 2026-05-15 (score: 1.00)
+2026-05-24 22:01:46,023 [INFO] [Test User] Wide Push-ups — Du har inte tränat Bröst sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,024 [INFO] [Test User] Overhead Tricep Extension — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,024 [INFO] [Test User] Upright Row — Du har inte tränat Axlar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,025 [INFO] [Test User] Latsdrag — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,025 [INFO] [Test User] Neck Side Stretch — Du har inte tränat Mage sedan 2026-05-09 (score: 1.00)
+2026-05-24 22:01:46,026 [INFO] [Test User] Romanian Deadlift with Dumbbells — Du har inte tränat Ben sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,026 [INFO] Rekommendationer sparade för Test User!
+2026-05-24 22:01:46,028 [INFO] [Mohammed Al-Rashid] Burpees — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:01:46,028 [INFO] [Mohammed Al-Rashid] Dumbbell Row — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,028 [INFO] [Mohammed Al-Rashid] Downward Dog — Du har inte tränat Mage sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,028 [INFO] Rekommendationer sparade för Mohammed Al-Rashid!
+2026-05-24 22:01:46,030 [INFO] [Viktor Svensson] Rowing — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:01:46,030 [INFO] [Viktor Svensson] Pec Deck Machine — Du har inte tränat Bröst sedan 2026-05-11 (score: 1.00)
+2026-05-24 22:01:46,030 [INFO] [Viktor Svensson] Dumbbell Curl — Du har inte tränat Armar sedan 2026-05-08 (score: 1.00)
+2026-05-24 22:01:46,031 [INFO] [Viktor Svensson] Shoulder Dislocate with Band — Du har inte tränat Axlar sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:01:46,031 [INFO] [Viktor Svensson] Thoracic Spine Rotation — Du har inte tränat Rygg sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:01:46,031 [INFO] [Viktor Svensson] Child's Pose — Du har inte tränat Mage sedan 2026-05-09 (score: 1.00)
+2026-05-24 22:01:46,031 [INFO] [Viktor Svensson] Goblet Squat — Du har inte tränat Ben sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:01:46,032 [INFO] Rekommendationer sparade för Viktor Svensson!
+2026-05-24 22:01:46,034 [INFO] [Sara Lindqvist] Mountain Climbers — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:01:46,034 [INFO] [Sara Lindqvist] Close Grip Bench Press — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,034 [INFO] [Sara Lindqvist] Front Raises — Du har inte tränat Axlar sedan 2026-05-05 (score: 1.00)
+2026-05-24 22:01:46,034 [INFO] [Sara Lindqvist] Hanging Leg Raise — Du har inte tränat Mage sedan 2026-05-12 (score: 1.00)
+2026-05-24 22:01:46,035 [INFO] Rekommendationer sparade för Sara Lindqvist!
+2026-05-24 22:01:46,036 [INFO] [Amina Osman] Sled Push — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:01:46,037 [INFO] [Amina Osman] Cobra Pose — Du har inte tränat Bröst sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:01:46,037 [INFO] [Amina Osman] Overhead Tricep Stretch — Du har inte tränat Armar sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,037 [INFO] [Amina Osman] Lateral Raise — Du har inte tränat Axlar sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,038 [INFO] [Amina Osman] Pull-up — Du har inte tränat Rygg sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,038 [INFO] [Amina Osman] Leg Raise — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,038 [INFO] [Amina Osman] Soleus Stretch — Du har inte tränat Ben sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:01:46,038 [INFO] Rekommendationer sparade för Amina Osman!
+2026-05-24 22:01:46,040 [INFO] [Fatima Hassan] Box Jumps — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:01:46,040 [INFO] [Fatima Hassan] Hantelflyes — Du har inte tränat Bröst sedan 2026-05-15 (score: 1.00)
+2026-05-24 22:01:46,040 [INFO] [Fatima Hassan] Incline Dumbbell Curl — Du har inte tränat Armar sedan 2026-05-15 (score: 1.00)
+2026-05-24 22:01:46,040 [INFO] [Fatima Hassan] Cable Reverse Fly — Du har inte tränat Axlar sedan 2026-05-15 (score: 1.00)
+2026-05-24 22:01:46,041 [INFO] [Fatima Hassan] Conventional Deadlift — Du har inte tränat Rygg sedan 2026-05-12 (score: 1.00)
+2026-05-24 22:01:46,041 [INFO] [Fatima Hassan] Neck Side Stretch — Du har inte tränat Mage sedan 2026-05-03 (score: 1.00)
+2026-05-24 22:01:46,041 [INFO] [Fatima Hassan] Glute Kickback Stretch — Du har inte tränat Ben sedan 2026-05-12 (score: 1.00)
+2026-05-24 22:01:46,041 [INFO] Rekommendationer sparade för Fatima Hassan!
+2026-05-24 22:01:46,043 [INFO] [Lina Karlsson] Running — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:01:46,043 [INFO] [Lina Karlsson] Incline Barbell Bench Press — Du har inte tränat Bröst sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,043 [INFO] [Lina Karlsson] Wrist Extensor Stretch — Du har inte tränat Armar sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,044 [INFO] [Lina Karlsson] Shoulder Dislocate with Band — Du har inte tränat Axlar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,044 [INFO] [Lina Karlsson] Cat-Cow Stretch — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,044 [INFO] [Lina Karlsson] Downward Dog — Du har inte tränat Mage sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,045 [INFO] [Lina Karlsson] Romanian Deadlift — Du har inte tränat Ben sedan 2026-05-10 (score: 1.00)
+2026-05-24 22:01:46,045 [INFO] Rekommendationer sparade för Lina Karlsson!
+2026-05-24 22:01:46,046 [INFO] [Lucas Bergström] Running — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:01:46,046 [INFO] [Lucas Bergström] Bänkpress — Du har inte tränat Bröst sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,046 [INFO] [Lucas Bergström] Skull Crusher — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,047 [INFO] [Lucas Bergström] Arnold Press — Du har inte tränat Axlar sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,047 [INFO] [Lucas Bergström] Marklyft — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,047 [INFO] [Lucas Bergström] Leg Raise — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,047 [INFO] [Lucas Bergström] Glute Kickback Machine — Du har inte tränat Ben sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:01:46,048 [INFO] Rekommendationer sparade för Lucas Bergström!
+2026-05-24 22:01:46,049 [INFO] [Erik Johansson] Battle Ropes — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:01:46,049 [INFO] [Erik Johansson] Cable Crossover — Du har inte tränat Bröst sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,049 [INFO] [Erik Johansson] Overhead Tricep Stretch — Du har inte tränat Armar sedan 2026-05-12 (score: 1.00)
+2026-05-24 22:01:46,049 [INFO] [Erik Johansson] Upright Row — Du har inte tränat Axlar sedan 2026-05-07 (score: 1.00)
+2026-05-24 22:01:46,050 [INFO] [Erik Johansson] T-Bar Row — Du har inte tränat Rygg sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,050 [INFO] [Erik Johansson] Neck Side Stretch — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:01:46,050 [INFO] [Erik Johansson] Calf Raises — Du har inte tränat Ben sedan 2026-05-07 (score: 1.00)
+2026-05-24 22:01:46,050 [INFO] Rekommendationer sparade för Erik Johansson!
+2026-05-24 22:01:46,050 [INFO] ✅ SCHEDULER: recommendation_pipeline klar
+2026-05-24 22:01:46,050 [INFO] Job "job_recommendations (trigger: cron[hour='2', minute='30'], next run at: 2026-05-25 02:30:00 CEST)" executed successfully
+2026-05-24 22:11:56,576 [INFO] Running job "job_refresh_views (trigger: cron[minute='0'], next run at: 2026-05-24 23:00:00 CEST)" (scheduled at 2026-05-24 22:11:56.576229+02:00)
+2026-05-24 22:11:56,579 [INFO] ⏰ SCHEDULER: refreshar materialized views
+2026-05-24 22:11:56,602 [INFO] ✅ SCHEDULER: views refreshade
+2026-05-24 22:11:56,603 [INFO] Job "job_refresh_views (trigger: cron[minute='0'], next run at: 2026-05-24 23:00:00 CEST)" executed successfully
+2026-05-24 22:11:58,146 [INFO] Running job "job_feature_store (trigger: cron[hour='2', minute='0'], next run at: 2026-05-25 02:00:00 CEST)" (scheduled at 2026-05-24 22:11:58.146503+02:00)
+2026-05-24 22:11:58,147 [INFO] ⏰ SCHEDULER: feature_store_pipeline startar
+2026-05-24 22:11:58,195 [INFO] ✅ SCHEDULER: feature_store_pipeline klar
+2026-05-24 22:11:58,195 [INFO] Job "job_feature_store (trigger: cron[hour='2', minute='0'], next run at: 2026-05-25 02:00:00 CEST)" executed successfully
+2026-05-24 22:11:59,885 [INFO] Running job "job_fatigue (trigger: cron[hour='2', minute='15'], next run at: 2026-05-25 02:15:00 CEST)" (scheduled at 2026-05-24 22:11:59.885140+02:00)
+2026-05-24 22:11:59,885 [INFO] ⏰ SCHEDULER: fatigue_pipeline startar
+2026-05-24 22:11:59,917 [INFO] ✅ SCHEDULER: fatigue_pipeline klar
+2026-05-24 22:11:59,917 [INFO] Job "job_fatigue (trigger: cron[hour='2', minute='15'], next run at: 2026-05-25 02:15:00 CEST)" executed successfully
+2026-05-24 22:12:01,344 [INFO] Running job "job_recommendations (trigger: cron[hour='2', minute='30'], next run at: 2026-05-25 02:30:00 CEST)" (scheduled at 2026-05-24 22:12:01.344688+02:00)
+2026-05-24 22:12:01,345 [INFO] ⏰ SCHEDULER: recommendation_pipeline startar
+2026-05-24 22:12:01,347 [INFO] [Test User] Cycling — Du har inte tränat Kondition sedan 2026-05-15 (score: 1.00)
+2026-05-24 22:12:01,348 [INFO] [Test User] Cable Crossover — Du har inte tränat Bröst sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,348 [INFO] [Test User] Tricep Kickback — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,348 [INFO] [Test User] Overhead Press — Du har inte tränat Axlar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,349 [INFO] [Test User] Latsdrag — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,349 [INFO] [Test User] Dragon Flag — Du har inte tränat Mage sedan 2026-05-09 (score: 1.00)
+2026-05-24 22:12:01,349 [INFO] [Test User] Seated Hamstring Stretch — Du har inte tränat Ben sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,350 [INFO] Rekommendationer sparade för Test User!
+2026-05-24 22:12:01,352 [INFO] [Mohammed Al-Rashid] Box Jumps — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:12:01,352 [INFO] [Mohammed Al-Rashid] Seated Cable Row — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,353 [INFO] [Mohammed Al-Rashid] Dragon Flag — Du har inte tränat Mage sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,353 [INFO] Rekommendationer sparade för Mohammed Al-Rashid!
+2026-05-24 22:12:01,355 [INFO] [Viktor Svensson] Running — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:12:01,355 [INFO] [Viktor Svensson] Wide Push-ups — Du har inte tränat Bröst sedan 2026-05-11 (score: 1.00)
+2026-05-24 22:12:01,355 [INFO] [Viktor Svensson] Overhead Tricep Extension — Du har inte tränat Armar sedan 2026-05-08 (score: 1.00)
+2026-05-24 22:12:01,356 [INFO] [Viktor Svensson] Reverse Fly — Du har inte tränat Axlar sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:12:01,356 [INFO] [Viktor Svensson] Latsdrag — Du har inte tränat Rygg sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:12:01,357 [INFO] [Viktor Svensson] Plank — Du har inte tränat Mage sedan 2026-05-09 (score: 1.00)
+2026-05-24 22:12:01,357 [INFO] [Viktor Svensson] Hip Circle Stretch — Du har inte tränat Ben sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:12:01,357 [INFO] Rekommendationer sparade för Viktor Svensson!
+2026-05-24 22:12:01,359 [INFO] [Sara Lindqvist] Burpees — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:12:01,359 [INFO] [Sara Lindqvist] Tricep Pushdown — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,360 [INFO] [Sara Lindqvist] Seated Dumbbell Press — Du har inte tränat Axlar sedan 2026-05-05 (score: 1.00)
+2026-05-24 22:12:01,360 [INFO] [Sara Lindqvist] Plankan — Du har inte tränat Mage sedan 2026-05-12 (score: 1.00)
+2026-05-24 22:12:01,360 [INFO] Rekommendationer sparade för Sara Lindqvist!
+2026-05-24 22:12:01,362 [INFO] [Amina Osman] Running — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:12:01,363 [INFO] [Amina Osman] Decline Bench Press — Du har inte tränat Bröst sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:12:01,363 [INFO] [Amina Osman] Dumbbell Curl — Du har inte tränat Armar sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,363 [INFO] [Amina Osman] Seated Dumbbell Press — Du har inte tränat Axlar sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,364 [INFO] [Amina Osman] Seated Cable Row — Du har inte tränat Rygg sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,364 [INFO] [Amina Osman] Downward Dog — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,364 [INFO] [Amina Osman] Figure Four Stretch — Du har inte tränat Ben sedan 2026-05-13 (score: 1.00)
+2026-05-24 22:12:01,364 [INFO] Rekommendationer sparade för Amina Osman!
+2026-05-24 22:12:01,366 [INFO] [Fatima Hassan] Löpning — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:12:01,366 [INFO] [Fatima Hassan] Wide Push-ups — Du har inte tränat Bröst sedan 2026-05-15 (score: 1.00)
+2026-05-24 22:12:01,366 [INFO] [Fatima Hassan] Reverse Wrist Curl — Du har inte tränat Armar sedan 2026-05-15 (score: 1.00)
+2026-05-24 22:12:01,367 [INFO] [Fatima Hassan] Shoulder Dislocate with Band — Du har inte tränat Axlar sedan 2026-05-15 (score: 1.00)
+2026-05-24 22:12:01,367 [INFO] [Fatima Hassan] T-Bar Row — Du har inte tränat Rygg sedan 2026-05-12 (score: 1.00)
+2026-05-24 22:12:01,367 [INFO] [Fatima Hassan] Dragon Flag — Du har inte tränat Mage sedan 2026-05-03 (score: 1.00)
+2026-05-24 22:12:01,367 [INFO] [Fatima Hassan] Nordic Hamstring Curl — Du har inte tränat Ben sedan 2026-05-12 (score: 1.00)
+2026-05-24 22:12:01,368 [INFO] Rekommendationer sparade för Fatima Hassan!
+2026-05-24 22:12:01,369 [INFO] [Lina Karlsson] Rowing — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:12:01,370 [INFO] [Lina Karlsson] Cobra Pose — Du har inte tränat Bröst sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,370 [INFO] [Lina Karlsson] Wrist Extensor Stretch — Du har inte tränat Armar sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,370 [INFO] [Lina Karlsson] Face Pull — Du har inte tränat Axlar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,371 [INFO] [Lina Karlsson] Hyperextension — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,371 [INFO] [Lina Karlsson] Ab Wheel Rollout — Du har inte tränat Mage sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,371 [INFO] [Lina Karlsson] Walking Lunge — Du har inte tränat Ben sedan 2026-05-10 (score: 1.00)
+2026-05-24 22:12:01,371 [INFO] Rekommendationer sparade för Lina Karlsson!
+2026-05-24 22:12:01,373 [INFO] [Lucas Bergström] Farmer's Walk — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:12:01,374 [INFO] [Lucas Bergström] Incline Bänkpress — Du har inte tränat Bröst sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,374 [INFO] [Lucas Bergström] Tricep Kickback — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,374 [INFO] [Lucas Bergström] Front Raises — Du har inte tränat Axlar sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,375 [INFO] [Lucas Bergström] Thoracic Spine Rotation — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,375 [INFO] [Lucas Bergström] Plankan — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,375 [INFO] [Lucas Bergström] Hip Thrust — Du har inte tränat Ben sedan 2026-05-16 (score: 1.00)
+2026-05-24 22:12:01,375 [INFO] Rekommendationer sparade för Lucas Bergström!
+2026-05-24 22:12:01,377 [INFO] [Erik Johansson] Battle Ropes — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-24 22:12:01,377 [INFO] [Erik Johansson] Incline Dumbbell Press — Du har inte tränat Bröst sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,378 [INFO] [Erik Johansson] Tricep Pushdown — Du har inte tränat Armar sedan 2026-05-12 (score: 1.00)
+2026-05-24 22:12:01,378 [INFO] [Erik Johansson] Militärpress — Du har inte tränat Axlar sedan 2026-05-07 (score: 1.00)
+2026-05-24 22:12:01,378 [INFO] [Erik Johansson] Cobra Stretch — Du har inte tränat Rygg sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,378 [INFO] [Erik Johansson] Leg Raise — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-24 22:12:01,379 [INFO] [Erik Johansson] Step-ups — Du har inte tränat Ben sedan 2026-05-07 (score: 1.00)
+2026-05-24 22:12:01,379 [INFO] Rekommendationer sparade för Erik Johansson!
+2026-05-24 22:12:01,379 [INFO] ✅ SCHEDULER: recommendation_pipeline klar
+2026-05-24 22:12:01,379 [INFO] Job "job_recommendations (trigger: cron[hour='2', minute='30'], next run at: 2026-05-25 02:30:00 CEST)" executed successfully
+2026-05-24 22:12:02,117 [INFO] Running job "job_streaks (trigger: cron[hour='2', minute='45'], next run at: 2026-05-25 02:45:00 CEST)" (scheduled at 2026-05-24 22:12:02.117752+02:00)
+2026-05-24 22:12:02,118 [INFO] ⏰ SCHEDULER: streak_pipeline startar
+2026-05-24 22:12:02,123 [INFO] Connected to database!
+2026-05-24 22:12:02,131 [INFO] [Test User] Streak: 0 days | Best: 84 days | Total: 84 sessions
+2026-05-24 22:12:02,133 [INFO] [Mohammed Al-Rashid] Streak: 0 days | Best: 4 days | Total: 10 sessions
+2026-05-24 22:12:02,134 [INFO] [Viktor Svensson] Streak: 0 days | Best: 4 days | Total: 11 sessions
+2026-05-24 22:12:02,136 [INFO] [Sara Lindqvist] Streak: 0 days | Best: 3 days | Total: 11 sessions
+2026-05-24 22:12:02,137 [INFO] [Amina Osman] Streak: 0 days | Best: 5 days | Total: 14 sessions
+2026-05-24 22:12:02,138 [INFO] [Fatima Hassan] Streak: 0 days | Best: 3 days | Total: 13 sessions
+2026-05-24 22:12:02,139 [INFO] [Lina Karlsson] Streak: 0 days | Best: 5 days | Total: 12 sessions
+2026-05-24 22:12:02,140 [INFO] [Lucas Bergström] Streak: 0 days | Best: 2 days | Total: 10 sessions
+2026-05-24 22:12:02,141 [INFO] [Erik Johansson] Streak: 0 days | Best: 2 days | Total: 12 sessions
+2026-05-24 22:12:02,142 [INFO] ✅ SCHEDULER: streak_pipeline klar
+2026-05-24 22:12:02,142 [INFO] Job "job_streaks (trigger: cron[hour='2', minute='45'], next run at: 2026-05-25 02:45:00 CEST)" executed successfully
+2026-05-24 22:12:03,268 [INFO] Running job "job_weekly_reports (trigger: cron[day_of_week='mon', hour='6'], next run at: 2026-05-25 06:00:00 CEST)" (scheduled at 2026-05-24 22:12:03.268684+02:00)
+2026-05-24 22:12:03,269 [INFO] ⏰ SCHEDULER: weekly_report_pipeline startar
+2026-05-24 22:12:03,321 [INFO] Anslutning till databas lyckades!
+2026-05-24 22:12:03,335 [INFO] 
+=======================================================
+2026-05-24 22:12:03,336 [INFO] VECKORAPPORT - TEST USER - 2026 vecka 20
+2026-05-24 22:12:03,336 [INFO] =======================================================
+2026-05-24 22:12:03,336 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,336 [INFO] Ingen traning registrerad denna vecka.
+2026-05-24 22:12:03,336 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,336 [INFO] Inga nya personbasta denna vecka.
+2026-05-24 22:12:03,336 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,336 [INFO] Ingen aterhamtningsdata registrerad.
+2026-05-24 22:12:03,336 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,336 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,336 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,336 [INFO] 
+=======================================================
+2026-05-24 22:12:03,336 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,336 [INFO] =======================================================
+
+2026-05-24 22:12:03,339 [INFO] 
+=======================================================
+2026-05-24 22:12:03,339 [INFO] VECKORAPPORT - MOHAMMED AL-RASHID - 2026 vecka 20
+2026-05-24 22:12:03,339 [INFO] =======================================================
+2026-05-24 22:12:03,339 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,349 [INFO] Antal trningspass: 1
+2026-05-24 22:12:03,350 [INFO] Total traningstid: 212 minuter
+2026-05-24 22:12:03,350 [INFO] Total volym: 5973 kg
+2026-05-24 22:12:03,350 [INFO] Snitt anstrangning (RPE): 7.5/10
+2026-05-24 22:12:03,350 [INFO] Uppskattade kalorier: 1590 kcal
+2026-05-24 22:12:03,351 [INFO] 
+Tranade kroppsdelar:
+2026-05-24 22:12:03,351 [INFO]   Armar: 1 ovningar
+2026-05-24 22:12:03,351 [INFO]   Axlar: 1 ovningar
+2026-05-24 22:12:03,351 [INFO]   Bröst: 1 ovningar
+2026-05-24 22:12:03,351 [INFO]   Ben: 1 ovningar
+2026-05-24 22:12:03,352 [INFO] 
+Humor under traning: stark
+2026-05-24 22:12:03,353 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,353 [INFO] GRATTIS! 4 nya personbasta!
+2026-05-24 22:12:03,353 [INFO]   Tricepspress: 76.8kg x 6 reps
+2026-05-24 22:12:03,353 [INFO]   Knäböj: 29.6kg x 6 reps
+2026-05-24 22:12:03,353 [INFO]   Bänkpress: 34.5kg x 7 reps
+2026-05-24 22:12:03,353 [INFO]   Militärpress: 64.3kg x 10 reps
+2026-05-24 22:12:03,353 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,353 [INFO] Snitt somn: 6.2 timmar/natt
+2026-05-24 22:12:03,353 [INFO] Somnkvalitet: 8.0/10
+2026-05-24 22:12:03,353 [INFO] Energiniva: 10.0/10
+2026-05-24 22:12:03,353 [INFO] Stressniva: 8.0/10
+2026-05-24 22:12:03,353 [INFO] 
+Aterhamtningsbedomning:
+2026-05-24 22:12:03,353 [INFO]   VARNING: Hog stressniva! Overvaag lattare traning.
+2026-05-24 22:12:03,353 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,353 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,353 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,358 [INFO] Fokusera mer pa: Armar
+2026-05-24 22:12:03,359 [INFO] 
+=======================================================
+2026-05-24 22:12:03,359 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,359 [INFO] =======================================================
+
+2026-05-24 22:12:03,361 [INFO] 
+=======================================================
+2026-05-24 22:12:03,361 [INFO] VECKORAPPORT - VIKTOR SVENSSON - 2026 vecka 20
+2026-05-24 22:12:03,361 [INFO] =======================================================
+2026-05-24 22:12:03,361 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,361 [INFO] Ingen traning registrerad denna vecka.
+2026-05-24 22:12:03,361 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,361 [INFO] Inga nya personbasta denna vecka.
+2026-05-24 22:12:03,361 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,361 [INFO] Snitt somn: 6.2 timmar/natt
+2026-05-24 22:12:03,361 [INFO] Somnkvalitet: 8.0/10
+2026-05-24 22:12:03,361 [INFO] Energiniva: 6.0/10
+2026-05-24 22:12:03,361 [INFO] Stressniva: 8.0/10
+2026-05-24 22:12:03,361 [INFO] 
+Aterhamtningsbedomning:
+2026-05-24 22:12:03,361 [INFO]   VARNING: Hog stressniva! Overvaag lattare traning.
+2026-05-24 22:12:03,361 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,361 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,361 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,361 [INFO] 
+=======================================================
+2026-05-24 22:12:03,361 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,361 [INFO] =======================================================
+
+2026-05-24 22:12:03,363 [INFO] 
+=======================================================
+2026-05-24 22:12:03,363 [INFO] VECKORAPPORT - SARA LINDQVIST - 2026 vecka 20
+2026-05-24 22:12:03,363 [INFO] =======================================================
+2026-05-24 22:12:03,363 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,368 [INFO] Antal trningspass: 1
+2026-05-24 22:12:03,368 [INFO] Total traningstid: 352 minuter
+2026-05-24 22:12:03,368 [INFO] Total volym: 6800 kg
+2026-05-24 22:12:03,368 [INFO] Snitt anstrangning (RPE): 8.5/10
+2026-05-24 22:12:03,368 [INFO] Uppskattade kalorier: 2904 kcal
+2026-05-24 22:12:03,369 [INFO] 
+Tranade kroppsdelar:
+2026-05-24 22:12:03,369 [INFO]   Bröst: 2 ovningar
+2026-05-24 22:12:03,369 [INFO]   Rygg: 1 ovningar
+2026-05-24 22:12:03,369 [INFO]   Ben: 1 ovningar
+2026-05-24 22:12:03,370 [INFO] 
+Humor under traning: bra
+2026-05-24 22:12:03,370 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,370 [INFO] GRATTIS! 4 nya personbasta!
+2026-05-24 22:12:03,370 [INFO]   Knäböj: 49.5kg x 12 reps
+2026-05-24 22:12:03,370 [INFO]   Hantelflyes: 37.7kg x 11 reps
+2026-05-24 22:12:03,370 [INFO]   Marklyft: 47.5kg x 6 reps
+2026-05-24 22:12:03,370 [INFO]   Bänkpress: 77.4kg x 7 reps
+2026-05-24 22:12:03,370 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,371 [INFO] Snitt somn: 8.2 timmar/natt
+2026-05-24 22:12:03,371 [INFO] Somnkvalitet: 10.0/10
+2026-05-24 22:12:03,371 [INFO] Energiniva: 9.0/10
+2026-05-24 22:12:03,371 [INFO] Stressniva: 4.0/10
+2026-05-24 22:12:03,371 [INFO] 
+Aterhamtningsbedomning:
+2026-05-24 22:12:03,371 [INFO]   STATUS: OPTIMAL - Kroppen ar redo att prestera!
+2026-05-24 22:12:03,371 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,371 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,371 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,375 [INFO] Fokusera mer pa: Ben
+2026-05-24 22:12:03,375 [INFO] Overvaeg en aktiv vilodag - du har traint hart!
+2026-05-24 22:12:03,375 [INFO] 
+=======================================================
+2026-05-24 22:12:03,375 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,375 [INFO] =======================================================
+
+2026-05-24 22:12:03,378 [INFO] 
+=======================================================
+2026-05-24 22:12:03,378 [INFO] VECKORAPPORT - AMINA OSMAN - 2026 vecka 20
+2026-05-24 22:12:03,378 [INFO] =======================================================
+2026-05-24 22:12:03,378 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,378 [INFO] Ingen traning registrerad denna vecka.
+2026-05-24 22:12:03,378 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,378 [INFO] Inga nya personbasta denna vecka.
+2026-05-24 22:12:03,378 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,378 [INFO] Snitt somn: 6.7 timmar/natt
+2026-05-24 22:12:03,378 [INFO] Somnkvalitet: 5.0/10
+2026-05-24 22:12:03,378 [INFO] Energiniva: 8.0/10
+2026-05-24 22:12:03,378 [INFO] Stressniva: 4.0/10
+2026-05-24 22:12:03,378 [INFO] 
+Aterhamtningsbedomning:
+2026-05-24 22:12:03,378 [INFO]   STATUS: BRA - Fortsatt bra arbete!
+2026-05-24 22:12:03,378 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,378 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,378 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,378 [INFO] 
+=======================================================
+2026-05-24 22:12:03,378 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,378 [INFO] =======================================================
+
+2026-05-24 22:12:03,380 [INFO] 
+=======================================================
+2026-05-24 22:12:03,380 [INFO] VECKORAPPORT - FATIMA HASSAN - 2026 vecka 20
+2026-05-24 22:12:03,380 [INFO] =======================================================
+2026-05-24 22:12:03,380 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,380 [INFO] Ingen traning registrerad denna vecka.
+2026-05-24 22:12:03,380 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,380 [INFO] Inga nya personbasta denna vecka.
+2026-05-24 22:12:03,380 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,381 [INFO] Snitt somn: 7.8 timmar/natt
+2026-05-24 22:12:03,381 [INFO] Somnkvalitet: 6.0/10
+2026-05-24 22:12:03,381 [INFO] Energiniva: 9.0/10
+2026-05-24 22:12:03,381 [INFO] Stressniva: 3.0/10
+2026-05-24 22:12:03,381 [INFO] 
+Aterhamtningsbedomning:
+2026-05-24 22:12:03,381 [INFO]   STATUS: OPTIMAL - Kroppen ar redo att prestera!
+2026-05-24 22:12:03,381 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,381 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,381 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,381 [INFO] 
+=======================================================
+2026-05-24 22:12:03,381 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,381 [INFO] =======================================================
+
+2026-05-24 22:12:03,383 [INFO] 
+=======================================================
+2026-05-24 22:12:03,383 [INFO] VECKORAPPORT - LINA KARLSSON - 2026 vecka 20
+2026-05-24 22:12:03,383 [INFO] =======================================================
+2026-05-24 22:12:03,383 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,383 [INFO] Ingen traning registrerad denna vecka.
+2026-05-24 22:12:03,383 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,383 [INFO] Inga nya personbasta denna vecka.
+2026-05-24 22:12:03,383 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,383 [INFO] Snitt somn: 7.0 timmar/natt
+2026-05-24 22:12:03,383 [INFO] Somnkvalitet: 6.0/10
+2026-05-24 22:12:03,383 [INFO] Energiniva: 9.0/10
+2026-05-24 22:12:03,383 [INFO] Stressniva: 7.0/10
+2026-05-24 22:12:03,383 [INFO] 
+Aterhamtningsbedomning:
+2026-05-24 22:12:03,383 [INFO]   STATUS: OPTIMAL - Kroppen ar redo att prestera!
+2026-05-24 22:12:03,383 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,383 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,383 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,383 [INFO] 
+=======================================================
+2026-05-24 22:12:03,383 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,383 [INFO] =======================================================
+
+2026-05-24 22:12:03,385 [INFO] 
+=======================================================
+2026-05-24 22:12:03,385 [INFO] VECKORAPPORT - LUCAS BERGSTRÖM - 2026 vecka 20
+2026-05-24 22:12:03,385 [INFO] =======================================================
+2026-05-24 22:12:03,385 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,385 [INFO] Ingen traning registrerad denna vecka.
+2026-05-24 22:12:03,385 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,385 [INFO] Inga nya personbasta denna vecka.
+2026-05-24 22:12:03,385 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,385 [INFO] Snitt somn: 7.4 timmar/natt
+2026-05-24 22:12:03,385 [INFO] Somnkvalitet: 5.0/10
+2026-05-24 22:12:03,385 [INFO] Energiniva: 10.0/10
+2026-05-24 22:12:03,385 [INFO] Stressniva: 5.0/10
+2026-05-24 22:12:03,385 [INFO] 
+Aterhamtningsbedomning:
+2026-05-24 22:12:03,385 [INFO]   STATUS: OPTIMAL - Kroppen ar redo att prestera!
+2026-05-24 22:12:03,385 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,385 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,385 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,385 [INFO] 
+=======================================================
+2026-05-24 22:12:03,385 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,385 [INFO] =======================================================
+
+2026-05-24 22:12:03,387 [INFO] 
+=======================================================
+2026-05-24 22:12:03,387 [INFO] VECKORAPPORT - ERIK JOHANSSON - 2026 vecka 20
+2026-05-24 22:12:03,388 [INFO] =======================================================
+2026-05-24 22:12:03,388 [INFO] 
+--- TRANINGSSAMMANFATTNING ---
+2026-05-24 22:12:03,388 [INFO] Ingen traning registrerad denna vecka.
+2026-05-24 22:12:03,388 [INFO] 
+--- PERSONBASTA DENNA VECKA ---
+2026-05-24 22:12:03,388 [INFO] Inga nya personbasta denna vecka.
+2026-05-24 22:12:03,388 [INFO] 
+--- ATERHAMTNING & SOMN ---
+2026-05-24 22:12:03,388 [INFO] Snitt somn: 8.9 timmar/natt
+2026-05-24 22:12:03,388 [INFO] Somnkvalitet: 7.0/10
+2026-05-24 22:12:03,388 [INFO] Energiniva: 6.0/10
+2026-05-24 22:12:03,388 [INFO] Stressniva: 8.0/10
+2026-05-24 22:12:03,388 [INFO] 
+Aterhamtningsbedomning:
+2026-05-24 22:12:03,388 [INFO]   VARNING: Hog stressniva! Overvaag lattare traning.
+2026-05-24 22:12:03,388 [INFO] 
+--- KROPPSUTVECKLING ---
+2026-05-24 22:12:03,388 [INFO] Inga kroppsmatt registrerade denna vecka.
+2026-05-24 22:12:03,388 [INFO] 
+--- REKOMMENDATION FOR NASTA VECKA ---
+2026-05-24 22:12:03,388 [INFO] 
+=======================================================
+2026-05-24 22:12:03,388 [INFO] VECKORAPPORT KLAR!
+2026-05-24 22:12:03,388 [INFO] =======================================================
+
+2026-05-24 22:12:03,388 [INFO] ✅ SCHEDULER: weekly_report_pipeline klar
+2026-05-24 22:12:03,388 [INFO] Job "job_weekly_reports (trigger: cron[day_of_week='mon', hour='6'], next run at: 2026-05-25 06:00:00 CEST)" executed successfully
+2026-05-24 22:26:42,411 [INFO] Scheduler has been shut down
+2026-05-24 22:26:42,411 [INFO] 🛑 HealthApp API stoppad
+2026-05-25 02:04:20,954 [INFO] Anslutning till databas lyckades!
+2026-05-25 02:04:20,967 [INFO] [Test User] Sled Push — Du har inte tränat Kondition sedan 2026-05-15 (score: 1.00)
+2026-05-25 02:04:20,967 [INFO] [Test User] Dumbbell Bench Press — Du har inte tränat Bröst sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,968 [INFO] [Test User] Skull Crushers — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,968 [INFO] [Test User] Shoulder Dislocate with Band — Du har inte tränat Axlar sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,968 [INFO] [Test User] Sumo Deadlift — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,969 [INFO] [Test User] Dead Bug — Du har inte tränat Mage sedan 2026-05-09 (score: 1.00)
+2026-05-25 02:04:20,969 [INFO] [Test User] Glute Bridge — Du har inte tränat Ben sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,969 [INFO] Rekommendationer sparade för Test User!
+2026-05-25 02:04:20,971 [INFO] [Mohammed Al-Rashid] Cycling — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-25 02:04:20,971 [INFO] [Mohammed Al-Rashid] Pull-ups — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,971 [INFO] [Mohammed Al-Rashid] Plankan — Du har inte tränat Mage sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,972 [INFO] Rekommendationer sparade för Mohammed Al-Rashid!
+2026-05-25 02:04:20,973 [INFO] [Viktor Svensson] Sled Push — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-25 02:04:20,973 [INFO] [Viktor Svensson] Cable Crossover — Du har inte tränat Bröst sedan 2026-05-11 (score: 1.00)
+2026-05-25 02:04:20,974 [INFO] [Viktor Svensson] Concentration Curl — Du har inte tränat Armar sedan 2026-05-08 (score: 1.00)
+2026-05-25 02:04:20,974 [INFO] [Viktor Svensson] Arnold Press — Du har inte tränat Axlar sedan 2026-05-13 (score: 1.00)
+2026-05-25 02:04:20,974 [INFO] [Viktor Svensson] Child's Pose Extended — Du har inte tränat Rygg sedan 2026-05-13 (score: 1.00)
+2026-05-25 02:04:20,974 [INFO] [Viktor Svensson] Crunch — Du har inte tränat Mage sedan 2026-05-09 (score: 1.00)
+2026-05-25 02:04:20,974 [INFO] [Viktor Svensson] Glute Bridge — Du har inte tränat Ben sedan 2026-05-13 (score: 1.00)
+2026-05-25 02:04:20,975 [INFO] Rekommendationer sparade för Viktor Svensson!
+2026-05-25 02:04:20,976 [INFO] [Sara Lindqvist] Running — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-25 02:04:20,976 [INFO] [Sara Lindqvist] Skull Crushers — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,977 [INFO] [Sara Lindqvist] Reverse Fly — Du har inte tränat Axlar sedan 2026-05-05 (score: 1.00)
+2026-05-25 02:04:20,977 [INFO] [Sara Lindqvist] Bicycle Crunch — Du har inte tränat Mage sedan 2026-05-12 (score: 1.00)
+2026-05-25 02:04:20,977 [INFO] Rekommendationer sparade för Sara Lindqvist!
+2026-05-25 02:04:20,978 [INFO] [Amina Osman] Mountain Climbers — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-25 02:04:20,979 [INFO] [Amina Osman] Chest Doorway Stretch — Du har inte tränat Bröst sedan 2026-05-13 (score: 1.00)
+2026-05-25 02:04:20,979 [INFO] [Amina Osman] Overhead Tricep Stretch — Du har inte tränat Armar sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,980 [INFO] [Amina Osman] Shrugs — Du har inte tränat Axlar sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,980 [INFO] [Amina Osman] Wide Grip Pulldown — Du har inte tränat Rygg sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,980 [INFO] [Amina Osman] Dragon Flag — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,980 [INFO] [Amina Osman] Standing Quad Stretch — Du har inte tränat Ben sedan 2026-05-13 (score: 1.00)
+2026-05-25 02:04:20,981 [INFO] Rekommendationer sparade för Amina Osman!
+2026-05-25 02:04:20,982 [INFO] [Fatima Hassan] Sled Push — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-25 02:04:20,982 [INFO] [Fatima Hassan] Pec Minor Stretch — Du har inte tränat Bröst sedan 2026-05-15 (score: 1.00)
+2026-05-25 02:04:20,982 [INFO] [Fatima Hassan] Cable Curl — Du har inte tränat Armar sedan 2026-05-15 (score: 1.00)
+2026-05-25 02:04:20,983 [INFO] [Fatima Hassan] Militärpress — Du har inte tränat Axlar sedan 2026-05-15 (score: 1.00)
+2026-05-25 02:04:20,983 [INFO] [Fatima Hassan] Cobra Stretch — Du har inte tränat Rygg sedan 2026-05-12 (score: 1.00)
+2026-05-25 02:04:20,983 [INFO] [Fatima Hassan] Downward Dog — Du har inte tränat Mage sedan 2026-05-03 (score: 1.00)
+2026-05-25 02:04:20,983 [INFO] [Fatima Hassan] Seated Calf Raise — Du har inte tränat Ben sedan 2026-05-12 (score: 1.00)
+2026-05-25 02:04:20,984 [INFO] Rekommendationer sparade för Fatima Hassan!
+2026-05-25 02:04:20,985 [INFO] [Lina Karlsson] Battle Ropes — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-25 02:04:20,985 [INFO] [Lina Karlsson] Diamond Push-ups — Du har inte tränat Bröst sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,985 [INFO] [Lina Karlsson] Barbell Curl — Du har inte tränat Armar sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,985 [INFO] [Lina Karlsson] Lateral Raise — Du har inte tränat Axlar sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,986 [INFO] [Lina Karlsson] Jefferson Curl — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,986 [INFO] [Lina Karlsson] Leg Raise — Du har inte tränat Mage sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,986 [INFO] [Lina Karlsson] Nordic Hamstring Curl — Du har inte tränat Ben sedan 2026-05-10 (score: 1.00)
+2026-05-25 02:04:20,986 [INFO] Rekommendationer sparade för Lina Karlsson!
+2026-05-25 02:04:20,987 [INFO] [Lucas Bergström] Burpees — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-25 02:04:20,988 [INFO] [Lucas Bergström] Diamond Push-ups — Du har inte tränat Bröst sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,988 [INFO] [Lucas Bergström] Tricep Kickback — Du har inte tränat Armar sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,988 [INFO] [Lucas Bergström] Front Raise — Du har inte tränat Axlar sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,988 [INFO] [Lucas Bergström] Dumbbell Row — Du har inte tränat Rygg sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,989 [INFO] [Lucas Bergström] Hanging Leg Raise — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,989 [INFO] [Lucas Bergström] Inner Thigh Stretch Side Lunge — Du har inte tränat Ben sedan 2026-05-16 (score: 1.00)
+2026-05-25 02:04:20,989 [INFO] Rekommendationer sparade för Lucas Bergström!
+2026-05-25 02:04:20,990 [INFO] [Erik Johansson] Burpees — Du har aldrig tränat Kondition! (score: 1.00)
+2026-05-25 02:04:20,990 [INFO] [Erik Johansson] Decline Bench Press — Du har inte tränat Bröst sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,990 [INFO] [Erik Johansson] Overhead Tricep Extension — Du har inte tränat Armar sedan 2026-05-12 (score: 1.00)
+2026-05-25 02:04:20,991 [INFO] [Erik Johansson] Overhead Press — Du har inte tränat Axlar sedan 2026-05-07 (score: 1.00)
+2026-05-25 02:04:20,991 [INFO] [Erik Johansson] Marklyft — Du har inte tränat Rygg sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,991 [INFO] [Erik Johansson] Plank — Du har inte tränat Mage sedan 2026-05-14 (score: 1.00)
+2026-05-25 02:04:20,991 [INFO] [Erik Johansson] Sumo Squat — Du har inte tränat Ben sedan 2026-05-07 (score: 1.00)
+2026-05-25 02:04:20,991 [INFO] Rekommendationer sparade för Erik Johansson!
+2026-05-25 02:04:20,992 [INFO] ✅ SCHEDULER: recommendation_pipeline klar
+2026-05-25 02:04:20,992 [INFO] Job "job_recommendations (trigger: cron[hour='2', minute='30'], next run at: 2026-05-25 02:30:00 CEST)" executed successfully
+2026-05-25 02:04:22,478 [INFO] Running job "job_refresh_views (trigger: cron[minute='0'], next run at: 2026-05-25 03:00:00 CEST)" (scheduled at 2026-05-25 02:04:22.478362+02:00)
+2026-05-25 02:04:22,478 [INFO] ⏰ SCHEDULER: refreshar materialized views
+2026-05-25 02:04:22,487 [INFO] ✅ SCHEDULER: views refreshade
+2026-05-25 02:04:22,487 [INFO] Job "job_refresh_views (trigger: cron[minute='0'], next run at: 2026-05-25 03:00:00 CEST)" executed successfully
+2026-05-25 02:08:20,069 [INFO] Scheduler has been shut down
+2026-05-25 02:08:20,074 [INFO] 🛑 HealthApp API stoppad
