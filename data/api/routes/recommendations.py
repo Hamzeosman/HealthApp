@@ -48,3 +48,39 @@ def predictions(user_id: int):
             "plateau_risk","overtraining_risk","recommended_intensity",
             "volume_multiplier","recommendation","confidence"
         ], row))
+
+@router.get("/{user_id}/coach-v2")
+def ai_coach_v2(user_id: int):
+    from core.domain.ai_coach_engine import generate_ai_coach_v2
+    result = generate_ai_coach_v2(user_id)
+    if not result:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="No data found")
+    return result
+
+@router.get("/{user_id}/workout-template")
+def workout_template(user_id: int):
+    from core.domain.ai_coach_engine import _get_full_context
+    from core.domain.workout_templates import select_template, get_todays_session, TEMPLATES
+    from core.db import get_engine
+    import datetime
+    engine = get_engine()
+    with engine.connect() as conn:
+        ctx = _get_full_context(user_id, conn)
+    tmpl = select_template(ctx)
+    return {
+        "user_id": user_id,
+        "selected_template": tmpl,
+        "template_info": TEMPLATES[tmpl],
+        "todays_session": get_todays_session(tmpl, datetime.date.today().weekday()),
+        "reason": {"fitness_level": ctx['fitness_level'], "fitness_goal": ctx['fitness_goal'],
+                   "deload": ctx['deload_recommended']}
+    }
+
+@router.get("/{user_id}/readiness-trend")
+def readiness_trend(user_id: int):
+    from core.domain.progression_engine import analyze_readiness_trend
+    from core.db import get_engine
+    engine = get_engine()
+    with engine.connect() as conn:
+        return analyze_readiness_trend(user_id, conn)

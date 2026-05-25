@@ -9487,3 +9487,6 @@ Aterhamtningsbedomning:
 2026-05-25 02:30:00,061 [INFO] Rekommendationer sparade för Erik Johansson!
 2026-05-25 02:30:00,062 [INFO] ✅ SCHEDULER: recommendation_pipeline klar
 2026-05-25 02:30:00,062 [INFO] Job "job_recommendations (trigger: cron[hour='2', minute='30'], next run at: 2026-05-26 02:30:00 CEST)" executed successfully
+2026-05-25 02:47:23,088 [WARNING] Run time of job "job_streaks (trigger: cron[hour='2', minute='45'], next run at: 2026-05-26 02:45:00 CEST)" was missed by 0:02:23.088225
+2026-05-25 02:52:47,417 [INFO] Scheduler has been shut down
+2026-05-25 02:52:47,420 [INFO] 🛑 HealthApp API stoppad
