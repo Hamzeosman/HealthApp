@@ -28,8 +28,22 @@ namespace HealthApp.API.Services
             if (dto.Age.HasValue) user.Age = dto.Age.Value;
             if (dto.WeightKg.HasValue) user.WeightKg = dto.WeightKg.Value;
             if (dto.HeightCm.HasValue) user.HeightCm = dto.HeightCm.Value;
-            if (!string.IsNullOrWhiteSpace(dto.FitnessLevel)) user.FitnessLevel = dto.FitnessLevel;
-            if (!string.IsNullOrWhiteSpace(dto.Goal)) user.Goal = dto.Goal;
+
+            // FitnessLevel: null = preserve, empty/whitespace = clear, value = update
+            if (dto.FitnessLevel != null)
+            {
+                user.FitnessLevel = string.IsNullOrWhiteSpace(dto.FitnessLevel)
+                    ? string.Empty
+                    : dto.FitnessLevel;
+            }
+
+            // Goal: null = preserve, empty/whitespace = clear, value = update
+            if (dto.Goal != null)
+            {
+                user.Goal = string.IsNullOrWhiteSpace(dto.Goal)
+                    ? string.Empty
+                    : dto.Goal;
+            }
 
             await _userRepository.SaveChangesAsync();
 
