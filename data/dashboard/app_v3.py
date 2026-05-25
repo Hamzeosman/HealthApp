@@ -238,7 +238,7 @@ if page == "🧠 AI Coach":
                   annotation_text="Medium risk threshold (40)")
     fig.update_layout(height=300, yaxis=dict(range=[0, 110], title="Risk score /100"),
                       showlegend=False, margin=dict(t=20, b=0))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # ── READINESS & TRENDS ────────────────────────────────────────
 elif page == "📊 Readiness & Trends":
@@ -328,7 +328,7 @@ elif page == "📊 Readiness & Trends":
         fig.update_layout(barmode='group', height=180,
             margin=dict(t=10,b=10), showlegend=True,
             legend=dict(orientation='h', y=-0.3))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
         st.metric("Fatigue score", f"{f['fatigue_score']:.1f}/100")
         if f['deload_recommended']:
@@ -372,7 +372,7 @@ elif page == "📊 Readiness & Trends":
     fig.update_layout(height=300, yaxis=dict(range=[0, 2.5], title="ACWR"),
                       xaxis=dict(showticklabels=False),
                       showlegend=False, margin=dict(t=20, r=120))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     # Readiness historik via fatigue_scores
     st.markdown("---")
@@ -417,7 +417,7 @@ elif page == "📊 Readiness & Trends":
                 legend=dict(orientation='h', y=-0.2),
                 margin=dict(t=40)
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
         else:
             st.info("Kör fatigue_pipeline för att bygga readiness-historik.")
     except Exception as e:
@@ -461,7 +461,7 @@ elif page == "📈 Volume & Fatigue":
                 labels={'week_label':'','total_volume_kg':'kg'})
             fig.update_layout(height=300, xaxis_tickangle=-30,
                 showlegend=False, coloraxis_showscale=False)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
         with col2:
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=df['week_label'], y=df['avg_rpe'],
@@ -476,7 +476,7 @@ elif page == "📈 Volume & Fatigue":
             fig.update_layout(height=300, xaxis_tickangle=-30,
                 yaxis=dict(range=[0,10], title="RPE"),
                 title="Avg RPE per week", showlegend=False)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
 
         # Volume + sessions combo
         fig = go.Figure()
@@ -491,7 +491,7 @@ elif page == "📈 Volume & Fatigue":
             yaxis=dict(title="Volume (kg)"),
             yaxis2=dict(title="Sessions", overlaying='y', side='right'),
             legend=dict(orientation='h'))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     if features:
         st.markdown("---")
@@ -586,7 +586,7 @@ elif page == "⚠️ Risk Dashboard":
             polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
             height=280, showlegend=False, margin=dict(t=20)
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     # Gauge charts med threshold labels
     st.markdown("---")
@@ -616,7 +616,7 @@ elif page == "⚠️ Risk Dashboard":
         ))
     fig.update_layout(grid={'rows': 1, 'columns': 4},
                       height=260, margin=dict(t=40, b=0))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # ── PT OVERVIEW ───────────────────────────────────────────────
 elif page == "🏋️ PT Overview":
@@ -670,7 +670,7 @@ elif page == "🏋️ PT Overview":
             fig.update_traces(texttemplate='%{text:.0f}', textposition='outside')
             fig.update_layout(height=320, showlegend=False,
                 coloraxis_showscale=False, margin=dict(r=40))
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
     with col2:
         st.subheader("📈 ACWR distribution")
         if not df.empty:
@@ -691,7 +691,7 @@ elif page == "🏋️ PT Overview":
                 line_width=1.5, annotation_text="Danger (1.5)", annotation_position="right")
             fig.update_layout(height=320, yaxis=dict(range=[0,2],title="ACWR"),
                 xaxis_tickangle=-20, margin=dict(r=20))
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
 
     # Full table
     st.markdown("---")
@@ -703,7 +703,7 @@ elif page == "🏋️ PT Overview":
         display['Recovery'] = display['Recovery'].round(1)
         display['ACWR'] = display['ACWR'].round(3)
         st.dataframe(display.sort_values('Readiness', ascending=False),
-                     use_container_width=True, hide_index=True)
+                     width="stretch", hide_index=True)
 
         # Export
         csv = display.to_csv(index=False).encode('utf-8')
@@ -828,7 +828,7 @@ elif page == "🏆 Progression & PRs":
         fig.update_layout(height=320, xaxis_tickangle=-30,
             yaxis=dict(title="Volume (kg)"),
             legend=dict(orientation='h'), margin=dict(t=20))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     st.markdown("---")
 
@@ -849,7 +849,7 @@ elif page == "🏆 Progression & PRs":
             fig.update_layout(height=260, xaxis_tickangle=-30,
                 yaxis=dict(range=[0,10], title="RPE"),
                 showlegend=False, margin=dict(t=20))
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
         with col2:
             st.subheader("📊 Sets per week")
             fig = px.bar(df_vol, x='week_label', y='total_sets',
@@ -857,7 +857,7 @@ elif page == "🏆 Progression & PRs":
                 labels={'week_label':'','total_sets':'Sets'})
             fig.update_layout(height=260, xaxis_tickangle=-30,
                 showlegend=False, coloraxis_showscale=False, margin=dict(t=20))
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
 
     # Readiness vs Volume correlation
     if volume and hist:
@@ -871,7 +871,7 @@ elif page == "🏆 Progression & PRs":
             labels={'recovery_score':'Recovery','readiness_score':'Readiness','acwr':'ACWR'},
             title="Recovery vs Readiness (colored by ACWR)")
         fig.update_layout(height=280)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
 # ── SLEEP ANALYTICS ───────────────────────────────────────────
 elif page == "😴 Sleep Analytics":
@@ -943,7 +943,7 @@ elif page == "😴 Sleep Analytics":
                 ))
                 fig.update_layout(height=260, title="Recovery & Readiness trend",
                     legend=dict(orientation='h', y=-0.3), margin=dict(t=40))
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width="stretch")
             with col2:
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(
@@ -957,7 +957,7 @@ elif page == "😴 Sleep Analytics":
                 fig.add_hline(y=1.3, line_dash="dash", line_color="#E24B4A")
                 fig.update_layout(height=260, title="ACWR trend",
                     yaxis=dict(range=[0,2]), margin=dict(t=40))
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width="stretch")
 
         st.markdown("---")
 
