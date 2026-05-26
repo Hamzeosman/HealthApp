@@ -109,5 +109,211 @@ namespace HealthApp.Tests.Services
             Assert.Null(result);
             _userRepositoryMock.Verify(r => r.SaveChangesAsync(), Times.Never);
         }
+
+        #region US1: Clear Goal Tests
+
+        [Fact]
+        public async Task UpdateProfileAsync_WhenGoalIsNull_PreservesExistingGoal()
+        {
+            // Arrange: User has existing goal
+            var user = new UserBuilder().WithGoal("Lose Weight").Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto { Goal = null };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: Goal unchanged
+            Assert.NotNull(result);
+            Assert.Equal("Lose Weight", result.Goal);
+            Assert.Equal("Lose Weight", user.Goal);
+        }
+
+        [Fact]
+        public async Task UpdateProfileAsync_WhenGoalIsEmptyString_ClearsGoal()
+        {
+            // Arrange: User has existing goal
+            var user = new UserBuilder().WithGoal("Build Muscle").Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto { Goal = "" };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: Goal cleared to empty string
+            Assert.NotNull(result);
+            Assert.Equal(string.Empty, result.Goal);
+            Assert.Equal(string.Empty, user.Goal);
+        }
+
+        [Fact]
+        public async Task UpdateProfileAsync_WhenGoalIsWhitespace_ClearsGoal()
+        {
+            // Arrange: User has existing goal
+            var user = new UserBuilder().WithGoal("Maintain Fitness").Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto { Goal = "   " };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: Goal cleared (whitespace normalized to empty)
+            Assert.NotNull(result);
+            Assert.Equal(string.Empty, result.Goal);
+            Assert.Equal(string.Empty, user.Goal);
+        }
+
+        [Fact]
+        public async Task UpdateProfileAsync_WhenGoalHasValue_UpdatesGoal()
+        {
+            // Arrange: User has existing goal
+            var user = new UserBuilder().WithGoal("Old Goal").Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto { Goal = "New Goal" };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: Goal updated to new value
+            Assert.NotNull(result);
+            Assert.Equal("New Goal", result.Goal);
+            Assert.Equal("New Goal", user.Goal);
+        }
+
+        #endregion
+
+        #region US2: Clear FitnessLevel Tests
+
+        [Fact]
+        public async Task UpdateProfileAsync_WhenFitnessLevelIsNull_PreservesExistingFitnessLevel()
+        {
+            // Arrange: User has existing fitness level
+            var user = new UserBuilder().WithFitnessLevel("Intermediate").Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto { FitnessLevel = null };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: FitnessLevel unchanged
+            Assert.NotNull(result);
+            Assert.Equal("Intermediate", result.FitnessLevel);
+            Assert.Equal("Intermediate", user.FitnessLevel);
+        }
+
+        [Fact]
+        public async Task UpdateProfileAsync_WhenFitnessLevelIsEmptyString_ClearsFitnessLevel()
+        {
+            // Arrange: User has existing fitness level
+            var user = new UserBuilder().WithFitnessLevel("Beginner").Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto { FitnessLevel = "" };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: FitnessLevel cleared to empty string
+            Assert.NotNull(result);
+            Assert.Equal(string.Empty, result.FitnessLevel);
+            Assert.Equal(string.Empty, user.FitnessLevel);
+        }
+
+        [Fact]
+        public async Task UpdateProfileAsync_WhenFitnessLevelHasValue_UpdatesFitnessLevel()
+        {
+            // Arrange: User has existing fitness level
+            var user = new UserBuilder().WithFitnessLevel("Beginner").Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto { FitnessLevel = "Advanced" };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: FitnessLevel updated to new value
+            Assert.NotNull(result);
+            Assert.Equal("Advanced", result.FitnessLevel);
+            Assert.Equal("Advanced", user.FitnessLevel);
+        }
+
+        #endregion
+
+        #region US3: Mixed Operations Tests
+
+        [Fact]
+        public async Task UpdateProfileAsync_MixedOperation_UpdateGoalAndClearFitnessLevel()
+        {
+            // Arrange: User has both fields set
+            var user = new UserBuilder()
+                .WithGoal("Lose Weight")
+                .WithFitnessLevel("Beginner")
+                .Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto
+            {
+                Goal = "Build Muscle",
+                FitnessLevel = ""
+            };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: Goal updated, FitnessLevel cleared
+            Assert.NotNull(result);
+            Assert.Equal("Build Muscle", result.Goal);
+            Assert.Equal(string.Empty, result.FitnessLevel);
+        }
+
+        [Fact]
+        public async Task UpdateProfileAsync_MixedOperation_ClearGoalAndUpdateFitnessLevel()
+        {
+            // Arrange: User has both fields set
+            var user = new UserBuilder()
+                .WithGoal("Build Muscle")
+                .WithFitnessLevel("Beginner")
+                .Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto
+            {
+                Goal = "",
+                FitnessLevel = "Intermediate"
+            };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: Goal cleared, FitnessLevel updated
+            Assert.NotNull(result);
+            Assert.Equal(string.Empty, result.Goal);
+            Assert.Equal("Intermediate", result.FitnessLevel);
+        }
+
+        [Fact]
+        public async Task UpdateProfileAsync_ClearAlreadyEmptyField_SucceedsSilently()
+        {
+            // Arrange: User has no goal set (empty string)
+            var user = new UserBuilder().WithGoal(string.Empty).Build();
+            GivenUser(user);
+
+            var dto = new UpdateProfileDto { Goal = "" };
+
+            // Act
+            var result = await _sut.UpdateProfileAsync(user.Id, dto);
+
+            // Assert: Operation succeeds, Goal remains empty
+            Assert.NotNull(result);
+            Assert.Equal(string.Empty, result.Goal);
+            _userRepositoryMock.Verify(r => r.SaveChangesAsync(), Times.Once);
+        }
+
+        #endregion
     }
 }
