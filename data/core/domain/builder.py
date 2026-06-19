@@ -6,7 +6,7 @@ from core.repositories.workout_repo import get_weekly_load
 from core.repositories.recovery_repo import get_recovery_data
 
 def build_training_state(user_id: int) -> TrainingState:
-    rec = get_recovery_data(user_id, days=3)
+    rec = get_recovery_data(user_id)
     recovery_score = 50.0
     if rec and rec[0]:
         recovery_score = calculate_recovery_score(float(rec[0]), float(rec[1]), float(rec[2]), float(rec[3]))

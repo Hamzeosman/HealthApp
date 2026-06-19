@@ -25,7 +25,15 @@ VOLUME_GUIDELINES = {
 }
 
 def get_weekly_load(conn, user_id, week_offset=0):
-    end_date = datetime.now() - timedelta(weeks=week_offset)
+    last = conn.execute(text(
+        "SELECT MAX(date) FROM workout_sessions WHERE user_id = :uid"
+    ), {"uid": user_id}).scalar()
+    if last is None:
+        return (0, 7, 0, 0)
+    from datetime import date as date_type
+    if isinstance(last, date_type):
+        last = datetime.combine(last, datetime.min.time())
+    end_date = last - timedelta(weeks=week_offset)
     start_date = end_date - timedelta(days=7)
     result = conn.execute(text("""
         SELECT
@@ -79,7 +87,15 @@ def get_acwr_status(acwr):
         return "DANGER ZONE", f"ACWR {acwr} — mycket hog risk for skada eller overtraning"
 
 def calculate_weekly_volume(conn, user_id):
-    week_start = datetime.now() - timedelta(days=7)
+    last = conn.execute(text(
+        "SELECT MAX(date) FROM workout_sessions WHERE user_id = :uid"
+    ), {"uid": user_id}).scalar()
+    if last is None:
+        return []
+    from datetime import date as date_type
+    if isinstance(last, date_type):
+        last = datetime.combine(last, datetime.min.time())
+    week_start = last - timedelta(days=7)
     result = conn.execute(text("""
         SELECT
             bp.name AS muscle_group,
