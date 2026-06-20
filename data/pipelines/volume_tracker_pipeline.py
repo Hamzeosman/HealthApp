@@ -116,18 +116,23 @@ def calculate_weekly_volume(conn, user_id):
     return result.fetchall()
 
 def get_recovery_score(conn, user_id):
+    last_workout = conn.execute(text(
+        "SELECT MAX(date) FROM workout_sessions WHERE user_id = :uid"
+    ), {"uid": user_id}).scalar()
+    if last_workout is None:
+        return None
     result = conn.execute(text("""
         SELECT
-            AVG(sleep_hours) AS avg_sleep,
-            AVG(energy_level) AS avg_energy,
-            AVG(stress_level) AS avg_stress,
-            AVG(sleep_quality) AS avg_sleep_quality
+            AVG(sleep_hours)    AS avg_sleep,
+            AVG(energy_level)   AS avg_energy,
+            AVG(stress_level)   AS avg_stress,
+            AVG(sleep_quality)  AS avg_sleep_quality
         FROM recovery_logs
         WHERE user_id = :uid
         AND date >= :since
     """), {
         "uid": user_id,
-        "since": (datetime.now() - timedelta(days=3)).date()
+        "since": (last_workout - timedelta(days=3))
     }).fetchone()
     return result
 
@@ -277,18 +282,38 @@ def analyze_volume(muscle_group, total_sets):
 
 def save_training_metrics(conn, uid, recovery_score, fatigue_score,
                           weekly_volume, weekly_sets, acwr, readiness):
-    today = datetime.now().date()
+    ref_date = conn.execute(text(
+        "SELECT MAX(date) FROM workout_sessions WHERE user_id = :uid"
+    ), {"uid": uid}).scalar()
+    if ref_date is None:
+        return
     existing = conn.execute(text("""
         SELECT id FROM training_metrics WHERE user_id = :uid AND date = :date
-    """), {"uid": uid, "date": today}).fetchone()
-    if not existing:
+    """), {"uid": uid, "date": ref_date}).fetchone()
+    if existing:
+        conn.execute(text("""
+            UPDATE training_metrics
+            SET recovery_score = :recovery,
+                fatigue_score  = :fatigue,
+                weekly_volume_kg = :volume,
+                weekly_sets    = :sets,
+                acwr           = :acwr,
+                readiness_status = :readiness
+            WHERE user_id = :uid AND date = :date
+        """), {
+            "uid": uid, "date": ref_date,
+            "recovery": recovery_score, "fatigue": fatigue_score,
+            "volume": weekly_volume, "sets": weekly_sets,
+            "acwr": acwr, "readiness": readiness
+        })
+    else:
         conn.execute(text("""
             INSERT INTO training_metrics
                 (user_id, date, recovery_score, fatigue_score,
                  weekly_volume_kg, weekly_sets, acwr, readiness_status)
             VALUES (:uid, :date, :recovery, :fatigue, :volume, :sets, :acwr, :readiness)
         """), {
-            "uid": uid, "date": today,
+            "uid": uid, "date": ref_date,
             "recovery": recovery_score, "fatigue": fatigue_score,
             "volume": weekly_volume, "sets": weekly_sets,
             "acwr": acwr, "readiness": readiness

@@ -26,6 +26,15 @@ except Exception as e:
     log.error(f"Kunde inte ansluta till databasen: {e}")
     exit(1)
 
+
+def get_ref_date(user_id: int):
+    """Returnerar senaste träningsdatum för en user."""
+    with engine.connect() as conn:
+        result = conn.execute(text(
+            "SELECT MAX(date) FROM workout_sessions WHERE user_id = :uid"
+        ), {"uid": user_id}).scalar()
+    return result
+
 def get_weekly_training(user_id: int) -> pd.DataFrame:
     """Hämtar veckans träningsdata."""
     with engine.connect() as conn:
@@ -46,7 +55,7 @@ def get_weekly_training(user_id: int) -> pd.DataFrame:
             JOIN exercises e ON we.exercise_id = e.id
             JOIN body_parts bp ON e.body_part_id = bp.id
             WHERE ws.user_id = :user_id
-            AND ws.date >= CURRENT_DATE - INTERVAL '7 days'
+            AND ws.date >= (SELECT MAX(date) - INTERVAL '7 days' FROM workout_sessions WHERE user_id = :user_id)
         """), conn, params={"user_id": user_id})
 
 def get_weekly_recovery(user_id: int) -> pd.DataFrame:
@@ -61,7 +70,7 @@ def get_weekly_recovery(user_id: int) -> pd.DataFrame:
                 energy_level
             FROM recovery_logs
             WHERE user_id = :user_id
-            AND date >= CURRENT_DATE - INTERVAL '7 days'
+            AND date >= (SELECT MAX(date) - INTERVAL '7 days' FROM workout_sessions WHERE user_id = :user_id)
         """), conn, params={"user_id": user_id})
 
 def get_weekly_body_measurements(user_id: int) -> pd.DataFrame:
@@ -93,7 +102,7 @@ def get_personal_records_this_week(user_id: int) -> pd.DataFrame:
             FROM personal_records pr
             JOIN exercises e ON pr.exercise_id = e.id
             WHERE pr.user_id = :user_id
-            AND pr.date >= CURRENT_DATE - INTERVAL '7 days'
+            AND pr.date >= (SELECT MAX(ws2.date) - INTERVAL '7 days' FROM workout_sessions ws2 WHERE ws2.user_id = :user_id)
             ORDER BY pr.date DESC
         """), conn, params={"user_id": user_id})
 
@@ -105,7 +114,7 @@ def generate_weekly_report(user_id: int, user_name: str):
         measurements_df = get_weekly_body_measurements(user_id)
         records_df = get_personal_records_this_week(user_id)
 
-        week = datetime.now().strftime('%Y vecka %W')
+        week = get_ref_date(user_id).strftime('%Y vecka %W') if get_ref_date(user_id) else datetime.now().strftime('%Y vecka %W')
 
         log.info(f"\n{'='*55}")
         log.info(f"VECKORAPPORT - {user_name.upper()} - {week}")
