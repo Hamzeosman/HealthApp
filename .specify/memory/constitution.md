@@ -1,18 +1,16 @@
 <!--
 Sync Impact Report
 ==================
-Version change: N/A → 1.0.0 (initial ratification)
-Modified principles: N/A (initial creation)
+Version change: 1.0.0 → 1.1.0 (minor amendment)
+Modified principles: None
 Added sections:
-  - Core Principles (5 principles)
-  - Technology Constraints
-  - Development Workflow
-  - Governance
+  - Development Workflow → "PR Size Discipline" sub-section
+  - Technology Constraints → "Architecture" sub-section (data boundary)
 Removed sections: N/A
-Templates requiring updates:
-  - .specify/templates/plan-template.md ✅ (Constitution Check section compatible)
-  - .specify/templates/spec-template.md ✅ (Requirements align with principles)
-  - .specify/templates/tasks-template.md ✅ (Phase structure supports TDD workflow)
+Rationale: Codify two team agreements that emerged from PR #26 retrospective:
+  - PR size limits to keep reviews tractable and high-quality
+  - Clear ownership boundary between .NET AppDbContext and Python API
+Templates requiring updates: None (sub-sections, not new principles)
 Follow-up TODOs: None
 -->
 
@@ -94,6 +92,24 @@ refactoring. Technical debt compounds over time.
 - Migrations MUST be applied via `dotnet ef database update`
 - Schema changes MUST be coordinated with data team
 
+**Architecture (data boundary)**:
+The team maintains a clear ownership boundary between the .NET API and the Python
+data platform to avoid duplicated schema understanding:
+
+- **`AppDbContext` (.NET)** → auth, identity, user profiles, and user-owned data
+- **`DataDbContext` (.NET)** → EF mappings for shared analytics tables that .NET
+  reads directly (workout sessions, exercises, equipment, etc.)
+- **Python API** → analytics, AI coach, readiness scores, model predictions
+- **.NET aggregates** Python API responses when the frontend needs combined data
+
+New tables in the Python data platform MUST be classified as either EF-mapped
+(consumed via `DataDbContext`) or API-only (consumed via Python API) before the
+.NET integration begins. This decision is documented in the relevant GitHub issue.
+
+Rationale: Mapping all Python tables into EF would duplicate schema knowledge
+and create churn whenever the data team iterates internally. API-first for
+analytics keeps the data team's autonomy and reduces coupling.
+
 **Testing**:
 - Test project: HealthApp.Tests
 - Framework: xUnit (recommended) or NUnit
@@ -111,6 +127,22 @@ refactoring. Technical debt compounds over time.
 - At least one approval required before merge
 - All CI checks must pass (build, tests, linting)
 - Security-sensitive changes require additional scrutiny
+
+**PR Size Discipline**:
+Pull requests MUST be sized so that a teammate can review them meaningfully in
+roughly 30 minutes. Concretely:
+
+- Target ≤ 400 changed lines per PR (excluding lockfiles and generated files)
+- One logical change per PR (a feature, a refactor, a migration — not all three)
+- Larger work MUST be split into a sequence of focused PRs
+
+If a PR exceeds the size target it MUST be justified in the PR description, OR
+split before review begins. PR authors are responsible for keeping reviewers'
+time tractable.
+
+Rationale: Large PRs degrade review quality — reviewers either skim or block,
+both of which hurt the codebase. Smaller PRs merge faster, are easier to revert,
+and give junior contributors realistic chances to participate in review.
 
 **Commit Standards**:
 - Use conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `test:`
@@ -136,4 +168,4 @@ comply with these principles.
 - Violations MUST be justified in PR description with rationale
 - Use CLAUDE.md for runtime development guidance and context
 
-**Version**: 1.0.0 | **Ratified**: 2026-05-25 | **Last Amended**: 2026-05-25
+**Version**: 1.1.0 | **Ratified**: 2026-05-25 | **Last Amended**: 2026-05-27
