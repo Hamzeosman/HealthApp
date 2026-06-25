@@ -25,7 +25,7 @@ def calculate_fatigue_for_user(user_id: int, conn) -> dict | None:
         FROM workout_sessions ws
         JOIN workout_exercises we ON ws.id = we.session_id
         WHERE ws.user_id = :uid
-          AND ws.date >= CURRENT_DATE - INTERVAL '28 days'
+          AND ws.date >= (SELECT MAX(date) - INTERVAL '28 days' FROM workout_sessions WHERE user_id = :uid)
         GROUP BY ws.date
         ORDER BY ws.date
     """), conn, params={"uid": user_id})
