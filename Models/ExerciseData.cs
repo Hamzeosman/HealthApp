@@ -2,6 +2,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealthApp.API.Models
 {
+    /// <summary>
+    /// Övningar från exercises-tabellen i HealthAppDataDb (168 st).
+    /// Refererar EquipmentData via EquipmentId.
+    /// Följer "Data"-suffix-mönstret.
+    /// </summary>
     [Table("exercises")]
     public class ExerciseData
     {
@@ -34,5 +39,12 @@ namespace HealthApp.API.Models
 
         [Column("tips")]
         public string? Tips { get; set; }
+
+        [Column("calories_per_minute")]
+        public decimal? CaloriesPerMinute { get; set; }
+
+        // Navigation property (DataDbContext-world only)
+        [ForeignKey(nameof(EquipmentId))]
+        public EquipmentData? Equipment { get; set; }
     }
 }
