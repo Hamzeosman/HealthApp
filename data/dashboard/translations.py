@@ -159,7 +159,7 @@ TRANSLATIONS = {
         "recs_title": "Smart Recommendations",
         "recs_subtitle": "Personalized exercise recommendations based on your training history.",
         "recs_count": "recommendations for you",
-        "no_recs": "All muscle groups have been trained recently. Great work!",
+        "no_recs": "No training data yet. Start logging workouts to get personalized recommendations.",
     },
 
     "sv": {
@@ -322,7 +322,7 @@ TRANSLATIONS = {
         "recs_title": "Smarta rekommendationer",
         "recs_subtitle": "Personliga övningsrekommendationer baserade på din träningshistorik.",
         "recs_count": "rekommendationer för dig",
-        "no_recs": "Alla muskelgrupper har tränats nyligen. Bra jobbat!",
+        "no_recs": "Ingen träningsdata ännu. Börja logga träningspass för personliga rekommendationer.",
     },
 
     "ar": {
@@ -485,7 +485,7 @@ TRANSLATIONS = {
         "recs_title": "توصيات ذكية",
         "recs_subtitle": "توصيات تمارين مخصصة بناءً على تاريخ تدريبك.",
         "recs_count": "توصيات لك",
-        "no_recs": "تم تدريب جميع المجموعات العضلية مؤخراً. عمل رائع!",
+        "no_recs": "لا توجد بيانات تدريب بعد. ابدأ بتسجيل التمارين للحصول على توصيات شخصية.",
     },
 
     "so": {
@@ -634,7 +634,7 @@ TRANSLATIONS = {
         "recs_title": "Talooyinka Xasaasiinta",
         "recs_subtitle": "Talooyinka tababarka ee loo gaarka ah.",
         "recs_count": "talooyin adiga loogu talagalay",
-        "no_recs": "Dhammaan kooxaha murqaha waa la tababaray. Shaqo wanaagsan!",
+        "no_recs": "Wali ma jiraan xogta tababarka. Bilow diiwaagelinta jimicsiga.",
     },
 
     "fr": {
@@ -769,7 +769,7 @@ TRANSLATIONS = {
         "recs_title": "Recommandations intelligentes",
         "recs_subtitle": "Recommandations personnalisées basées sur votre historique.",
         "recs_count": "recommandations pour vous",
-        "no_recs": "Tous les groupes musculaires ont été entraînés récemment. Excellent!",
+        "no_recs": "Pas encore de données. Commencez à enregistrer vos entraînements.",
     },
 
     "de": {
@@ -903,7 +903,7 @@ TRANSLATIONS = {
         "recs_title": "Intelligente Empfehlungen",
         "recs_subtitle": "Personalisierte Übungsempfehlungen basierend auf Ihrem Verlauf.",
         "recs_count": "Empfehlungen für Sie",
-        "no_recs": "Alle Muskelgruppen wurden kürzlich trainiert. Ausgezeichnet!",
+        "no_recs": "Noch keine Trainingsdaten. Beginne mit der Protokollierung.",
     },
 
     "pt": {
@@ -1037,7 +1037,7 @@ TRANSLATIONS = {
         "recs_title": "Recomendações inteligentes",
         "recs_subtitle": "Recomendações personalizadas baseadas em seu histórico.",
         "recs_count": "recomendações para você",
-        "no_recs": "Todos os grupos musculares foram treinados recentemente. Excelente!",
+        "no_recs": "Sem dados ainda. Comece a registar os seus treinos.",
     },
 
     "es": {
@@ -1171,7 +1171,7 @@ TRANSLATIONS = {
         "recs_title": "Recomendaciones inteligentes",
         "recs_subtitle": "Recomendaciones personalizadas basadas en tu historial.",
         "recs_count": "recomendaciones para ti",
-        "no_recs": "Todos los grupos musculares han sido entrenados recientemente. ¡Excelente!",
+        "no_recs": "Sin datos aún. Empieza a registrar tus entrenamientos.",
     },
 
 }
