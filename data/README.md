@@ -11,23 +11,27 @@ HealthApp-databasen är byggd i PostgreSQL 14 och innehåller 83 tabeller förde
 ```
 database/
 ├── schema/
-│   └── schema.sql              # Komplett databasschema (tabeller, index, constraints)
+│   └── schema.sql                      # Komplett databasschema
 ├── seed/
-│   ├── equipment_exercises.sql # Maskiner → övningar (280 kopplingar)
+│   ├── equipment_exercises.sql         # Maskiner → övningar (280 kopplingar)
 │   ├── equipment_exercises_additions.sql
-│   ├── exercise_tag_map.sql    # Övningar → taggar (569 kopplingar)
-│   ├── machine_muscles.sql     # Maskiner → muskler (174 kopplingar)
-│   ├── master_data.sql         # Substitutioner, achievements, progression_rules
-│   ├── workout_programs.sql    # Träningsprogram och mallar
-│   ├── training_blocks.sql     # Periodiseringsblock
-│   └── seed_p3.sql             # Gym, nutrition targets
+│   ├── exercise_tag_map.sql            # Övningar → taggar (569 kopplingar)
+│   ├── machine_muscles.sql             # Maskiner → muskler (174 kopplingar)
+│   ├── substitutions.sql              # Exercise substitutions (42)
+│   ├── substitution_rules.sql         # Substitutionsregler (38)
+│   ├── achievements.sql               # Prestationer (29)
+│   ├── progression_rules.sql          # Progressionsregler (25)
+│   ├── workout_programs.sql           # Träningsprogram och mallar
+│   ├── training_blocks.sql            # Periodiseringsblock
+│   └── seed_p3.sql                    # Gym, nutrition targets
 └── migrations/
-    ├── migration_p1.sql        # Initial schema
-    ├── migration_p2.sql        # Nutrition och recovery
-    ├── migration_p3.sql        # AI och analytics
-    ├── migration_p4_fixes.sql  # Datumfix och buggfixar
-    ├── migration_equipment.sql # Utrustningskatalog
-    └── migration_p5_quality.sql # Slug, soft delete, constraints, index
+    ├── migration_p1.sql               # Initial schema
+    ├── migration_p2.sql               # Nutrition och recovery
+    ├── migration_p3.sql               # AI och analytics
+    ├── migration_p4_fixes.sql         # Datumfix och buggfixar
+    ├── migration_equipment.sql        # Utrustningskatalog
+    ├── migration_p5_quality.sql       # Slug, soft delete, constraints, index
+    └── migration_p6_exercise_metadata.sql  # Exercise metadata
 ```
 
 ---
@@ -51,7 +55,7 @@ Underhålls av utvecklarna. Innehåller seed-data som aldrig ändras av använda
 | gyms | 19 gym i Sverige | 19 |
 | training_plans | 16 evidensbaserade träningsprogram | 16 |
 | workout_programs | 7 program med mallar | 7 |
-| achievements | 50 prestationer att låsa upp | 50 |
+| achievements | 29 prestationer att låsa upp | 29 |
 | progression_rules | 25 regler för automatisk progression | 25 |
 
 ### 2. Användardata (dynamisk)
@@ -129,20 +133,6 @@ Riktiga användare skapar sina konton via appen. Developer-konton används **end
 
 ---
 
-## Arkitekturprinciper
-
-**Master data vs User data** — Övningar, maskiner och mat är master data med seed-data. Träningshistorik och måltider skapas alltid av riktiga användare.
-
-**Soft delete** — `exercises`, `equipment`, `foods`, `workout_sessions` och `training_plans` använder `deleted_at` istället för `DELETE`. Historik bevaras alltid.
-
-**Slug** — `exercises`, `equipment` och `foods` har `slug`-kolumn för URL-vänliga identifierare (t.ex. `bench-press`, `lat-pulldown-machine`).
-
-**Validering** — 22 CHECK constraints skyddar mot orimlig data: RPE 1–10, sömn 0–16h, vikt 20–400kg, kalorier 0–3000 per måltid, hjärtfrekvens 30–230.
-
-**Index** — 48 index optimerar de vanligaste frågorna på `user_id + date`, `exercise_id`, `slug`.
-
----
-
 ## Köra databasen från scratch
 
 ```bash
@@ -159,16 +149,109 @@ psql healthapp -f database/migrations/migration_p3.sql
 psql healthapp -f database/migrations/migration_equipment.sql
 psql healthapp -f database/migrations/migration_p4_fixes.sql
 psql healthapp -f database/migrations/migration_p5_quality.sql
+psql healthapp -f database/migrations/migration_p6_exercise_metadata.sql
 
 # 4. Lägg in master data (seed)
 psql healthapp -f database/seed/equipment_exercises.sql
 psql healthapp -f database/seed/equipment_exercises_additions.sql
 psql healthapp -f database/seed/machine_muscles.sql
 psql healthapp -f database/seed/exercise_tag_map.sql
-psql healthapp -f database/seed/master_data.sql
+psql healthapp -f database/seed/substitutions.sql
+psql healthapp -f database/seed/substitution_rules.sql
+psql healthapp -f database/seed/achievements.sql
+psql healthapp -f database/seed/progression_rules.sql
 psql healthapp -f database/seed/workout_programs.sql
 psql healthapp -f database/seed/seed_p3.sql
 ```
+
+---
+
+## Köra dashboards
+
+### Förutsättningar
+
+```bash
+# Installera beroenden
+cd HealthApp/data
+pip install -r requirements.txt
+
+# Sätt upp .env
+cp .env.example .env
+# Fyll i DATABASE_URL=postgresql://user:pass@localhost/healthapp
+```
+
+### User Dashboard (13 sidor, 8 språk)
+
+```bash
+cd HealthApp/data
+streamlit run dashboard/app.py
+```
+
+Öppnas på http://localhost:8501
+
+**Sidor:**
+- Overview — träningsöversikt och hälsostatus
+- Training — pass, volym, muskelgrupper
+- Running — löppass, tempo, zoner
+- Biometrics — steg, hjärtfrekvens, VO2max
+- Recovery — sömn, energi, stress
+- Nutrition — matloggning och makron
+- Goals & Plans — mål och träningsplaner
+- Training Programs — 16 program filtrerade på mål och nivå
+- Social & Challenges — utmaningar och leaderboard
+- Achievements — 29 prestationer att låsa upp
+- Health Calculator — BMI, TDEE, makroberäkning
+- AI Insights — automatiska insikter från pipelines
+- Recommendations — personliga övningsrekommendationer
+
+### PT Dashboard (8 sidor)
+
+```bash
+cd HealthApp/data
+streamlit run dashboard/pt_dashboard.py
+```
+
+Öppnas på http://localhost:8501
+
+**Sidor:**
+- Client Overview — alla klienter med readiness
+- Client Detail — djupanalys per klient
+- Muscle Balance — push/pull och upper/lower ratio
+- Recovery & Readiness — sömn och återhämtning
+- Progress Tracking — styrke- och konditionsutveckling
+- Equipment Analytics — utrustningsanvändning
+- AI Insights & Alerts — automatiska varningar
+- Smart Recommendations — övningsrekommendationer
+- Training Plans — tilldela program till klienter
+
+### Köra pipelines
+
+```bash
+cd HealthApp/data
+
+# Kör alla pipelines i rätt ordning
+python run_all_pipelines.py
+
+# Eller kör enskilda pipelines
+python pipelines/fatigue_pipeline.py
+python pipelines/volume_tracker_pipeline.py
+python pipelines/recommendation_pipeline.py
+python pipelines/weekly_report_pipeline.py
+```
+
+---
+
+## Arkitekturprinciper
+
+**Master data vs User data** — Övningar, maskiner och mat är master data med seed-data. Träningshistorik och måltider skapas alltid av riktiga användare.
+
+**Soft delete** — `exercises`, `equipment`, `foods`, `workout_sessions` och `training_plans` använder `deleted_at` istället för `DELETE`. Historik bevaras alltid.
+
+**Slug** — `exercises`, `equipment` och `foods` har `slug`-kolumn för URL-vänliga identifierare (t.ex. `bench-press`, `lat-pulldown-machine`).
+
+**Validering** — 22 CHECK constraints i databasen + `core/validation.py` i Python skyddar mot orimlig data: RPE 1–10, sömn 0–16h, vikt 20–400kg, kalorier 0–3000 per måltid, hjärtfrekvens 30–230.
+
+**Index** — 48 index optimerar de vanligaste frågorna på `user_id + date`, `exercise_id`, `slug`.
 
 ---
 
@@ -180,5 +263,8 @@ psql healthapp -f database/seed/seed_p3.sql
 | ORM (Python) | SQLAlchemy 2.0 |
 | ORM (.NET) | Entity Framework Core (DataDbContext) |
 | Pipelines | Python 3.13 |
+| Validering | core/validation.py |
 | API | FastAPI (Python) + ASP.NET Core (.NET) |
-| Dashboard | Streamlit |
+| User Dashboard | Streamlit (13 sidor, 8 språk) |
+| PT Dashboard | Streamlit (8 sidor) |
+| CI/CD | GitHub Actions |
