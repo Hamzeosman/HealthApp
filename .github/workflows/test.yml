@@ -39,7 +39,7 @@ jobs:
       - name: Set up database schema
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
-        run: psql $DATABASE_URL -f data/database/schema.sql
+        run: psql $DATABASE_URL -f data/database/schema/schema.sql
 
       - name: Seed test data
         env:
