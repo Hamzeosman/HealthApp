@@ -8,7 +8,7 @@ CREATE TABLE users (
     weight_kg DECIMAL(5,2),
     height_cm DECIMAL(5,2),
     fitness_level VARCHAR(20) CHECK (fitness_level IN ('nybörjare', 'medel', 'avancerad')),
-    goal VARCHAR(50) CHECK (goal IN ('bygga_muskler', 'gå_ner_i_vikt', 'öka_kondition', 'hålla_sig_i_form')),
+    fitness_goal VARCHAR(50) CHECK (fitness_goal IN ('bygga_muskler', 'gå_ner_i_vikt', 'öka_kondition', 'hålla_sig_i_form')),
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS nutrition_logs (
 CREATE TABLE IF NOT EXISTS training_plans (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
-    goal VARCHAR(50) CHECK (goal IN (
+    fitness_goal VARCHAR(50) CHECK (fitness_goal IN (
         'bygga_muskler', 
         'gå_ner_i_vikt', 
         'gå_upp_i_vikt', 

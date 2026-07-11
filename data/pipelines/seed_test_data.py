@@ -13,7 +13,7 @@ with engine.connect() as conn:
 
     if not user:
         conn.execute(text("""
-            INSERT INTO users (name, email, fitness_level, goal)
+            INSERT INTO users (name, email, fitness_level, fitness_goal)
             VALUES ('Test User', 'test@healthapp.com', 'medel', 'bygga_muskler')
         """))
         conn.commit()

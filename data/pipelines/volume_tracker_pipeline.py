@@ -3,6 +3,9 @@ from dotenv import load_dotenv
 import logging
 import os
 from datetime import datetime, timedelta
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from core.validation import validate, clamp
 
 logging.basicConfig(
     level=logging.INFO,
@@ -139,17 +142,17 @@ def get_recovery_score(conn, user_id):
 def calculate_recovery_score(recovery):
     if not recovery or recovery[0] is None:
         return 50.0
-    sleep = float(recovery[0] or 7)
-    energy = float(recovery[1] or 7)
-    stress = float(recovery[2] or 5)
-    sleep_quality = float(recovery[3] or 7)
-    sleep_score = min(100, (sleep / 9) * 100)
-    energy_score = (energy / 10) * 100
-    stress_score = ((10 - stress) / 10) * 100
+    sleep         = validate(recovery[0], "sleep_hours")  or 7.0
+    energy        = validate(recovery[1], "energy_level") or 7.0
+    stress        = validate(recovery[2], "stress_level") or 5.0
+    sleep_quality = validate(recovery[3], "energy_level") or 7.0
+    sleep_score   = min(100, (sleep / 9) * 100)
+    energy_score  = (energy / 10) * 100
+    stress_score  = ((10 - stress) / 10) * 100
     quality_score = (sleep_quality / 10) * 100
     total = (sleep_score * 0.35 + energy_score * 0.30 +
              stress_score * 0.20 + quality_score * 0.15)
-    return round(total, 1)
+    return round(clamp(total, "readiness_score"), 1)
 
 def calculate_composite_readiness(recovery_score, acwr, fatigue_ratio):
     """
