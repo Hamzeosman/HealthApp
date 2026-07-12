@@ -5,14 +5,19 @@ using HealthApp.API.Models;
 namespace HealthApp.Tests.Data
 {
     /// <summary>
-    /// Tester för Iteration 1 av Issue #32 (DataDbContext EF mappings).
+    /// Tester för DataDbContext EF mappings (Issue #32).
+    /// Iteration 1: UserData, EquipmentData, ExerciseData-komplettering.
+    /// Iteration 2: WorkoutSessionData-komplettering, WorkoutExerciseData, PersonalRecordData.
+    ///
     /// Använder reflection istället för riktig DbContext-instans
-    /// eftersom vi verifierar mapping-attribut och arkitekturregler,
+    /// eftersom vi verifierar mapping-attribut och navigation properties,
     /// inte runtime-beteende.
     /// </summary>
     public class DataDbContextTests
     {
-        // Arkitekturregel FR-003: UserData får INTE innehålla auth-fält.
+        // ── Iteration 1 ─────────────────────────────────────────────────
+
+        // Arkitekturregel FR-003 (Iter 1): UserData får INTE innehålla auth-fält.
         // Skyddar mot att någon råkar lägga till Email/Password i framtiden.
         [Fact]
         public void UserData_MustNotHaveAuthFields()
@@ -34,8 +39,7 @@ namespace HealthApp.Tests.Data
             }
         }
 
-        // FR-002: Verifiera att UserData mappar mot users-tabellen
-        // och att kolumnnamn följer snake_case från schema.sql.
+        // Iter 1 FR-002: UserData mappar mot users med snake_case-kolumner.
         [Fact]
         public void UserData_MapsToUsersTable_WithSnakeCaseColumns()
         {
@@ -55,7 +59,7 @@ namespace HealthApp.Tests.Data
             Assert.Equal("fitness_level", fitnessLevelColumn?.Name);
         }
 
-        // FR-004: EquipmentData ska mappa mot equipment-tabellen (lookup).
+        // Iter 1 FR-004: EquipmentData mappar mot equipment.
         [Fact]
         public void EquipmentData_MapsToEquipmentTable()
         {
@@ -72,8 +76,7 @@ namespace HealthApp.Tests.Data
             Assert.Equal("name", nameColumn?.Name);
         }
 
-        // FR-005: ExerciseData ska ha ny kolumn calories_per_minute
-        // efter Iteration 1 (kompletterar tidigare minimal mappning).
+        // Iter 1 FR-005: ExerciseData har calories_per_minute (tillagd i Iter 1).
         [Fact]
         public void ExerciseData_HasCaloriesPerMinuteColumn()
         {
@@ -90,8 +93,7 @@ namespace HealthApp.Tests.Data
             Assert.Equal("calories_per_minute", columnAttribute?.Name);
         }
 
-        // FR-006: ExerciseData ska ha navigation property till EquipmentData
-        // via EquipmentId (foreign key).
+        // Iter 1 FR-006: ExerciseData har navigation till EquipmentData via EquipmentId.
         [Fact]
         public void ExerciseData_HasEquipmentNavigationProperty()
         {
@@ -106,6 +108,138 @@ namespace HealthApp.Tests.Data
             Assert.NotNull(equipmentNavigation);
             Assert.Equal(typeof(EquipmentData), equipmentNavigation.PropertyType);
             Assert.Equal(nameof(ExerciseData.EquipmentId), foreignKeyAttribute?.Name);
+        }
+
+        // ── Iteration 2 ─────────────────────────────────────────────────
+
+        // Iter 2 FR-001: WorkoutExerciseData mappar mot workout_exercises med snake_case-kolumner.
+        [Fact]
+        public void WorkoutExerciseData_MapsToWorkoutExercisesTable()
+        {
+            // Arrange
+            var workoutExerciseType = typeof(WorkoutExerciseData);
+
+            // Act
+            var tableAttribute = workoutExerciseType.GetCustomAttribute<TableAttribute>();
+            var sessionIdColumn = workoutExerciseType.GetProperty(nameof(WorkoutExerciseData.SessionId))
+                ?.GetCustomAttribute<ColumnAttribute>();
+            var weightKgColumn = workoutExerciseType.GetProperty(nameof(WorkoutExerciseData.WeightKg))
+                ?.GetCustomAttribute<ColumnAttribute>();
+
+            // Assert
+            Assert.Equal("workout_exercises", tableAttribute?.Name);
+            Assert.Equal("session_id", sessionIdColumn?.Name);
+            Assert.Equal("weight_kg", weightKgColumn?.Name);
+        }
+
+        // Iter 2 FR-003: WorkoutExerciseData har navigation till Session och Exercise.
+        [Fact]
+        public void WorkoutExerciseData_HasSessionAndExerciseNavigations()
+        {
+            // Arrange
+            var workoutExerciseType = typeof(WorkoutExerciseData);
+
+            // Act
+            var sessionNavigation = workoutExerciseType.GetProperty(nameof(WorkoutExerciseData.Session));
+            var exerciseNavigation = workoutExerciseType.GetProperty(nameof(WorkoutExerciseData.Exercise));
+            var sessionFk = sessionNavigation?.GetCustomAttribute<ForeignKeyAttribute>();
+            var exerciseFk = exerciseNavigation?.GetCustomAttribute<ForeignKeyAttribute>();
+
+            // Assert
+            Assert.NotNull(sessionNavigation);
+            Assert.Equal(typeof(WorkoutSessionData), sessionNavigation.PropertyType);
+            Assert.Equal(nameof(WorkoutExerciseData.SessionId), sessionFk?.Name);
+
+            Assert.NotNull(exerciseNavigation);
+            Assert.Equal(typeof(ExerciseData), exerciseNavigation.PropertyType);
+            Assert.Equal(nameof(WorkoutExerciseData.ExerciseId), exerciseFk?.Name);
+        }
+
+        // Iter 2 FR-004: PersonalRecordData mappar mot personal_records med snake_case-kolumner.
+        [Fact]
+        public void PersonalRecordData_MapsToPersonalRecordsTable()
+        {
+            // Arrange
+            var personalRecordType = typeof(PersonalRecordData);
+
+            // Act
+            var tableAttribute = personalRecordType.GetCustomAttribute<TableAttribute>();
+            var userIdColumn = personalRecordType.GetProperty(nameof(PersonalRecordData.UserId))
+                ?.GetCustomAttribute<ColumnAttribute>();
+            var exerciseIdColumn = personalRecordType.GetProperty(nameof(PersonalRecordData.ExerciseId))
+                ?.GetCustomAttribute<ColumnAttribute>();
+
+            // Assert
+            Assert.Equal("personal_records", tableAttribute?.Name);
+            Assert.Equal("user_id", userIdColumn?.Name);
+            Assert.Equal("exercise_id", exerciseIdColumn?.Name);
+        }
+
+        // Iter 2 FR-005: PersonalRecordData har navigation till User och Exercise.
+        [Fact]
+        public void PersonalRecordData_HasUserAndExerciseNavigations()
+        {
+            // Arrange
+            var personalRecordType = typeof(PersonalRecordData);
+
+            // Act
+            var userNavigation = personalRecordType.GetProperty(nameof(PersonalRecordData.User));
+            var exerciseNavigation = personalRecordType.GetProperty(nameof(PersonalRecordData.Exercise));
+            var userFk = userNavigation?.GetCustomAttribute<ForeignKeyAttribute>();
+            var exerciseFk = exerciseNavigation?.GetCustomAttribute<ForeignKeyAttribute>();
+
+            // Assert
+            Assert.NotNull(userNavigation);
+            Assert.Equal(typeof(UserData), userNavigation.PropertyType);
+            Assert.Equal(nameof(PersonalRecordData.UserId), userFk?.Name);
+
+            Assert.NotNull(exerciseNavigation);
+            Assert.Equal(typeof(ExerciseData), exerciseNavigation.PropertyType);
+            Assert.Equal(nameof(PersonalRecordData.ExerciseId), exerciseFk?.Name);
+        }
+
+        // Iter 2 FR-006: WorkoutSessionData har start_time och end_time (tillagda i Iter 2).
+        [Fact]
+        public void WorkoutSessionData_HasStartTimeAndEndTimeColumns()
+        {
+            // Arrange
+            var workoutSessionType = typeof(WorkoutSessionData);
+
+            // Act
+            var startTimeProperty = workoutSessionType.GetProperty(nameof(WorkoutSessionData.StartTime));
+            var endTimeProperty = workoutSessionType.GetProperty(nameof(WorkoutSessionData.EndTime));
+            var startTimeColumn = startTimeProperty?.GetCustomAttribute<ColumnAttribute>();
+            var endTimeColumn = endTimeProperty?.GetCustomAttribute<ColumnAttribute>();
+
+            // Assert
+            Assert.NotNull(startTimeProperty);
+            Assert.Equal(typeof(DateTime?), startTimeProperty.PropertyType);
+            Assert.Equal("start_time", startTimeColumn?.Name);
+
+            Assert.NotNull(endTimeProperty);
+            Assert.Equal(typeof(DateTime?), endTimeProperty.PropertyType);
+            Assert.Equal("end_time", endTimeColumn?.Name);
+        }
+
+        // Iter 2 FR-007: WorkoutSessionData har navigation till User och samling WorkoutExercises.
+        [Fact]
+        public void WorkoutSessionData_HasUserAndWorkoutExercisesNavigations()
+        {
+            // Arrange
+            var workoutSessionType = typeof(WorkoutSessionData);
+
+            // Act
+            var userNavigation = workoutSessionType.GetProperty(nameof(WorkoutSessionData.User));
+            var userFk = userNavigation?.GetCustomAttribute<ForeignKeyAttribute>();
+            var workoutExercisesNavigation = workoutSessionType.GetProperty(nameof(WorkoutSessionData.WorkoutExercises));
+
+            // Assert
+            Assert.NotNull(userNavigation);
+            Assert.Equal(typeof(UserData), userNavigation.PropertyType);
+            Assert.Equal(nameof(WorkoutSessionData.UserId), userFk?.Name);
+
+            Assert.NotNull(workoutExercisesNavigation);
+            Assert.Equal(typeof(ICollection<WorkoutExerciseData>), workoutExercisesNavigation.PropertyType);
         }
     }
 }
