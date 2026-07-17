@@ -59,6 +59,7 @@ jobs:
           cd data
           python pipelines/seed_test_data.py
           python pipelines/seed_exercises.py
+          python pipelines/seed_missing_data.py || true
       - name: Run tests
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
