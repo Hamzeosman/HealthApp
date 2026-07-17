@@ -54,4 +54,4 @@ jobs:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
         run: |
           cd data
-          pytest tests/test_pipeline.py -v
+          pytest tests/test_pipeline.py tests/test_database_integrity.py -v
