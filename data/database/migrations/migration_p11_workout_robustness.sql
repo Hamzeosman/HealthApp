@@ -6,10 +6,13 @@
 -- ============================================================
 
 -- ── workout_sessions ─────────────────────────────────────────
-ALTER TABLE workout_sessions
-  ALTER COLUMN user_id SET NOT NULL,
-  ALTER COLUMN date    SET NOT NULL,
-  ALTER COLUMN date    SET DEFAULT CURRENT_DATE;
+DO $$ BEGIN
+  ALTER TABLE workout_sessions ALTER COLUMN user_id SET NOT NULL;
+EXCEPTION WHEN others THEN NULL; END $$;
+DO $$ BEGIN
+  ALTER TABLE workout_sessions ALTER COLUMN date SET NOT NULL;
+EXCEPTION WHEN others THEN NULL; END $$;
+ALTER TABLE workout_sessions ALTER COLUMN date SET DEFAULT CURRENT_DATE;
 
 -- ── workout_exercises ─────────────────────────────────────────
 ALTER TABLE workout_exercises
