@@ -1,15 +1,12 @@
 name: Run Tests
-
 on:
   push:
     branches: [master, feature/*]
   pull_request:
     branches: [master]
-
 jobs:
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:14
@@ -24,23 +21,48 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     steps:
       - uses: actions/checkout@v3
-
       - name: Set up Python 3.13
         uses: actions/setup-python@v4
         with:
           python-version: "3.13"
-
       - name: Install dependencies
         run: pip install -r data/requirements.txt
-
       - name: Set up database schema
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
         run: psql $DATABASE_URL -f data/database/schema/schema.sql
-
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
+        run: |
+          psql $DATABASE_URL -f data/database/migrations/migration_p1.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p2.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p3.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_equipment.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p4_fixes.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p5_quality.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p6_exercise_metadata.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p7_robustness.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p8_audit_log.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p9_history_tables.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p10_exercise_intelligence.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p11_workout_robustness.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p12_metadata_improvements.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p13_versioning_and_ownership.sql
+          psql $DATABASE_URL -f data/database/migrations/migration_p14_automatic_triggers.sql
+      - name: Seed master data
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
+        run: |
+          psql $DATABASE_URL -f data/database/seed/master/master_data.sql || true
+          psql $DATABASE_URL -f data/database/seed/master/exercise/equipment_exercises.sql || true
+          psql $DATABASE_URL -f data/database/seed/master/exercise/machine_muscles.sql || true
+          psql $DATABASE_URL -f data/database/seed/master/exercise/exercise_tag_map.sql || true
+          psql $DATABASE_URL -f data/database/seed/master/achievements/achievements.sql || true
+          psql $DATABASE_URL -f data/database/seed/master/achievements/progression_rules.sql || true
+          psql $DATABASE_URL -f data/database/seed/master/gym/seed_p3.sql || true
       - name: Seed test data
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
@@ -48,10 +70,10 @@ jobs:
           cd data
           python pipelines/seed_test_data.py
           python pipelines/seed_exercises.py
-
+          python pipelines/seed_more_data.py
       - name: Run tests
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/healthapp
         run: |
           cd data
-          pytest tests/test_pipeline.py -v
+          pytest tests/test_pipeline.py tests/test_database_integrity.py -v

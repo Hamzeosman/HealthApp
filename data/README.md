@@ -268,3 +268,40 @@ python pipelines/weekly_report_pipeline.py
 | User Dashboard | Streamlit (13 sidor, 8 språk) |
 | PT Dashboard | Streamlit (8 sidor) |
 | CI/CD | GitHub Actions |
+---
+
+## Backup och återställning
+
+### Backup
+
+```bash
+# Daglig backup (kör som cron-job)
+pg_dump healthapp > backup_$(date +%Y%m%d).sql
+
+# Komprimerad backup
+pg_dump healthapp | gzip > backup_$(date +%Y%m%d).sql.gz
+```
+
+### Restore
+
+```bash
+# Återställ från backup
+psql healthapp < backup_20260101.sql
+
+# Från komprimerad
+gunzip -c backup_20260101.sql.gz | psql healthapp
+```
+
+### Rollback migration
+
+```bash
+# Om en migration gick fel — återställ från senaste backup
+psql healthapp < backup_before_migration.sql
+```
+
+### Produktionsstrategi
+
+- Kör backup varje natt kl 02:00
+- Behåll 30 dagars backup
+- Testa restore en gång per månad
+- Kör alltid backup innan migration
