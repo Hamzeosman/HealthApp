@@ -35,6 +35,31 @@ def safe_run_for_all_users(pipeline_name, func):
     log.info(f"  Resultat: {success_count} OK, {fail_count} FEL")
     return fail_count == 0
 
+
+def log_pipeline(name, started_at, finished_at, status, errors=0, error_message=None):
+    try:
+        from sqlalchemy import create_engine, text
+        from dotenv import load_dotenv
+        import os
+        load_dotenv()
+        eng = create_engine(os.getenv("DATABASE_URL"))
+        duration = (finished_at - started_at).seconds
+        with eng.connect() as conn:
+            conn.execute(text("""
+                INSERT INTO pipeline_logs
+                  (pipeline_name, status, started_at, finished_at,
+                   duration_seconds, errors, error_message)
+                VALUES
+                  (:name, :status, :started, :finished, :duration, :errors, :err_msg)
+            """), {
+                "name": name, "status": status,
+                "started": started_at, "finished": finished_at,
+                "duration": duration, "errors": errors, "err_msg": error_message
+            })
+            conn.commit()
+    except Exception as e:
+        pass
+
 def run_pipeline(name, func):
     log.info(f"\n{'='*50}")
     log.info(f"Kor: {name}")
@@ -42,11 +67,15 @@ def run_pipeline(name, func):
     start = datetime.now()
     try:
         result = func()
-        duration = (datetime.now() - start).seconds
+        finished = datetime.now()
+        duration = (finished - start).seconds
         log.info(f"[OK] {name} klar pa {duration}s!")
+        log_pipeline(name, start, finished, "success")
         return True
     except Exception as e:
+        finished = datetime.now()
         log.error(f"[FEL] {name}: {e}")
+        log_pipeline(name, start, finished, "error", errors=1, error_message=str(e))
         return False
 
 def run_all_recommendations():

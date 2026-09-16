@@ -348,8 +348,21 @@ def run_data_quality():
         medium = [i for i in all_issues if i["severity"] == "MEDIUM"]
         low    = [i for i in all_issues if i["severity"] in ("LOW", "INFO")]
 
+        # Quality score — varje HIGH räknas som 2 poäng, MEDIUM som 1
+        total_checks = 6
+        penalty = len(high) * 2 + len(medium) * 1
+        quality_score = max(0, round(100 - (penalty / (total_checks * 2)) * 100, 1))
+
         log.info(f"\n{'=' * 55}")
-        log.info(f"RESULTAT:")
+        log.info(f"DATA QUALITY SCORE: {quality_score}%")
+        log.info(f"{'=' * 55}")
+        log.info(f"  NULL checks      {'✅' if not any(i['check']=='null_values' for i in all_issues) else '⚠️'}")
+        log.info(f"  Duplicates       {'✅' if not any(i['check']=='duplicates' for i in all_issues) else '⚠️'}")
+        log.info(f"  Range checks     {'✅' if not any(i['check']=='out_of_range' for i in all_issues) else '⚠️'} {len([i for i in all_issues if i['check']=='out_of_range'])} issues")
+        log.info(f"  Foreign keys     {'✅' if not any(i['check']=='orphaned_records' for i in all_issues) else '⚠️'}")
+        log.info(f"  Master data      {'✅' if not any(i['check']=='master_data' for i in all_issues) else '⚠️'}")
+        log.info(f"  User activity    {'✅' if not any(i['check']=='stale_data' for i in all_issues) else 'ℹ️'}")
+        log.info(f"\nRESULTAT:")
         log.info(f"  🔴 HIGH:   {len(high)}")
         log.info(f"  🟡 MEDIUM: {len(medium)}")
         log.info(f"  🟢 LOW:    {len(low)}")
