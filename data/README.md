@@ -305,3 +305,52 @@ psql healthapp < backup_before_migration.sql
 - Behåll 30 dagars backup
 - Testa restore en gång per månad
 - Kör alltid backup innan migration
+
+---
+
+## Admin Dashboard
+
+```bash
+cd HealthApp/data
+streamlit run dashboard/admin_dashboard.py
+```
+
+Öppnas på http://localhost:8502
+
+**Sidor:**
+- Oversikt — användare, triggers, constraints, index, pipeline status
+- Data Quality — score 100%, checkmatris, historik
+- Pipeline Historik — alla 10 pipelines med success rate och duration
+- Anomalier — training_volume_spike, sleep_deprivation, rpe_spike, training_dropout
+- Databas Status — tabeller, statistik, PostgreSQL-roller
+
+---
+
+## Rollbaserad åtkomst
+
+| Roll | Behörighet |
+|------|------------|
+| healthapp_admin | Full åtkomst till allt |
+| healthapp_pt | Läsa träningsdata, skriva rekommendationer |
+| healthapp_user | Bara sin egen data + master data |
+| healthapp_ai_service | Läsa allt, skriva insights och metrics |
+| healthapp_analytics | Bara läsåtkomst för dashboards |
+
+---
+
+## Köra alla pipelines
+
+```bash
+cd HealthApp/data
+
+# Kör alla 10 pipelines i rätt ordning
+python pipelines/run_all_pipelines.py
+
+# Enskilda pipelines
+python pipelines/feature_store_pipeline.py
+python pipelines/fatigue_pipeline.py
+python pipelines/anomaly_detection_pipeline.py
+python pipelines/data_quality_pipeline.py
+```
+
+Körningar loggas automatiskt i `pipeline_logs`-tabellen.
