@@ -66,3 +66,36 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO healthapp_analytics;
 SELECT rolname FROM pg_roles
 WHERE rolname LIKE 'healthapp_%'
 ORDER BY rolname;
+-- ── Rollmatris — komplett dokumentation ──────────────────────
+-- 
+-- Tabell                  | admin | pt     | user        | ai_service | analytics
+-- ----------------------- | ----- | ------ | ----------- | ---------- | ---------
+-- users                   | ALL   | SELECT | egen rad    | SELECT     | SELECT
+-- exercises               | ALL   | SELECT | SELECT      | SELECT     | SELECT
+-- foods                   | ALL   | SELECT | SELECT      | SELECT     | SELECT
+-- equipment               | ALL   | SELECT | SELECT      | SELECT     | SELECT
+-- training_plans          | ALL   | SELECT | SELECT      | SELECT     | SELECT
+-- workout_sessions        | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- workout_exercises       | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- personal_records        | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- recovery_logs           | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- meal_logs               | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- biometrics              | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- running_sessions        | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- recommendations         | ALL   | INS/UPD| -           | INS/UPD    | SELECT
+-- ai_insights             | ALL   | INS/UPD| -           | INS/UPD    | SELECT
+-- fatigue_scores          | ALL   | SELECT | -           | INS/UPD    | SELECT
+-- training_metrics        | ALL   | SELECT | -           | INS/UPD    | SELECT
+-- coach_messages          | ALL   | SELECT | SELECT      | INS/UPD    | SELECT
+-- notifications           | ALL   | INS/UPD| -           | INS/UPD    | SELECT
+-- audit_log               | ALL   | -      | -           | -          | SELECT
+-- weight_history          | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- goal_history            | ALL   | SELECT | INS/UPD     | SELECT     | SELECT
+-- achievements            | ALL   | SELECT | SELECT      | SELECT     | SELECT
+--
+-- Förklaring:
+-- ALL     = SELECT + INSERT + UPDATE + DELETE
+-- INS/UPD = INSERT + UPDATE (ingen DELETE)
+-- SELECT  = bara läsåtkomst
+-- egen rad = SELECT/UPDATE på user_id = current_user_id (via API)
+-- -       = ingen åtkomst

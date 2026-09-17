@@ -62,7 +62,7 @@ def detect_overtraining(conn, user_id: int, user_name: str) -> list[dict]:
 
     if result:
         return [{
-            "type": "overtraining",
+            "type": "training_volume_spike",
             "severity": "HIGH",
             "user_id": user_id,
             "message": f"{user_name}: Träningsvolym {result[0]:.0f}kg denna vecka är mer än 2x normalt ({result[1]:.0f}kg). Risk för överträning.",
@@ -83,7 +83,7 @@ def detect_poor_sleep_streak(conn, user_id: int, user_name: str) -> list[dict]:
 
     if result >= 3:
         return [{
-            "type": "poor_sleep_streak",
+            "type": "sleep_deprivation",
             "severity": "HIGH",
             "user_id": user_id,
             "message": f"{user_name}: Sovit under 4h tre dagar i rad. Prioritera sömn för återhämtning.",
@@ -144,7 +144,7 @@ def detect_dropout_risk(conn, user_id: int, user_name: str) -> list[dict]:
 
     if days_since >= 14 and total >= 5:
         return [{
-            "type": "dropout_risk",
+            "type": "training_dropout",
             "severity": "MEDIUM",
             "user_id": user_id,
             "message": f"{user_name}: Ingen träning på {days_since} dagar. Dropout-risk — skicka påminnelse.",
@@ -165,7 +165,7 @@ def detect_high_stress_streak(conn, user_id: int, user_name: str) -> list[dict]:
 
     if result >= 3:
         return [{
-            "type": "high_stress_streak",
+            "type": "stress_spike",
             "severity": "MEDIUM",
             "user_id": user_id,
             "message": f"{user_name}: Stressnivå över 8 tre dagar i rad. Överväg deload eller vila.",
@@ -189,7 +189,7 @@ def detect_weight_spike(conn, user_id: int, user_name: str) -> list[dict]:
         diff = abs(float(result[0]) - float(result[1]))
         if diff > 2:
             return [{
-                "type": "weight_spike",
+                "type": "weight_anomaly",
                 "severity": "LOW",
                 "user_id": user_id,
                 "message": f"{user_name}: Viktutveckling {diff:.1f}kg på en vecka. Kontrollera om det är avsiktligt.",
