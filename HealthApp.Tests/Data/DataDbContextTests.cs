@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
-using HealthApp.API.Models;
+using Mintakt.API.Models;
 
 namespace HealthApp.Tests.Data
 {

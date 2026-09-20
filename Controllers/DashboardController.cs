@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthApp.API.Controllers
+namespace Mintakt.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

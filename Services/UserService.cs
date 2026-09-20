@@ -1,8 +1,8 @@
-using HealthApp.API.DTOs;
-using HealthApp.API.Models;
-using HealthApp.API.Repositories;
+using Mintakt.API.DTOs;
+using Mintakt.API.Models;
+using Mintakt.API.Repositories;
 
-namespace HealthApp.API.Services
+namespace Mintakt.API.Services
 {
     public class UserService : IUserService
     {

@@ -1,4 +1,4 @@
-namespace HealthApp.API.DTOs
+namespace Mintakt.API.DTOs
 {
     // DTO för ai_insights-endpoint från Python API.
     // Genererade insikter för en användare — träningsobservationer, mönster,

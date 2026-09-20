@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
-using HealthApp.API.DTOs;
-using HealthApp.API.Services;
+using Mintakt.API.DTOs;
+using Mintakt.API.Services;
 using Moq;
 using Moq.Protected;
 

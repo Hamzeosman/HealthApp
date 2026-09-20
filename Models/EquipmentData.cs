@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthApp.API.Models
+namespace Mintakt.API.Models
 {
     /// <summary>
     /// Lookup-tabell för träningsutrustning (44 maskiner) mot equipment-tabellen

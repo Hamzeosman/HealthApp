@@ -1,4 +1,4 @@
-namespace HealthApp.API.DTOs
+namespace Mintakt.API.DTOs
 {
     // DTO för recommendations-endpoint från Python API.
     // ExerciseName och BodyPart är denormaliserade fält som Python-sidan

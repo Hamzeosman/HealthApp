@@ -1,4 +1,4 @@
-namespace HealthApp.API.DTOs
+namespace Mintakt.API.DTOs
 {
     // DTO för model_predictions-endpoint från Python API.
     // ML-modellens utdata för en given användare och datum: risk-scores samt

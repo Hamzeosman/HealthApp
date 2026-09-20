@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthApp.API.Models
+namespace Mintakt.API.Models
 {
     /// <summary>
     /// Träningspass loggade av användare mot workout_sessions-tabellen

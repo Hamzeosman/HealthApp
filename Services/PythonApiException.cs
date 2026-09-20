@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace HealthApp.API.Services
+namespace Mintakt.API.Services
 {
     // Typed exception för fel från Python API-anrop.
     // Kastas av PythonApiClient när API returnerar icke-success statuskod

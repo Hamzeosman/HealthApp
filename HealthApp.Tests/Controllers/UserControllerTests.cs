@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using HealthApp.API.Controllers;
-using HealthApp.API.DTOs;
-using HealthApp.API.Services;
+using Mintakt.API.Controllers;
+using Mintakt.API.DTOs;
+using Mintakt.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

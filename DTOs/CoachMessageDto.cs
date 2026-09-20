@@ -1,4 +1,4 @@
-namespace HealthApp.API.DTOs
+namespace Mintakt.API.DTOs
 {
     // DTO för coach_messages-endpoint från Python API.
     //
