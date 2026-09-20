@@ -52,6 +52,24 @@ builder.Services.AddScoped<IRecommendationService, RecommendationService>();
 builder.Services.AddScoped<IWorkoutProgramService, WorkoutProgramService>();
 builder.Services.AddScoped<IWorkoutTemplateService, WorkoutTemplateService>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+// Python API client (Iteration 3 of Issue #32)
+// X-API-Key mappas mot healthapp_ai_service-rollen (bekräftat av Abdulrahman i PR #44-review).
+// ApiKey läses från user-secrets (dev) eller miljövariabler (prod) — aldrig från appsettings.json.
+builder.Services.Configure<PythonApiOptions>(
+    builder.Configuration.GetSection(PythonApiOptions.SectionName));
+
+builder.Services.AddHttpClient<IPythonApiClient, PythonApiClient>((serviceProvider, client) =>
+{
+    var options = serviceProvider
+        .GetRequiredService<Microsoft.Extensions.Options.IOptions<PythonApiOptions>>()
+        .Value;
+
+    client.BaseAddress = new Uri(options.BaseUrl);
+    client.DefaultRequestHeaders.Add("X-API-Key", options.ApiKey);
+    client.Timeout = TimeSpan.FromSeconds(options.TimeoutSeconds);
+});
+
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
