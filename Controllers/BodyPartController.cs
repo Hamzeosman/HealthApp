@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using HealthApp.API.Models;
-using HealthApp.API.Services;
+using Mintakt.API.Models;
+using Mintakt.API.Services;
 
-namespace HealthApp.API.Controllers
+namespace Mintakt.API.Controllers
 {
     [Authorize]
     [ApiController]

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthApp.API.Models
+namespace Mintakt.API.Models
 {
     [Table("ai_insights")]
     public class AiInsight

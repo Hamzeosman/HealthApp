@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthApp.API.Models
+namespace Mintakt.API.Models
 {
     [Table("training_plan_days")]
     public class TrainingPlanDay

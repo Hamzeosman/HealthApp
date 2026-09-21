@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthApp.API.Models
+namespace Mintakt.API.Models
 {
     /// <summary>
     /// Personal records (PRs) för en användare per övning mot personal_records-tabellen

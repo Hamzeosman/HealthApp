@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <RootNamespace>Mintakt.Tests</RootNamespace>
+    <AssemblyName>Mintakt.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HealthApp.API.csproj" />
+   <ProjectReference Include="..\Mintakt.API.csproj" />
   </ItemGroup>
 
 </Project>

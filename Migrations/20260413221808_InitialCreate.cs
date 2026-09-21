@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace HealthApp.API.Migrations
+namespace Mintakt.API.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

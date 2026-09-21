@@ -1,4 +1,4 @@
-namespace HealthApp.API.Services
+namespace Mintakt.API.Services
 {
     // Options-klass för PythonApiClient-konfiguration.
     // Binds mot "PythonApi"-sektionen i appsettings.json via IOptions<T>.

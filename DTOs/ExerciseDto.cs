@@ -1,4 +1,4 @@
-namespace HealthApp.API.DTOs
+namespace Mintakt.API.DTOs
 {
     public class ExerciseDto
     {

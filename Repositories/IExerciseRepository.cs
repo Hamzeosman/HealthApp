@@ -1,6 +1,6 @@
-using HealthApp.API.Models;
+using Mintakt.API.Models;
 
-namespace HealthApp.API.Repositories
+namespace Mintakt.API.Repositories
 {
     public interface IExerciseRepository
     {

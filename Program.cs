@@ -3,9 +3,9 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using HealthApp.API;
-using HealthApp.API.Repositories;
-using HealthApp.API.Services;
+using Mintakt.API;
+using Mintakt.API.Repositories;
+using Mintakt.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

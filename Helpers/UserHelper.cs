@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace HealthApp.API.Helpers
+namespace Mintakt.API.Helpers
 {
     public static class UserHelper
     {

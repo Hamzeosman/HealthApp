@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthApp.API.Models
+namespace Mintakt.API.Models
 {
     [Table("user_streaks")]
     public class UserStreak

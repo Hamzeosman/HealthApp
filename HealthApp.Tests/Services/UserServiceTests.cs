@@ -1,7 +1,7 @@
-using HealthApp.API.DTOs;
-using HealthApp.API.Models;
-using HealthApp.API.Repositories;
-using HealthApp.API.Services;
+using Mintakt.API.DTOs;
+using Mintakt.API.Models;
+using Mintakt.API.Repositories;
+using Mintakt.API.Services;
 using HealthApp.Tests.Builders;
 using Moq;
 

@@ -1,4 +1,4 @@
-namespace HealthApp.API.Models
+namespace Mintakt.API.Models
 {
     public class Exercise
     {

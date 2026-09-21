@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>7e9009cf-66ab-4d3c-8e32-a2cbdbbb7c5f</UserSecretsId>
+    <RootNamespace>Mintakt.API</RootNamespace>
+    <AssemblyName>Mintakt.API</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
-using HealthApp.API.DTOs;
+using Mintakt.API.DTOs;
 
-namespace HealthApp.API.Services
+namespace Mintakt.API.Services
 {
     // Kontrakt för Python API-anrop (Iteration 3 av Issue #32).
     //

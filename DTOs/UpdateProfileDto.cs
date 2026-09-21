@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace HealthApp.API.DTOs
+namespace Mintakt.API.DTOs
 {
     public class UpdateProfileDto
     {

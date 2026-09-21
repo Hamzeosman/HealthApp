@@ -1,6 +1,6 @@
-using HealthApp.API.Models;
+using Mintakt.API.Models;
 
-namespace HealthApp.API.Services
+namespace Mintakt.API.Services
 {
     public interface IMuscleGroupService
     {

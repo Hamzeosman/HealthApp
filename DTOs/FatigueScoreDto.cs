@@ -1,4 +1,4 @@
-namespace HealthApp.API.DTOs
+namespace Mintakt.API.DTOs
 {
     // DTO för fatigue_scores-endpoint från Python API.
     // Alla properties är nullable eftersom Python-sidan returnerar null
