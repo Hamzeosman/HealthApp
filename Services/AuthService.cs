@@ -11,11 +11,16 @@ namespace Mintakt.API.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
+        private readonly DataDbContext _dataDb;
         private readonly IConfiguration _configuration;
 
-        public AuthService(IUserRepository userRepository, IConfiguration configuration)
+        public AuthService(
+            IUserRepository userRepository,
+            DataDbContext dataDb,
+            IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _dataDb = dataDb;
             _configuration = configuration;
         }
 
@@ -24,7 +29,7 @@ namespace Mintakt.API.Services
             var existingUser = await _userRepository.GetByUsernameAsync(dto.Username);
             if (existingUser != null) return null;
 
-           var user = new User
+            var user = new User
             {
                 Name = dto.Username,
                 Email = dto.Email,
@@ -33,6 +38,11 @@ namespace Mintakt.API.Services
 
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
+
+            // Synkronisera fitness-profilen till DataDbContext med SAMMA ID
+            // så att /me-endpoints och all user-relaterad data fungerar korrekt.
+            // Email + PasswordHash lagras BARA i AppDbContext (Identity-ansvar).
+            await SyncUserToDataDbAsync(user);
 
             return GenerateToken(user);
         }
@@ -44,6 +54,37 @@ namespace Mintakt.API.Services
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash)) return null;
 
             return GenerateToken(user);
+        }
+
+        /// <summary>
+        /// Skapar fitness-profil-raden i DataDbContext med SAMMA ID som i AppDbContext.
+        /// 
+        /// Designval: UserData i DataDbContext är en fitness-profil, inte auth-entitet
+        /// (email och password_hash tillhör AppDbContext). Default-värden för
+        /// FitnessLevel och Goal matchar DataDbContext CHECK-constraints.
+        /// Användaren kan uppdatera dessa via Profile-sidan.
+        /// 
+        /// Idempotent: om användaren redan finns i DataDbContext skipppas insert.
+        /// Vid krasch mellan AppDbContext-save och DataDbContext-save får vi en
+        /// desync — se Issue #57 för diskussion om transaktion över två databaser.
+        /// För nuvarande scope accepterar vi eventual consistency.
+        /// </summary>
+        private async Task SyncUserToDataDbAsync(User appUser)
+        {
+            var exists = await _dataDb.Users.FindAsync(appUser.Id);
+            if (exists != null) return;
+
+            var dataUser = new UserData
+            {
+                Id = appUser.Id,
+                Name = appUser.Name,
+                FitnessLevel = "nybörjare",
+                Goal = "hålla_sig_i_form",
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _dataDb.Users.Add(dataUser);
+            await _dataDb.SaveChangesAsync();
         }
 
         private string GenerateToken(User user)
