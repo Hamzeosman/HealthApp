@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mintakt.API.Helpers;
 
 namespace Mintakt.API.Controllers
 {
@@ -16,23 +17,31 @@ namespace Mintakt.API.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Returnerar dashboard-statistik för den inloggade användaren.
+        /// User-ID läses från JWT-claims via UserHelper.
+        /// 
+        /// Historik: tidigare användes hårdkodat userId=1 som tillfällig lösning
+        /// medan user-sync mellan AppDbContext och DataDbContext löstes.
+        /// Detta är nu fixat via Issue #57 — Register-flödet synkar automatiskt.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetStats()
         {
-            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
-            var userId = 1;
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
 
-            var totalWorkouts = await _context.WorkoutSessions.CountAsync(s => s.UserId == userId);
-            var totalRunning = await _context.RunningSessions.CountAsync(r => r.UserId == userId);
+            var totalWorkouts = await _context.WorkoutSessions.CountAsync(s => s.UserId == userId.Value);
+            var totalRunning = await _context.RunningSessions.CountAsync(r => r.UserId == userId.Value);
             var totalDistance = await _context.RunningSessions
-                .Where(r => r.UserId == userId)
+                .Where(r => r.UserId == userId.Value)
                 .SumAsync(r => r.DistanceKm ?? 0);
             var totalDuration = await _context.WorkoutSessions
-                .Where(s => s.UserId == userId)
+                .Where(s => s.UserId == userId.Value)
                 .SumAsync(s => s.DurationMinutes ?? 0);
             var totalExercises = await _context.Exercises.CountAsync();
             var totalPrograms = await _context.TrainingPlans.CountAsync();
-            var totalInsights = await _context.AiInsights.CountAsync(i => i.UserId == userId);
+            var totalInsights = await _context.AiInsights.CountAsync(i => i.UserId == userId.Value);
 
             return Ok(new
             {
