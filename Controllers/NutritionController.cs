@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mintakt.API.Helpers;
 
 namespace Mintakt.API.Controllers
 {
@@ -16,13 +17,23 @@ namespace Mintakt.API.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Hämtar inloggade användarens måltidsloggar, nyaste först.
+        /// User-ID läses från JWT-claims via UserHelper.
+        /// 
+        /// Historik: tidigare användes hårdkodat userId=1 som tillfällig lösning
+        /// medan user-sync mellan AppDbContext och DataDbContext löstes.
+        /// Detta är nu fixat via Issue #57 — Register-flödet synkar automatiskt.
+        /// </summary>
         [HttpGet("meals")]
         public async Task<IActionResult> GetMeals()
         {
-            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
             var meals = await (from m in _context.MealLogs
                                join f in _context.Foods on m.FoodId equals f.Id
-                               where m.UserId == 1
+                               where m.UserId == userId.Value
                                orderby m.Date descending
                                select new
                                {
@@ -39,6 +50,10 @@ namespace Mintakt.API.Controllers
             return Ok(meals);
         }
 
+        /// <summary>
+        /// Hämtar katalog över alla tillgängliga livsmedel.
+        /// Generisk data — ingen user-filtering.
+        /// </summary>
         [HttpGet("foods")]
         public async Task<IActionResult> GetFoods()
         {

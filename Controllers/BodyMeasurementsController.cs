@@ -18,17 +18,31 @@ namespace Mintakt.API.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Hämtar inloggade användarens kroppsmått, nyaste först.
+        /// User-ID läses från JWT-claims via UserHelper.
+        /// 
+        /// Historik: tidigare användes hårdkodat userId=1 som tillfällig lösning
+        /// medan user-sync mellan AppDbContext och DataDbContext löstes.
+        /// Detta är nu fixat via Issue #57 — Register-flödet synkar automatiskt.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
             var measurements = await _context.BodyMeasurements
-                .Where(m => m.UserId == 1)
+                .Where(m => m.UserId == userId.Value)
                 .OrderByDescending(m => m.Date)
                 .ToListAsync();
             return Ok(measurements);
         }
 
+        /// <summary>
+        /// Skapar en ny kroppsmätning för den inloggade användaren.
+        /// User-ID sätts från JWT-claims, oavsett vad klienten skickar i body.
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] BodyMeasurement measurement)
         {

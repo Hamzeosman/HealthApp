@@ -17,17 +17,31 @@ namespace Mintakt.API.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Hämtar inloggade användarens träningspass-historik, nyaste först.
+        /// User-ID läses från JWT-claims via UserHelper.
+        /// 
+        /// Historik: tidigare användes hårdkodat userId=1 som tillfällig lösning
+        /// medan user-sync mellan AppDbContext och DataDbContext löstes.
+        /// Detta är nu fixat via Issue #57 — Register-flödet synkar automatiskt.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            // TILLFÄLLIG: hårdkodad user_id=1 tills användarsynk mellan databaser är löst
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
             var sessions = await _context.WorkoutSessions
-                .Where(s => s.UserId == 1)
+                .Where(s => s.UserId == userId.Value)
                 .OrderByDescending(s => s.Date)
                 .ToListAsync();
             return Ok(sessions);
         }
 
+        /// <summary>
+        /// Hämtar ett specifikt träningspass. Säker — returnerar endast om passet
+        /// tillhör den inloggade användaren (ownership-check).
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
