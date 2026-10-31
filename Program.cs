@@ -52,6 +52,7 @@ builder.Services.AddScoped<IRecommendationService, RecommendationService>();
 builder.Services.AddScoped<IWorkoutProgramService, WorkoutProgramService>();
 builder.Services.AddScoped<IWorkoutTemplateService, WorkoutTemplateService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAchievementService, AchievementService>();
 
 // Python API client (Iteration 3 of Issue #32)
 // X-API-Key mappas mot healthapp_ai_service-rollen (bekräftat av Abdulrahman i PR #44-review).
