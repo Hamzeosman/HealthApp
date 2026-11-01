@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from core.domain.recommendation_engine import generate_ai_coach_response
 from sqlalchemy import text
 from core.db import get_engine
+from typing import Optional
 
 router = APIRouter(prefix="/users", tags=["ai"])
 engine = get_engine()
@@ -17,8 +18,8 @@ def ai_coach(user_id: int):
 def recommendations(user_id: int):
     with engine.connect() as conn:
         rows = conn.execute(text("""
-            SELECT r.user_id, e.name AS exercise, bp.name AS body_part,
-                   r.reason, r.score
+            SELECT r.user_id, r.exercise_id, e.name AS exercise_name,
+                   bp.name AS body_part, r.score, r.reason, r.created_at
             FROM recommendations r
             JOIN exercises e ON r.exercise_id = e.id
             JOIN body_parts bp ON e.body_part_id = bp.id
@@ -26,7 +27,7 @@ def recommendations(user_id: int):
             ORDER BY r.score DESC LIMIT 10
         """), {"uid": user_id}).fetchall()
         return [dict(zip(
-            ["user_id","exercise","body_part","reason","score"], r
+            ["user_id","exercise_id","exercise_name","body_part","score","reason","created_at"], r
         )) for r in rows]
 
 @router.get("/{user_id}/predictions")
@@ -34,9 +35,9 @@ def predictions(user_id: int):
     with engine.connect() as conn:
         row = conn.execute(text("""
             SELECT user_id, date, injury_risk_score, dropout_risk_score,
-                   plateau_risk_score, overtraining_risk_score,
-                   recommended_intensity, recommended_volume_multiplier,
-                   primary_recommendation, confidence_score
+                   overtraining_risk_score, recommended_intensity,
+                   recommended_volume_multiplier, primary_recommendation,
+                   confidence_score
             FROM model_predictions
             WHERE user_id = :uid
             ORDER BY date DESC LIMIT 1
@@ -44,9 +45,10 @@ def predictions(user_id: int):
         if not row:
             raise HTTPException(status_code=404, detail="No predictions found")
         return dict(zip([
-            "user_id","date","injury_risk","dropout_risk",
-            "plateau_risk","overtraining_risk","recommended_intensity",
-            "volume_multiplier","recommendation","confidence"
+            "user_id","date","injury_risk_score","dropout_risk_score",
+            "overtraining_risk_score","recommended_intensity",
+            "recommended_volume_multiplier","primary_recommendation",
+            "confidence_score"
         ], row))
 
 @router.get("/{user_id}/coach-v2")
@@ -54,7 +56,6 @@ def ai_coach_v2(user_id: int):
     from core.domain.ai_coach_engine import generate_ai_coach_v2
     result = generate_ai_coach_v2(user_id)
     if not result:
-        from fastapi import HTTPException
         raise HTTPException(status_code=404, detail="No data found")
     return result
 
@@ -62,9 +63,7 @@ def ai_coach_v2(user_id: int):
 def workout_template(user_id: int):
     from core.domain.ai_coach_engine import _get_full_context
     from core.domain.workout_templates import select_template, get_todays_session, TEMPLATES
-    from core.db import get_engine
     import datetime
-    engine = get_engine()
     with engine.connect() as conn:
         ctx = _get_full_context(user_id, conn)
     tmpl = select_template(ctx)
@@ -80,7 +79,5 @@ def workout_template(user_id: int):
 @router.get("/{user_id}/readiness-trend")
 def readiness_trend(user_id: int):
     from core.domain.progression_engine import analyze_readiness_trend
-    from core.db import get_engine
-    engine = get_engine()
     with engine.connect() as conn:
         return analyze_readiness_trend(user_id, conn)

@@ -6,7 +6,7 @@ Docs: http://localhost:8000/docs
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import users, readiness, recommendations, analytics
+from api.routes import users, readiness, recommendations, analytics, coach_messages
 import logging
 
 log = logging.getLogger(__name__)
@@ -42,6 +42,7 @@ app.include_router(users.router)
 app.include_router(readiness.router)
 app.include_router(recommendations.router)
 app.include_router(analytics.router)
+app.include_router(coach_messages.router)
 
 @app.get("/")
 def root():

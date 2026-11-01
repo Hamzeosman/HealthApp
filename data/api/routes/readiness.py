@@ -47,3 +47,11 @@ def readiness_history(user_id: int):
             "date","readiness_score","recovery_score",
             "fatigue_score","acwr","training_zone","deload_recommended"
         ], r)) for r in rows]
+
+@router.get("/{user_id}/fatigue-scores")
+def fatigue_scores(user_id: int):
+    """Alias för /fatigue — matchar C# IPythonApiClient.GetFatigueScoreAsync"""
+    result = get_fatigue(user_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="No fatigue data found")
+    return result
