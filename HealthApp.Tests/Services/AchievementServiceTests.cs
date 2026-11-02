@@ -1,3 +1,4 @@
+using Mintakt.API;
 using Microsoft.EntityFrameworkCore;
 using Mintakt.API.DTOs;
 using Mintakt.API.Models;
@@ -38,13 +39,13 @@ namespace HealthApp.Tests.Services
         private void SeedWorkoutSessions(int userId, int count)
         {
             for (int i = 0; i < count; i++)
-                _context.WorkoutSessions.Add(new WorkoutSession { UserId = userId });
+                _context.WorkoutSessions.Add(new WorkoutSessionData { UserId = userId });
             _context.SaveChanges();
         }
 
         private void SeedRunning(int userId, decimal km)
         {
-            _context.RunningSessions.Add(new RunningSession { UserId = userId, DistanceKm = (double)km });
+            _context.RunningSessions.Add(new RunningSession { UserId = userId, DistanceKm = km });
             _context.SaveChanges();
         }
 
