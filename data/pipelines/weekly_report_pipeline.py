@@ -359,21 +359,33 @@ def generate_weekly_report(user_id: int, user_name: str):
         log.error(f"Fel vid generering av veckorapport for {user_name}: {e}")
 
 if __name__ == "__main__":
-    log.info("Startar veckorapport pipeline...")
-
-    with engine.connect() as conn:
-        users = conn.execute(text("SELECT id, name FROM users")).fetchall()
-
-    if not users:
-        log.warning("Inga anvandare hittades!")
+    # ENV-guard: kör aldrig email-utskick i dev/test
+    app_env = os.getenv("APP_ENV", "development").lower()
+    if app_env in ("development", "dev", "test"):
+        log.warning(f"APP_ENV={app_env} — hoppar över email-utskick. Sätt APP_ENV=production för att skicka.")
         exit(0)
 
-    log.info(f"Genererar rapporter for {len(users)} anvandare")
+    log.info("Startar veckorapport pipeline...")
+
+    # Hämtar bara users med email_opt_in=true (GDPR opt-in)
+    with engine.connect() as conn:
+        users = conn.execute(
+            text("SELECT id, name FROM users WHERE email_opt_in = true")
+        ).fetchall()
+
+    if not users:
+        log.warning("Inga anvandare med email_opt_in=true hittades!")
+        exit(0)
+
+    log.info(f"Genererar rapporter for {len(users)} anvandare (opt-in)")
 
     for user in users:
         generate_weekly_report(user[0], user[1])
         with engine.connect() as conn:
-            email = conn.execute(text("SELECT email FROM users WHERE id = :uid"), {"uid": user[0]}).scalar()
+            email = conn.execute(
+                text("SELECT email FROM users WHERE id = :uid AND email_opt_in = true"),
+                {"uid": user[0]}
+            ).scalar()
         if email:
             send_weekly_email(email, user[1], user[0])
 
