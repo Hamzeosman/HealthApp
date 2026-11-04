@@ -17,6 +17,95 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
+# ================================
+# EMAIL-UTSKICK
+# ================================
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+def build_html_email(user_name: str, user_id: int) -> str:
+    training_df = get_weekly_training(user_id)
+    records_df = get_personal_records_this_week(user_id)
+    week = get_ref_date(user_id)
+    week_str = week.strftime('%Y vecka %W') if week else "denna vecka"
+
+    sessions_count = 0
+    total_min = 0
+    total_vol = 0
+    mood_text = "-"
+
+    if not training_df.empty:
+        import duckdb
+        con = duckdb.connect()
+        con.register("training", training_df)
+        summary = con.execute("""
+            SELECT COUNT(DISTINCT date), SUM(duration_minutes),
+                   SUM(sets * reps * COALESCE(weight_kg, 0))
+            FROM training
+        """).fetchone()
+        sessions_count = summary[0] or 0
+        total_min = summary[1] or 0
+        total_vol = summary[2] or 0
+        mood_row = con.execute("""
+            SELECT mood FROM training WHERE mood IS NOT NULL
+            GROUP BY mood ORDER BY COUNT(*) DESC LIMIT 1
+        """).fetchone()
+        mood_text = mood_row[0] if mood_row else "-"
+        con.close()
+
+    pr_rows = ""
+    if not records_df.empty:
+        for _, row in records_df.iterrows():
+            pr_rows += f"<li>🏅 {row['exercise']}: {row['weight_kg']}kg × {row['reps']} reps</li>"
+    else:
+        pr_rows = "<li>Inga nya personbästa denna vecka</li>"
+
+    return f"""
+    <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px">
+    <h2 style="color:#4F46E5">🏋️ Veckorapport — {user_name}</h2>
+    <p style="color:#6B7280">{week_str}</p>
+    <hr>
+    <h3>📊 Träningssammanfattning</h3>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="background:#F3F4F6"><td style="padding:8px">Antal pass</td><td style="padding:8px"><b>{sessions_count}</b></td></tr>
+      <tr><td style="padding:8px">Total tid</td><td style="padding:8px"><b>{total_min} min</b></td></tr>
+      <tr style="background:#F3F4F6"><td style="padding:8px">Total volym</td><td style="padding:8px"><b>{total_vol:.0f} kg</b></td></tr>
+      <tr><td style="padding:8px">Humör</td><td style="padding:8px"><b>{mood_text}</b></td></tr>
+    </table>
+    <h3>🏆 Personbästa</h3>
+    <ul>{pr_rows}</ul>
+    <hr>
+    <p style="color:#9CA3AF;font-size:12px">Skickat automatiskt av HealthApp • Avregistrera dig i appen</p>
+    </body></html>
+    """
+
+def send_weekly_email(user_email: str, user_name: str, user_id: int):
+    smtp_host = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    smtp_port = int(os.getenv("SMTP_PORT", 587))
+    smtp_user = os.getenv("SMTP_USER")
+    smtp_pass = os.getenv("SMTP_PASSWORD")
+    email_from = os.getenv("EMAIL_FROM", smtp_user)
+
+    if not smtp_user or not smtp_pass or smtp_pass == "ditt-app-lösenord-här":
+        log.warning(f"SMTP ej konfigurerat — hoppar över email till {user_email}")
+        return
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"🏋️ Din veckorapport — {get_ref_date(user_id).strftime('%Y vecka %W') if get_ref_date(user_id) else 'denna vecka'}"
+    msg["From"] = email_from
+    msg["To"] = user_email
+    msg.attach(MIMEText(build_html_email(user_name, user_id), "html"))
+
+    try:
+        with smtplib.SMTP(smtp_host, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_user, smtp_pass)
+            server.sendmail(email_from, user_email, msg.as_string())
+        log.info(f"✅ Email skickat till {user_email}")
+    except Exception as e:
+        log.error(f"❌ Kunde inte skicka email till {user_email}: {e}")
+
 load_dotenv()
 
 try:
@@ -270,18 +359,34 @@ def generate_weekly_report(user_id: int, user_name: str):
         log.error(f"Fel vid generering av veckorapport for {user_name}: {e}")
 
 if __name__ == "__main__":
-    log.info("Startar veckorapport pipeline...")
-
-    with engine.connect() as conn:
-        users = conn.execute(text("SELECT id, name FROM users")).fetchall()
-
-    if not users:
-        log.warning("Inga anvandare hittades!")
+    # ENV-guard: kör aldrig email-utskick i dev/test
+    app_env = os.getenv("APP_ENV", "development").lower()
+    if app_env in ("development", "dev", "test"):
+        log.warning(f"APP_ENV={app_env} — hoppar över email-utskick. Sätt APP_ENV=production för att skicka.")
         exit(0)
 
-    log.info(f"Genererar rapporter for {len(users)} anvandare")
+    log.info("Startar veckorapport pipeline...")
+
+    # Hämtar bara users med email_opt_in=true (GDPR opt-in)
+    with engine.connect() as conn:
+        users = conn.execute(
+            text("SELECT id, name FROM users WHERE email_opt_in = true")
+        ).fetchall()
+
+    if not users:
+        log.warning("Inga anvandare med email_opt_in=true hittades!")
+        exit(0)
+
+    log.info(f"Genererar rapporter for {len(users)} anvandare (opt-in)")
 
     for user in users:
         generate_weekly_report(user[0], user[1])
+        with engine.connect() as conn:
+            email = conn.execute(
+                text("SELECT email FROM users WHERE id = :uid AND email_opt_in = true"),
+                {"uid": user[0]}
+            ).scalar()
+        if email:
+            send_weekly_email(email, user[1], user[0])
 
     log.info("Alla veckorapporter klara!")

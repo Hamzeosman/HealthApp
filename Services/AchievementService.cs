@@ -51,7 +51,7 @@ namespace Mintakt.API.Services
                     _                 => 0m
                 };
 
-                var required = a.RequirementValue ?? 1;
+                var required = (a.RequirementValue ?? 1) < 1 ? 1 : (a.RequirementValue ?? 1);
                 var isUnlocked = current >= required;
                 var progress = Math.Min(100.0, (double)(current / required) * 100.0);
 
