@@ -19,13 +19,33 @@ namespace Mintakt.API.Controllers
         }
 
         /// <summary>
-        /// Hämtar personbästa för en specifik user via userId i URL.
+        /// Hämtar inloggade användarens personbästa. User-id läses från JWT-claims
+        /// via UserHelper — konsistent med /me-pattern från PR A1 (#58) och A2 (#61).
         /// 
-        /// SÄKERHET: Denna endpoint saknar ownership-check och är planerad att
-        /// markeras [Obsolete] i framtida PR till förmån för GET /me som läser
-        /// user-id från JWT. Behålls tillfälligt för bakåtkompatibilitet med
-        /// Blazor-frontend innan den migreras.
+        /// Detta är den PREFERRED endpointen framåt. Den legacy /user/{userId}-endpointen
+        /// nedan är markerad [Obsolete] och planerad att tas bort när frontend har
+        /// migrerats i PR B.
         /// </summary>
+        [HttpGet("me")]
+        public async Task<IActionResult> GetMe()
+        {
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
+            var records = await _service.GetByUserIdAsync(userId.Value);
+            return Ok(records);
+        }
+
+        /// <summary>
+        /// Legacy-endpoint: hämtar personbästa för en specifik user via userId i URL.
+        /// 
+        /// MARKERAD [Obsolete]: Saknar ownership-check — vem som helst inloggad kan läsa
+        /// vems som helst personbästa. Behålls för bakåtkompatibilitet med
+        /// Blazor-frontend tills frontend migrerats till /me-endpointen i PR B.
+        /// 
+        /// Ta bort när frontend-migration är klar.
+        /// </summary>
+        [Obsolete("Använd GET /api/personalrecord/me istället. Denna endpoint tas bort efter frontend-migration i PR B.")]
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
@@ -74,7 +94,7 @@ namespace Mintakt.API.Controllers
         /// 
         /// TODO: Behöver scope-diskussion med teamet — ska body-UserId respekteras
         /// eller alltid skrivas över med JWT-user? Idag accepteras body från
-        /// klient utan JWT-override. Planerat att adresseras i framtida PR.
+        /// klient utan JWT-override. Planerat att adresseras i framtida PR A3c.
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> Add(PersonalRecord record)
