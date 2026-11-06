@@ -4,6 +4,15 @@ using Mintakt.API.Repositories;
 
 namespace Mintakt.API.Services
 {
+    /// <summary>
+    /// Service för träningspass. Mappar mellan API-DTOs (WorkoutSessionDto,
+    /// CreateWorkoutSessionDto) och persistens-modellen WorkoutSessionData
+    /// som lever i DataDbContext (HealthAppDataDb, snake_case).
+    ///
+    /// Issue #68 / Issue #32: tidigare mappades DTOs till den gamla WorkoutSession-modellen
+    /// mot AppDbContext. Nu används WorkoutSessionData så att POST och GET pratar med
+    /// samma DB (HealthAppDataDb) och Python-pipelinen ser datan.
+    /// </summary>
     public class WorkoutSessionService : IWorkoutSessionService
     {
         private readonly IWorkoutSessionRepository _repository;
@@ -27,18 +36,23 @@ namespace Mintakt.API.Services
 
         public async Task<WorkoutSessionDto> AddWorkoutSessionAsync(CreateWorkoutSessionDto dto)
         {
-           var session = new WorkoutSession
-{
+            var session = new WorkoutSessionData
+            {
                 UserId = dto.UserId,
                 TemplateId = dto.TemplateId,
                 Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc),
-                StartTime = dto.StartTime.HasValue ? DateTime.SpecifyKind(dto.StartTime.Value, DateTimeKind.Utc) : null,
-                EndTime = dto.EndTime.HasValue ? DateTime.SpecifyKind(dto.EndTime.Value, DateTimeKind.Utc) : null,
+                StartTime = dto.StartTime.HasValue
+                    ? DateTime.SpecifyKind(dto.StartTime.Value, DateTimeKind.Utc)
+                    : null,
+                EndTime = dto.EndTime.HasValue
+                    ? DateTime.SpecifyKind(dto.EndTime.Value, DateTimeKind.Utc)
+                    : null,
                 DurationMinutes = dto.DurationMinutes,
                 TotalCalories = dto.TotalCalories,
                 Mood = dto.Mood,
                 Notes = dto.Notes,
-                WorkoutExercises = dto.WorkoutExercises.Select(we => new WorkoutExercise
+                CreatedAt = DateTime.UtcNow,
+                WorkoutExercises = dto.WorkoutExercises.Select(we => new WorkoutExerciseData
                 {
                     ExerciseId = we.ExerciseId,
                     Sets = we.Sets,
@@ -57,28 +71,28 @@ namespace Mintakt.API.Services
             return MapToDto(session);
         }
 
-        private static WorkoutSessionDto MapToDto(WorkoutSession session) => new()
+        private static WorkoutSessionDto MapToDto(WorkoutSessionData session) => new()
         {
             Id = session.Id,
-            UserId = session.UserId,
-            Date = session.Date,
+            UserId = session.UserId ?? 0,
+            Date = session.Date ?? DateTime.MinValue,
             StartTime = session.StartTime,
             EndTime = session.EndTime,
             DurationMinutes = session.DurationMinutes,
             TotalCalories = session.TotalCalories,
-            Mood = session.Mood,
-            Notes = session.Notes,
+            Mood = session.Mood ?? string.Empty,
+            Notes = session.Notes ?? string.Empty,
             WorkoutExercises = session.WorkoutExercises.Select(we => new WorkoutExerciseDto
             {
                 Id = we.Id,
-                ExerciseId = we.ExerciseId,
+                ExerciseId = we.ExerciseId ?? 0,
                 ExerciseName = we.Exercise?.Name ?? string.Empty,
-                Sets = we.Sets,
-                Reps = we.Reps,
+                Sets = we.Sets ?? 0,
+                Reps = we.Reps ?? 0,
                 WeightKg = we.WeightKg,
                 DurationSeconds = we.DurationSeconds,
                 Rpe = we.Rpe,
-                Notes = we.Notes
+                Notes = we.Notes ?? string.Empty
             }).ToList()
         };
     }
