@@ -170,6 +170,8 @@ function drop(paths) {
     checked(psql(connection, 'postgres', `DROP DATABASE IF EXISTS "${name}" WITH (FORCE)`), 'Borttagningen');
     console.log(`Tog bort ${name}`);
   }
+  // env.json innehåller anslutningssträngar med lösenord, så den ska inte ligga kvar.
+  rmSync(join(paths.worktree, '.worktree'), { recursive: true, force: true });
 }
 
 function execute(paths, args) {
