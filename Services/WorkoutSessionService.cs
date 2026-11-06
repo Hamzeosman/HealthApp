@@ -49,7 +49,8 @@ namespace Mintakt.API.Services
                     : null,
                 DurationMinutes = dto.DurationMinutes,
                 TotalCalories = dto.TotalCalories,
-                Mood = dto.Mood,
+                // Tom sträng bryter mot CHECK-constrainten, medan NULL är tillåtet.
+                Mood = string.IsNullOrWhiteSpace(dto.Mood) ? null : dto.Mood,
                 Notes = dto.Notes,
                 CreatedAt = DateTime.UtcNow,
                 WorkoutExercises = dto.WorkoutExercises.Select(we => new WorkoutExerciseData
