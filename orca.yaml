@@ -1,0 +1,5 @@
+scripts:
+  setup: |
+    dotnet restore
+    node scripts/worktree/worktree.mjs ensure
+  archive: node scripts/worktree/worktree.mjs drop
