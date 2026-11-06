@@ -1,11 +1,12 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 1.1.0 → 1.2.0 (minor amendment)
-Modified principles: III. Test-Required → III. Test-First
+Version change: 1.1.0 → 2.0.0 (major amendment)
+Modified principles: III. Test-Required → III. Test-First (redefined, hence MAJOR per #36)
 Added sections:
   - Core Principles → "VI. Human Decides"
   - Development Workflow → "Agent Review" sub-section
+  - Code Review Requirements → explicit human review of every PR (closes the gap from #29)
 Removed sections: N/A
 Rationale: Team adopts spec-driven development with parallel AI agents. Tests written
 first verify the specification, and separate reviewers catch what the author missed.
@@ -48,6 +49,11 @@ Tests MUST be written before the code for all new features and bug fixes:
 - Unit tests for services and business logic
 - Integration tests for API endpoints and database operations
 - All tests MUST pass before merging to master
+
+Exception for `data/`: one-off migrations and seed data MAY replace the test-first
+requirement with a documented verification query in the PR description, including
+its expected result. Transformation logic and data quality rules in Python follow
+test-first like all other code.
 
 Rationale: HealthApp handles user health data where bugs have real consequences.
 A test that has been seen failing proves that it verifies the requirement.
@@ -137,7 +143,9 @@ analytics keeps the data team's autonomy and reduces coupling.
 - All changes require pull request review
 
 **Code Review Requirements**:
-- At least one approval required before merge
+- Every PR MUST be reviewed by at least one person other than its author before
+  merge, including small changes and chores, and even when agents have reviewed it
+- No one merges their own PR without that review
 - All CI checks must pass (build, tests, linting)
 - Security-sensitive changes require additional scrutiny
 
@@ -187,4 +195,4 @@ comply with these principles.
 - Violations MUST be justified in PR description with rationale
 - Use CLAUDE.md for runtime development guidance and context
 
-**Version**: 1.2.0 | **Ratified**: 2026-05-25 | **Last Amended**: 2026-11-06
+**Version**: 2.0.0 | **Ratified**: 2026-05-25 | **Last Amended**: 2026-11-06
