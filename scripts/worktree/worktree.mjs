@@ -4,7 +4,8 @@
 //   node scripts/worktree/worktree.mjs drop          tar bort worktreens kopior
 //   node scripts/worktree/worktree.mjs exec <cmd>    kör ett kommando med worktreens inställningar
 //
-// Säkerhet: skriptet vägrar köra mot andra värdar än localhost och raderar bara databaser med _wt_ i namnet.
+// Säkerhet: skriptet vägrar köra mot andra värdar än localhost, kräver ofarliga databasnamn och
+// raderar bara databaser vars namn slutar med _wt_ plus den här worktreens exakta id.
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -34,6 +35,15 @@ export function assertLocal(connection) {
   if (!connection.database || !connection.username) {
     throw new Error('Anslutningssträngen saknar databas eller användare.');
   }
+}
+
+export function assertSafeName(name) {
+  if (!/^[A-Za-z0-9_]+$/.test(name)) throw new Error('Vägrar köra: databasnamnet innehåller otillåtna tecken.');
+}
+
+export function assertOwnedDatabase(name, slug) {
+  assertSafeName(name);
+  if (!name.endsWith(`_wt_${slug}`)) throw new Error(`Vägrar radera ${name}: den tillhör inte den här worktreen.`);
 }
 
 export function withDatabase(value, database) {
@@ -103,7 +113,7 @@ function cloneDatabase(connection, target, workDir) {
 }
 
 function readSecrets(rootPath) {
-  const result = run('dotnet', ['user-secrets', 'list', '--project', join(rootPath, 'Mintakt.API.csproj')], {}, { shell: process.platform === 'win32' });
+  const result = run('dotnet', ['user-secrets', 'list', '--project', join(rootPath, 'Mintakt.API.csproj')]);
   const secrets = {};
   if (result.status !== 0) throw new Error('Kunde inte läsa User Secrets i huvudmappen.');
   for (const key of connectionKeys) {
@@ -125,6 +135,7 @@ function ensure(paths) {
   for (const key of connectionKeys) {
     const source = parseConnection(secrets[key]);
     assertLocal(source);
+    assertSafeName(source.database);
     const target = databaseName(source.database, slug);
     if (!databaseExists(source, target)) {
       console.log(`Skapar ${target} från ${source.database} ...`);
@@ -151,8 +162,9 @@ function drop(paths) {
   const file = join(paths.worktree, '.worktree', 'env.json');
   if (!existsSync(file)) return;
   const state = JSON.parse(readFileSync(file, 'utf8'));
+  const slug = worktreeSlug(paths.worktree);
   for (const { key, name } of state.databases) {
-    if (!name.includes('_wt_')) throw new Error(`Vägrar radera ${name}.`);
+    assertOwnedDatabase(name, slug);
     const connection = parseConnection(state.env[`ConnectionStrings__${key}`]);
     assertLocal(connection);
     checked(psql(connection, 'postgres', `DROP DATABASE IF EXISTS "${name}" WITH (FORCE)`), 'Borttagningen');
@@ -162,7 +174,7 @@ function drop(paths) {
 
 function execute(paths, args) {
   const state = JSON.parse(readFileSync(join(paths.worktree, '.worktree', 'env.json'), 'utf8'));
-  const result = spawnSync(args[0], args.slice(1), { stdio: 'inherit', env: { ...process.env, ...state.env }, shell: process.platform === 'win32' });
+  const result = spawnSync(args[0], args.slice(1), { stdio: 'inherit', env: { ...process.env, ...state.env } });
   process.exit(result.status ?? 1);
 }
 
