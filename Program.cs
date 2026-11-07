@@ -4,16 +4,22 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Mintakt.API;
+using Mintakt.API.Helpers;
 using Mintakt.API.Repositories;
 using Mintakt.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS: adresserna i Cors:AllowedOrigins, plus alla lokala portar i utvecklingsläge
+// så att parallella worktrees med egna klientportar fungerar.
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+var isDevelopment = builder.Environment.IsDevelopment();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazor", policy =>
     {
-        policy.WithOrigins("http://localhost:5028")
+        policy.SetIsOriginAllowed(origin => CorsOrigins.IsAllowed(origin, allowedOrigins, isDevelopment))
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
