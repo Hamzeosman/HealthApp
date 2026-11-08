@@ -3,7 +3,8 @@
     "deny": [
       "Read(./data/.env)",
       "Read(./.worktree/env.json)",
-      "Read(**/UserSecrets/**)",
+      "Read(//**/.worktree/env.json)",
+      "Read(//**/UserSecrets/**)",
       "Read(~/.ssh/**)"
     ]
   },
