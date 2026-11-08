@@ -36,20 +36,38 @@ namespace Mintakt.API.Controllers
         /// Deprecated: använd GET /api/workoutsession/me istället.
         /// Behålls temporärt för bakåtkompatibilitet med äldre frontend-sidor.
         /// Kommer tas bort i framtida PR när alla sidor migrerat till /me.
+        /// Ägarkontroll: userId i URL:en måste vara samma som inloggad användare (JWT).
+        /// Saknas claim returneras 401. Är det någon annans id returneras 404 utan att
+        /// tjänsten anropas, så att vi inte avslöjar att id:t finns.
         /// </summary>
         [HttpGet("user/{userId}")]
         [Obsolete("Använd GET /api/workoutsession/me — user-ID läses från JWT")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
+            var currentUserId = UserHelper.GetUserId(User);
+            if (currentUserId == null) return Unauthorized();
+
+            if (userId != currentUserId.Value) return NotFound();
+
             var sessions = await _service.GetByUserIdAsync(userId);
             return Ok(sessions);
         }
 
+        /// <summary>
+        /// Hämtar ett träningspass via id, men bara om det tillhör den inloggade användaren.
+        /// Saknas claim returneras 401. Pass som inte finns eller tillhör någon annan
+        /// ger båda 404, så att vi inte avslöjar att id:t existerar (IDOR-skydd).
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
+            var userId = UserHelper.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
             var session = await _service.GetByIdAsync(id);
             if (session == null) return NotFound();
+            if (session.UserId != userId.Value) return NotFound();
+
             return Ok(session);
         }
 
