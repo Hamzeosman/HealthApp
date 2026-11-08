@@ -1,16 +1,16 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 1.0.0 → 1.1.0 (minor amendment)
-Modified principles: None
+Version change: 1.1.0 → 2.0.0 (major amendment)
+Modified principles: III. Test-Required → III. Test-First (redefined, hence MAJOR per #36)
 Added sections:
-  - Development Workflow → "PR Size Discipline" sub-section
-  - Technology Constraints → "Architecture" sub-section (data boundary)
+  - Core Principles → "VI. Human Decides"
+  - Development Workflow → "Agent Review" sub-section
+  - Code Review Requirements → explicit human review of every PR (closes the gap from #29)
 Removed sections: N/A
-Rationale: Codify two team agreements that emerged from PR #26 retrospective:
-  - PR size limits to keep reviews tractable and high-quality
-  - Clear ownership boundary between .NET AppDbContext and Python API
-Templates requiring updates: None (sub-sections, not new principles)
+Rationale: Team adopts spec-driven development with parallel AI agents. Tests written
+first verify the specification, and separate reviewers catch what the author missed.
+Templates requiring updates: None
 Follow-up TODOs: None
 -->
 
@@ -41,16 +41,22 @@ All endpoints MUST enforce appropriate security measures:
 Rationale: Health data is sensitive. Security vulnerabilities expose user privacy
 and create legal liability.
 
-### III. Test-Required
+### III. Test-First
 
-Tests MUST accompany all new features and bug fixes:
+Tests MUST be written before the code for all new features and bug fixes:
+- Each acceptance criterion in the spec maps to at least one test
+- A new test MUST fail for the expected reason before implementation begins
 - Unit tests for services and business logic
 - Integration tests for API endpoints and database operations
-- Tests can be written alongside implementation (not strictly TDD)
 - All tests MUST pass before merging to master
 
+Exception for `data/`: one-off migrations and seed data MAY replace the test-first
+requirement with a documented verification query in the PR description, including
+its expected result. Transformation logic and data quality rules in Python follow
+test-first like all other code.
+
 Rationale: HealthApp handles user health data where bugs have real consequences.
-Test coverage prevents regressions and validates correctness.
+A test that has been seen failing proves that it verifies the requirement.
 
 ### IV. RESTful API Standards
 
@@ -76,6 +82,19 @@ All code MUST meet quality standards:
 
 Rationale: Clean code reduces bugs, speeds onboarding, and enables confident
 refactoring. Technical debt compounds over time.
+
+### VI. Human Decides
+
+AI agents MAY propose and implement changes, but a person decides:
+- What is built and in which order
+- Trade-offs affecting security, simplicity, personal data, agreements, or cost
+- When a change is merged or released
+
+Agents MUST ask when a choice affects any of the above. Changed requirements MUST be
+updated in the spec, not only in code or chat.
+
+Rationale: Agents work quickly but do not own decisions. Keeping requirements in the
+spec makes every decision traceable.
 
 ## Technology Constraints
 
@@ -124,7 +143,9 @@ analytics keeps the data team's autonomy and reduces coupling.
 - All changes require pull request review
 
 **Code Review Requirements**:
-- At least one approval required before merge
+- Every PR MUST be reviewed by at least one person other than its author before
+  merge, including small changes and chores, and even when agents have reviewed it
+- No one merges their own PR without that review
 - All CI checks must pass (build, tests, linting)
 - Security-sensitive changes require additional scrutiny
 
@@ -143,6 +164,12 @@ time tractable.
 Rationale: Large PRs degrade review quality — reviewers either skim or block,
 both of which hurt the codebase. Smaller PRs merge faster, are easier to revert,
 and give junior contributors realistic chances to participate in review.
+
+**Agent Review**:
+Agent-written changes MUST be reviewed by separate review agents before a pull
+request is opened. An agent MUST NOT review its own code. Agent review complements
+human review and does not replace it. Parallel tasks MUST NOT change the same files
+where this can be avoided.
 
 **Commit Standards**:
 - Use conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `test:`
@@ -168,4 +195,4 @@ comply with these principles.
 - Violations MUST be justified in PR description with rationale
 - Use CLAUDE.md for runtime development guidance and context
 
-**Version**: 1.1.0 | **Ratified**: 2026-05-25 | **Last Amended**: 2026-05-27
+**Version**: 2.0.0 | **Ratified**: 2026-05-25 | **Last Amended**: 2026-11-06
