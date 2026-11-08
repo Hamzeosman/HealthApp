@@ -12,5 +12,6 @@ obj/
 *.user
 
 # Claude Code
-.claude/
+.claude/settings.local.json
+.worktree/
 .specify/cache/
