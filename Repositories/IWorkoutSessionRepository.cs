@@ -4,9 +4,9 @@ namespace Mintakt.API.Repositories
 {
     public interface IWorkoutSessionRepository
     {
-        Task<IEnumerable<WorkoutSession>> GetByUserIdAsync(int userId);
-        Task<WorkoutSession?> GetByIdAsync(int id);
-        Task AddAsync(WorkoutSession session);
+        Task<IEnumerable<WorkoutSessionData>> GetByUserIdAsync(int userId);
+        Task<WorkoutSessionData?> GetByIdAsync(int id);
+        Task AddAsync(WorkoutSessionData session);
         Task SaveChangesAsync();
     }
 }
