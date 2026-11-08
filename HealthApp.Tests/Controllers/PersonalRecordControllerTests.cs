@@ -14,6 +14,10 @@ namespace HealthApp.Tests.Controllers
         private readonly Mock<IPersonalRecordService> _serviceMock;
         private readonly PersonalRecordController _sut;
 
+        // Sätts av GivenServiceCapturesUserIdAtCallTime() — värdet på record.UserId
+        // i exakt det ögonblick då tjänsten anropas (inte efteråt).
+        private int? _userIdAtServiceCall;
+
         public PersonalRecordControllerTests()
         {
             _serviceMock = new Mock<IPersonalRecordService>();
@@ -31,6 +35,16 @@ namespace HealthApp.Tests.Controllers
             {
                 HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) }
             };
+        }
+
+        // Läser record.UserId i en Callback, d.v.s. när AddAsync anropas. Det bevisar
+        // ORDNINGEN (UserId sätts före tjänsten anropas). En Verify med It.Is<...>
+        // utvärderas först efteråt och skulle även passera om tilldelningen låg efter AddAsync.
+        private void GivenServiceCapturesUserIdAtCallTime()
+        {
+            _serviceMock
+                .Setup(s => s.AddAsync(It.IsAny<PersonalRecord>()))
+                .Callback<PersonalRecord>(r => _userIdAtServiceCall = r.UserId);
         }
 
         // ============================================================
@@ -64,6 +78,7 @@ namespace HealthApp.Tests.Controllers
         {
             // Arrange — user 42 inloggad men försöker skapa PR åt user 99 (säkerhetstest)
             SetUserContext("42");
+            GivenServiceCapturesUserIdAtCallTime();
             var record = new PersonalRecordBuilder()
                 .WithUserId(99)
                 .WithExerciseId(10)
@@ -73,13 +88,14 @@ namespace HealthApp.Tests.Controllers
             // Act
             var result = await _sut.Add(record);
 
-            // Assert — body-UserId ska skrivas över med JWT-user (42)
+            // Assert — UserId ska vara överskrivet med JWT-user (42) REDAN när tjänsten anropas.
+            // Läses i en Callback, så testet faller om tilldelningen flyttas efter AddAsync.
+            Assert.Equal(42, _userIdAtServiceCall);
+            _serviceMock.Verify(s => s.AddAsync(It.IsAny<PersonalRecord>()), Times.Once);
+
             var created = Assert.IsType<CreatedAtActionResult>(result);
             var returned = Assert.IsType<PersonalRecord>(created.Value);
             Assert.Equal(42, returned.UserId);
-            Assert.NotEqual(99, returned.UserId);
-            _serviceMock.Verify(s => s.AddAsync(It.Is<PersonalRecord>(r => r.UserId == 42)), Times.Once);
-            _serviceMock.Verify(s => s.AddAsync(It.Is<PersonalRecord>(r => r.UserId == 99)), Times.Never);
         }
 
         [Fact]
