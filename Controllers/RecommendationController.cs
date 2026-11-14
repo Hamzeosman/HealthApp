@@ -40,16 +40,22 @@ namespace Mintakt.API.Controllers
         /// <summary>
         /// Legacy-endpoint: hämtar rekommendationer för en specifik user via userId i URL.
         /// 
-        /// MARKERAD [Obsolete]: Saknar ownership-check — vem som helst inloggad kan läsa
-        /// vems som helst rekommendationer. Behålls för bakåtkompatibilitet med
-        /// Blazor-frontend tills frontend migrerats till /me-endpointen i PR B.
+        /// Tidigare saknade denna ownership-check — vem som helst inloggad kunde läsa
+        /// vems som helst rekommendationer (Issue #82). Nu verifierar vi att URL:s
+        /// userId matchar JWT-claim och returnerar NotFound() vid mismatch
+        /// (samma IDOR-skydd som GetById och MarkAsSeen).
         /// 
-        /// Ta bort när frontend-migration är klar.
+        /// Fortfarande [Obsolete] — behålls för bakåtkompatibilitet med Blazor-frontend
+        /// tills frontend migrerats till /me-endpointen i PR B.
         /// </summary>
         [Obsolete("Använd GET /api/recommendation/me istället. Denna endpoint tas bort efter frontend-migration i PR B.")]
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
+            var jwtUserId = UserHelper.GetUserId(User);
+            if (jwtUserId == null) return Unauthorized();
+            if (userId != jwtUserId.Value) return NotFound();
+
             var recommendations = await _service.GetByUserIdAsync(userId);
             return Ok(recommendations);
         }
