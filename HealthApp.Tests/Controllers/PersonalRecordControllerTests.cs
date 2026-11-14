@@ -215,5 +215,65 @@ namespace HealthApp.Tests.Controllers
             // Assert
             Assert.IsType<NotFoundResult>(result);
         }
+
+        // ============================================================
+        // GetByUserId — legacy /user/{userId} med ownership-check (Issue #83)
+        // ============================================================
+
+        [Fact]
+        public async Task GetByUserId_WhenRequestingOwnRecords_ReturnsOk()
+        {
+            // Arrange — user 42 frågar efter sina egna records via legacy-endpointen
+            SetUserContext("42");
+            var records = new List<PersonalRecord>
+            {
+                new PersonalRecordBuilder().WithUserId(42).WithId(1).Build()
+            };
+            _serviceMock.Setup(s => s.GetByUserIdAsync(42)).ReturnsAsync(records);
+
+            // Act
+#pragma warning disable CS0618 // Testar medvetet obsolete endpoint
+            var result = await _sut.GetByUserId(42);
+#pragma warning restore CS0618
+
+            // Assert
+            var ok = Assert.IsType<OkObjectResult>(result);
+            var returned = Assert.IsAssignableFrom<IEnumerable<PersonalRecord>>(ok.Value);
+            Assert.Single(returned);
+        }
+
+        [Fact]
+        public async Task GetByUserId_WhenDifferentUser_ReturnsNotFound()
+        {
+            // Arrange — IDOR-skydd (Issue #83): user 42 försöker läsa user 99:s records
+            // via legacy /user/{userId}-endpointen. Ska returnera NotFound och ALDRIG
+            // anropa service — samma pattern som GetById och övriga ownership-checkar.
+            SetUserContext("42");
+
+            // Act
+#pragma warning disable CS0618
+            var result = await _sut.GetByUserId(99);
+#pragma warning restore CS0618
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+            _serviceMock.Verify(s => s.GetByUserIdAsync(It.IsAny<int>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task GetByUserId_WhenNoUserIdClaim_ReturnsUnauthorized()
+        {
+            // Arrange — saknad JWT → Unauthorized, service anropas aldrig
+            SetUserContext(null);
+
+            // Act
+#pragma warning disable CS0618
+            var result = await _sut.GetByUserId(42);
+#pragma warning restore CS0618
+
+            // Assert
+            Assert.IsType<UnauthorizedResult>(result);
+            _serviceMock.Verify(s => s.GetByUserIdAsync(It.IsAny<int>()), Times.Never);
+        }
     }
 }

@@ -38,17 +38,23 @@ namespace Mintakt.API.Controllers
 
         /// <summary>
         /// Legacy-endpoint: hämtar personbästa för en specifik user via userId i URL.
-        ///
-        /// MARKERAD [Obsolete]: Saknar ownership-check — vem som helst inloggad kan läsa
-        /// vems som helst personbästa. Behålls för bakåtkompatibilitet med
-        /// Blazor-frontend tills frontend migrerats till /me-endpointen i PR B.
-        ///
-        /// Ta bort när frontend-migration är klar.
+        /// 
+        /// Tidigare saknade denna ownership-check — vem som helst inloggad kunde läsa
+        /// vems som helst personbästa (Issue #83). Nu verifierar vi att URL:s
+        /// userId matchar JWT-claim och returnerar NotFound() vid mismatch
+        /// (samma IDOR-skydd som GetById).
+        /// 
+        /// Fortfarande [Obsolete] — behålls för bakåtkompatibilitet med Blazor-frontend
+        /// tills frontend migrerats till /me-endpointen i PR B.
         /// </summary>
         [Obsolete("Använd GET /api/personalrecord/me istället. Denna endpoint tas bort efter frontend-migration i PR B.")]
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
+            var jwtUserId = UserHelper.GetUserId(User);
+            if (jwtUserId == null) return Unauthorized();
+            if (userId != jwtUserId.Value) return NotFound();
+
             var records = await _service.GetByUserIdAsync(userId);
             return Ok(records);
         }
@@ -60,7 +66,7 @@ namespace Mintakt.API.Controllers
         ///
         /// Oförändrad i denna PR eftersom det är öppen aggregerad data, men
         /// kan behöva granskas senare om PR:ar innehåller user-identifierande
-        /// fält.
+        /// fält (noterat som separat uppföljning i Issue #83).
         /// </summary>
         [HttpGet("exercise/{exerciseId}")]
         public async Task<IActionResult> GetByExerciseId(int exerciseId)
@@ -90,25 +96,17 @@ namespace Mintakt.API.Controllers
         }
 
         /// <summary>
-        /// Skapar ett nytt personbästa för den inloggade användaren.
-        ///
-        /// SÄKERHET: UserId läses från JWT-claims via UserHelper och skriver över
-        /// eventuellt värde i body (konsistent med JWT-override-pattern från PR A1
-        /// för WorkoutSession och UserProgress). Detta förhindrar att en inloggad
-        /// user skapar personbästa i någon annans namn.
-        ///
-        /// Scope-beslut: Enligt discussion i Issue #67 är PersonalRecord ett
-        /// legitimt user-facing use case (manuell loggning), så JWT-override är
-        /// rätt pattern här. Recommendation POST hanteras separat i PR A3d med
-        /// X-API-Key-middleware eftersom det är AI-pipeline-only.
+        /// Skapar ett nytt personbästa. User-id skrivs över från JWT-claim
+        /// (JWT-override pattern från PR A3c #69) — body-UserId respekteras aldrig
+        /// för att förhindra att en inloggad user skapar records åt andra users.
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> Add(PersonalRecord record)
         {
             var userId = UserHelper.GetUserId(User);
             if (userId == null) return Unauthorized();
-
             record.UserId = userId.Value;
+
             await _service.AddAsync(record);
             return CreatedAtAction(nameof(GetById), new { id = record.Id }, record);
         }
