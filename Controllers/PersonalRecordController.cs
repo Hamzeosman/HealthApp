@@ -60,13 +60,12 @@ namespace Mintakt.API.Controllers
         }
 
         /// <summary>
-        /// Hämtar personbästa för en specifik övning (publik aggregerad data).
-        /// Returnerar INTE user-specifik information — endast övningens
-        /// gemensamma stats.
-        ///
-        /// Oförändrad i denna PR eftersom det är öppen aggregerad data, men
-        /// kan behöva granskas senare om PR:ar innehåller user-identifierande
-        /// fält (noterat som separat uppföljning i Issue #83).
+        /// Hämtar personbästa för en specifik övning.
+        /// 
+        /// KÄND SÄKERHETSSVAGHET: Returnerar `PersonalRecord`-objekt inkl.
+        /// `UserId`-fältet, vilket läcker vilka users som har records för övningen
+        /// (information disclosure). Oförändrad i denna PR — planerad fix via DTO
+        /// i separat PR. Se Issue #83 för uppföljning.
         /// </summary>
         [HttpGet("exercise/{exerciseId}")]
         public async Task<IActionResult> GetByExerciseId(int exerciseId)
