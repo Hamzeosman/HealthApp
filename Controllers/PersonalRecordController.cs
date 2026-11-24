@@ -23,8 +23,8 @@ namespace Mintakt.API.Controllers
         /// via UserHelper — konsistent med /me-pattern från PR A1 (#58) och A2 (#61).
         ///
         /// Detta är den PREFERRED endpointen framåt. Den legacy /user/{userId}-endpointen
-        /// nedan är markerad [Obsolete] och planerad att tas bort när frontend har
-        /// migrerats i PR B.
+        /// nedan är markerad [Obsolete] och planerad att tas bort i PR B när alla
+        /// anropare är verifierade som utbytta eller icke-existerande.
         /// </summary>
         [HttpGet("me")]
         public async Task<IActionResult> GetMe()
@@ -44,10 +44,12 @@ namespace Mintakt.API.Controllers
         /// userId matchar JWT-claim och returnerar NotFound() vid mismatch
         /// (samma IDOR-skydd som GetById).
         /// 
-        /// Fortfarande [Obsolete] — behålls för bakåtkompatibilitet med Blazor-frontend
-        /// tills frontend migrerats till /me-endpointen i PR B.
+        /// Fortfarande [Obsolete]. Frontend-grep i HealthApp.Client visade 0 anropare,
+        /// men Python-pipelinen är inte sökt än. Behålls tills Python-sökningen är gjord;
+        /// planerad borttagning i PR B när alla anropare är verifierade som utbytta
+        /// eller icke-existerande.
         /// </summary>
-        [Obsolete("Använd GET /api/personalrecord/me istället. Denna endpoint tas bort efter frontend-migration i PR B.")]
+        [Obsolete("Använd GET /api/personalrecord/me istället. Denna endpoint planeras för borttagning i PR B när alla anropare är verifierade.")]
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
