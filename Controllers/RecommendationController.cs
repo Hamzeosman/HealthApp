@@ -24,8 +24,8 @@ namespace Mintakt.API.Controllers
         /// och A2 (#61).
         /// 
         /// Detta är den PREFERRED endpointen framåt. Den legacy /user/{userId}-endpointen
-        /// nedan är markerad [Obsolete] och planerad att tas bort när frontend har
-        /// migrerats i PR B.
+        /// nedan är markerad [Obsolete] och planerad att tas bort i PR B när alla
+        /// anropare är verifierade som utbytta eller icke-existerande.
         /// </summary>
         [HttpGet("me")]
         public async Task<IActionResult> GetMe()
@@ -40,16 +40,24 @@ namespace Mintakt.API.Controllers
         /// <summary>
         /// Legacy-endpoint: hämtar rekommendationer för en specifik user via userId i URL.
         /// 
-        /// MARKERAD [Obsolete]: Saknar ownership-check — vem som helst inloggad kan läsa
-        /// vems som helst rekommendationer. Behålls för bakåtkompatibilitet med
-        /// Blazor-frontend tills frontend migrerats till /me-endpointen i PR B.
+        /// Tidigare saknade denna ownership-check — vem som helst inloggad kunde läsa
+        /// vems som helst rekommendationer (Issue #82). Nu verifierar vi att URL:s
+        /// userId matchar JWT-claim och returnerar NotFound() vid mismatch
+        /// (samma IDOR-skydd som GetById och MarkAsSeen).
         /// 
-        /// Ta bort när frontend-migration är klar.
+        /// Fortfarande [Obsolete]. Frontend-grep i HealthApp.Client visade 0 anropare,
+        /// men Python-pipelinen är inte sökt än. Behålls tills Python-sökningen är gjord;
+        /// planerad borttagning i PR B när alla anropare är verifierade som utbytta
+        /// eller icke-existerande.
         /// </summary>
-        [Obsolete("Använd GET /api/recommendation/me istället. Denna endpoint tas bort efter frontend-migration i PR B.")]
+        [Obsolete("Använd GET /api/recommendation/me istället. Denna endpoint planeras för borttagning i PR B när alla anropare är verifierade.")]
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
+            var jwtUserId = UserHelper.GetUserId(User);
+            if (jwtUserId == null) return Unauthorized();
+            if (userId != jwtUserId.Value) return NotFound();
+
             var recommendations = await _service.GetByUserIdAsync(userId);
             return Ok(recommendations);
         }
